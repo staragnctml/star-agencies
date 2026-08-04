@@ -1,0 +1,1 @@
+document.addEventListener('DOMContentLoaded',()=>{document.querySelectorAll('.menu-toggle').forEach(btn=>{btn.addEventListener('click',()=>{document.querySelector('.nav-links')?.classList.toggle('open')})})})
