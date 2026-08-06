@@ -93,7 +93,7 @@ function renderProducts() {
 
                 <img
                     class="product-image"
-                    src=src="${product.image.startsWith('images/') ? product.image : 'images/products/' + product.image}"
+                    src="images/products/${product.image}"
                     alt="${product.name}"
                     loading="lazy"
                 >
