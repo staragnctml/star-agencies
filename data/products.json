@@ -3,7 +3,7 @@
     "id": 1,
     "name": "Aluminium Bucket",
     "category": "Aluminium & Steel",
-    "image": "images/products/Aluminium Bucket.jpg",
+    "image": "Aluminium Bucket.jpg",
     "price": "",
     "variants": []
   },
@@ -11,7 +11,7 @@
     "id": 2,
     "name": "Arabana",
     "category": "Household",
-    "image": "images/products/Arabana.jpg",
+    "image": "Arabana.jpg",
     "price": "",
     "variants": []
   },
@@ -19,7 +19,7 @@
     "id": 3,
     "name": "5D Steel Premier Broom",
     "category": "Cleaning Items",
-    "image": "images/products/broom-5d-steel-premier.jpg",
+    "image": "broom-5d-steel-premier.jpg",
     "price": "",
     "variants": []
   },
@@ -27,7 +27,7 @@
     "id": 4,
     "name": "Single Broom - Surabi Sona",
     "category": "Cleaning Items",
-    "image": "images/products/broom-single-surabi-sona.jpg",
+    "image": "broom-single-surabi-sona.jpg",
     "price": "",
     "variants": []
   },
@@ -35,7 +35,7 @@
     "id": 5,
     "name": "Bucket Mop Spare",
     "category": "Cleaning Items",
-    "image": "images/products/Bucket Mop Spare.jpg",
+    "image": "Bucket Mop Spare.jpg",
     "price": "",
     "variants": []
   },
@@ -43,7 +43,7 @@
     "id": 6,
     "name": "Fiber Thavi 12.5",
     "category": "Plastic Products",
-    "image": "images/products/fiber thavi 12.5.jpg",
+    "image": "fiber thavi 12.5.jpg",
     "price": "",
     "variants": []
   },
@@ -51,7 +51,7 @@
     "id": 7,
     "name": "Fibre Plate - 6 Inch",
     "category": "Plastic Products",
-    "image": "images/products/fibre-plate-6-inch.jpg",
+    "image": "fibre-plate-6-inch.jpg",
     "price": "",
     "variants": []
   },
@@ -59,7 +59,7 @@
     "id": 8,
     "name": "Fibre Plate Print",
     "category": "Plastic Products",
-    "image": "images/products/fibre-plate-print.jpg",
+    "image": "fibre-plate-print.jpg",
     "price": "",
     "variants": []
   },
@@ -67,7 +67,7 @@
     "id": 9,
     "name": "Veeram Bucket",
     "category": "Plastic Products",
-    "image": "images/products/veeram-bucket.jpg",
+    "image": "veeram-bucket.jpg",
     "price": "",
     "variants": []
   },
@@ -75,7 +75,7 @@
     "id": 10,
     "name": "Veeram Square Plate - 11.5 Inch",
     "category": "Plastic Products",
-    "image": "images/products/veeram-square-plate-11-5.jpg",
+    "image": "veeram-square-plate-11-5.jpg",
     "price": "",
     "variants": []
   },
@@ -83,7 +83,7 @@
     "id": 11,
     "name": "Pressure Cooker",
     "category": "Aluminium & Steel",
-    "image": "images/products/Ultix Pressure Cooker.jpg",
+    "image": "Ultix Pressure Cooker.jpg",
     "price": "",
     "variants": [
       {
