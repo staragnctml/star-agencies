@@ -80,24 +80,21 @@
     "variants": []
   },
   {
-    "id": 11,
-    "name": "Pressure Cooker",
+    "id": 12,
+    "name": "Ultix Pressure Cooker",,
     "category": "Aluminium & Steel",
-    "image": "Ultix Pressure Cooker.jpg",
-    "price": "",
-    "variants": [
-      {
-        "name": "2 L",
-        "price": ""
-      },
-      {
-        "name": "3 L",
-        "price": ""
-      },
-      {
-        "name": "5 L",
-        "price": ""
-      }
-    ]
+    "image": "images/products/Ultix Pressure Cooker.jpg",
+    "price": "Contact Us",
+"variants": [
+  {
+    "label": "2L"
+  },
+  {
+    "label": "3L"
+  },
+  {
+    "label": "5L"
+  }
+]
   }
 ]
