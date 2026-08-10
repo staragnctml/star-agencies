@@ -81,7 +81,7 @@
   },
   {
     "id": 12,
-    "name": "Ultix Pressure Cooker",,
+    "name": "Ultix Pressure Cooker",
     "category": "Aluminium & Steel",
     "image": "images/products/Ultix Pressure Cooker.jpg",
     "price": "Contact Us",
@@ -102,8 +102,8 @@
   "image": "images/products/3d-sona-broom.jpg",
   "price": "Contact Us",
   "variants": []
-},
-{
+  },
+  {
   "id": 14,
   "name": "5D Assam Broom",
   "category": "Cleaning Items",
