@@ -120,5 +120,20 @@
     "image": "images/products/waste-basket-2nd.jpeg",
     "price": "Contact Us",
     "variants": []
+  },
+  {
+    "id": 16,
+    "name": "Brown Tape",
+    "category": "Stationery Items",
+    "image": "images/products/brown-tape.jpg",
+    "price": "Contact Us",
+    "variants": [
+      {
+        "label": "1\""
+      },
+      {
+        "label": "2\""
+      }
+    ]
   }
 ]
