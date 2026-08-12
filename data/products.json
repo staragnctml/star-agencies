@@ -143,5 +143,23 @@
     "image": "images/products/cloth-clip-eco-gold.jpg",
     "price": "Contact Us",
     "variants": []
+  },
+  {
+    "id": 18,
+    "name": "Clear Tape",
+    "category": "Plastic Products",
+    "image": "images/products/clear-tape.jpg",
+    "price": "Contact Us",
+    "variants": [
+      {
+        "label": "1\\2\""
+      },
+      {
+        "label": "1\""
+      },
+      {
+        "label": "2\""
+      }
+    ]
   }
 ]
