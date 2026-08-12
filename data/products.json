@@ -135,5 +135,13 @@
         "label": "2\""
       }
     ]
+  },
+  {
+    "id": 17,
+    "name": "Cloth Clip Eco gold",
+    "category": "Plastic Products",
+    "image": "images/products/cloth-clip-eco-gold.jpg",
+    "price": "Contact Us",
+    "variants": []
   }
 ]
