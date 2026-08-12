@@ -112,5 +112,13 @@
     "image": "images/products/5D Assam Broom.jpg",
     "price": "Contact Us",
     "variants": []
+  },
+  {
+    "id": 15,
+    "name": "Waste Basket 2nd",
+    "category": "Plastic Products",
+    "image": "images/products/waste-basket-2nd.jpeg",
+    "price": "Contact Us",
+    "variants": []
   }
 ]
