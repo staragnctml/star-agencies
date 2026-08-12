@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Add Product - Star Agencies</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f6f8;
+    margin: 0;
+    padding: 30px;
+}
+
+.container {
+    max-width: 650px;
+    margin: auto;
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+h1 {
+    text-align: center;
+    color: #064b96;
+    margin-bottom: 25px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-top: 15px;
+    margin-bottom: 6px;
+}
+
+input,
+select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 16px;
+}
+
+button {
+    width: 100%;
+    padding: 13px;
+    margin-top: 25px;
+    background: #064b96;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 17px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #04366d;
+}
+
+button:disabled {
+    background: #999;
+    cursor: not-allowed;
+}
+
+.status {
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 6px;
+    display: none;
+    font-weight: bold;
+}
+
+.success {
+    display: block;
+    background: #d1e7dd;
+    color: #0f5132;
+}
+
+.error {
+    display: block;
+    background: #f8d7da;
+    color: #842029;
+}
+
+.info {
+    display: block;
+    background: #cff4fc;
+    color: #055160;
+}
+
+.note {
+    background: #fff3cd;
+    padding: 15px;
+    border-radius: 6px;
+    margin-top: 20px;
+    font-size: 14px;
+}
+
+.security {
+    background: #e8f5e9;
+    padding: 15px;
+    border-radius: 6px;
+    margin-top: 15px;
+    font-size: 14px;
+}
+
+#preview {
+    max-width: 200px;
+    max-height: 200px;
+    margin-top: 15px;
+    display: none;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>⭐ Add New Product</h1>
+
+<label>GitHub Token</label>
+<input
+    type="password"
+    id="token"
+    placeholder="Paste your GitHub token here"
+>
+
+<label>Product Name</label>
+<input
+    type="text"
+    id="productName"
+    placeholder="Example: 3D Sona Broom"
+>
+
+<label>Category</label>
+<select id="category">
+
+    <option value="Plastic Products">
+        Plastic Products
+    </option>
+
+    <option value="Aluminium & Steel">
+        Aluminium & Steel
+    </option>
+
+    <option value="Cleaning Items">
+        Cleaning Items
+    </option>
+
+    <option value="Stationery Items">
+        Stationery Items
+    </option>
+
+    <option value="Hardware Items">
+        Hardware Items
+    </option>
+
+    <option value="Detergents">
+        Detergents
+    </option>
+
+    <option value="Floor Cleaners">
+        Floor Cleaners
+    </option>
+
+</select>
+
+<label>Product Image</label>
+
+<input
+    type="file"
+    id="imageFile"
+    accept="image/*"
+>
+
+<img id="preview">
+
+<label>Price</label>
+
+<input
+    type="text"
+    id="price"
+    value="Contact Us"
+    placeholder="Example: ₹250 or Contact Us"
+>
+
+<label>Options / Variants</label>
+
+<input
+    type="text"
+    id="variants"
+    placeholder="Example: 2L, 3L, 5L"
+>
+
+<button id="addButton" onclick="addProduct()">
+    ➕ Add Product to Website
+</button>
+
+<div id="status" class="status"></div>
+
+<div class="note">
+
+<b>📁 Image:</b><br>
+
+You don't need to manually rename or upload the image.
+
+Select the product image above.
+
+The system will automatically upload it to:
+
+<br><br>
+
+<b>images/products/</b>
+
+</div>
+
+<div class="security">
+
+🔐 <b>Security:</b><br>
+
+Your GitHub token is used only in this browser session.
+It is not saved in the website or local storage.
+
+</div>
+
+</div>
+
+
+<script>
+
+/* ================================
+   GITHUB SETTINGS
+================================ */
+
+const OWNER = "staragnctml";
+
+const REPO = "star-agencies";
+
+const BRANCH = "main";
+
+const PRODUCTS_FILE = "data/products.json";
+
+const IMAGE_FOLDER = "images/products";
+
+
+/* ================================
+   IMAGE PREVIEW
+================================ */
+
+document
+.getElementById("imageFile")
+.addEventListener("change", function () {
+
+    const file = this.files[0];
+
+    if (!file) {
+        return;
+    }
+
+    const reader = new FileReader();
+
+    reader.onload = function (e) {
+
+        const preview =
+            document.getElementById("preview");
+
+        preview.src = e.target.result;
+
+        preview.style.display = "block";
+    };
+
+    reader.readAsDataURL(file);
+
+});
+
+
+/* ================================
+   SHOW STATUS
+================================ */
+
+function showStatus(message, type) {
+
+    const status =
+        document.getElementById("status");
+
+    status.className =
+        "status " + type;
+
+    status.innerHTML = message;
+
+    status.style.display = "block";
+}
+
+
+/* ================================
+   FILE TO BASE64
+================================ */
+
+function fileToBase64(file) {
+
+    return new Promise((resolve, reject) => {
+
+        const reader = new FileReader();
+
+        reader.onload = () => {
+
+            const result = reader.result;
+
+            const base64 =
+                result.split(",")[1];
+
+            resolve(base64);
+
+        };
+
+        reader.onerror = reject;
+
+        reader.readAsDataURL(file);
+
+    });
+
+}
+
+
+/* ================================
+   TEXT TO BASE64
+================================ */
+
+function textToBase64(text) {
+
+    const bytes =
+        new TextEncoder().encode(text);
+
+    let binary = "";
+
+    bytes.forEach(byte => {
+
+        binary += String.fromCharCode(byte);
+
+    });
+
+    return btoa(binary);
+
+}
+
+
+/* ================================
+   BASE64 TO TEXT
+================================ */
+
+function base64ToText(base64) {
+
+    base64 = base64.replace(/\s/g, "");
+
+    const binary = atob(base64);
+
+    const bytes = Uint8Array.from(
+        binary,
+        char => char.charCodeAt(0)
+    );
+
+    let text = new TextDecoder("utf-8").decode(bytes);
+
+    // Remove hidden BOM character if present
+    text = text.replace(/^\uFEFF/, "");
+
+    return text.trim();
+}
+
+/* ================================
+   GITHUB API
+================================ */
+
+async function githubRequest(url, options) {
+
+    const token =
+        document.getElementById("token").value.trim();
+
+    if (!token) {
+
+        throw new Error(
+            "Please enter your GitHub token."
+        );
+
+    }
+
+    const headers = {
+
+        "Accept":
+        "application/vnd.github+json",
+
+        "Authorization":
+        "Bearer " + token,
+
+        "X-GitHub-Api-Version":
+        "2022-11-28"
+
+    };
+
+    const response =
+        await fetch(url, {
+
+            ...options,
+
+            headers: {
+
+                ...headers,
+
+                ...(options.headers || {})
+
+            }
+
+        });
+
+    const data =
+        await response.json();
+
+    if (!response.ok) {
+
+        throw new Error(
+            data.message ||
+            "GitHub request failed."
+        );
+
+    }
+
+    return data;
+
+}
+
+
+/* ================================
+   GET FILE
+================================ */
+
+async function getGitHubFile(path) {
+
+    const url =
+        `https://api.github.com/repos/${OWNER}/${REPO}/contents/${path}?ref=${BRANCH}`;
+
+    return await githubRequest(url, {
+
+        method: "GET"
+
+    });
+
+}
+
+
+/* ================================
+   UPLOAD / UPDATE FILE
+================================ */
+
+async function uploadGitHubFile(
+    path,
+    contentBase64,
+    message,
+    sha = null
+) {
+
+    const url =
+        `https://api.github.com/repos/${OWNER}/${REPO}/contents/${path}`;
+
+    const body = {
+
+        message: message,
+
+        content: contentBase64,
+
+        branch: BRANCH
+
+    };
+
+    if (sha) {
+
+        body.sha = sha;
+
+    }
+
+    return await githubRequest(url, {
+
+        method: "PUT",
+
+        headers: {
+
+            "Content-Type":
+            "application/json"
+
+        },
+
+        body:
+        JSON.stringify(body)
+
+    });
+
+}
+
+
+/* ================================
+   SAFE FILE NAME
+================================ */
+
+function makeFileName(name) {
+
+    return name
+        .trim()
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-+|-+$/g, "");
+
+}
+
+
+/* ================================
+   ADD PRODUCT
+================================ */
+
+async function addProduct() {
+
+    const button =
+        document.getElementById("addButton");
+
+    try {
+
+        button.disabled = true;
+
+        button.innerText =
+            "⏳ Adding Product...";
+
+
+        /* TOKEN */
+
+        const token =
+            document
+            .getElementById("token")
+            .value
+            .trim();
+
+        if (!token) {
+
+            throw new Error(
+                "Please enter your GitHub token."
+            );
+
+        }
+
+
+        /* PRODUCT NAME */
+
+        const name =
+            document
+            .getElementById("productName")
+            .value
+            .trim();
+
+        if (!name) {
+
+            throw new Error(
+                "Please enter product name."
+            );
+
+        }
+
+
+        /* IMAGE */
+
+        const imageFile =
+            document
+            .getElementById("imageFile")
+            .files[0];
+
+        if (!imageFile) {
+
+            throw new Error(
+                "Please select a product image."
+            );
+
+        }
+
+
+        /* CATEGORY */
+
+        const category =
+            document
+            .getElementById("category")
+            .value;
+
+
+        /* PRICE */
+
+        const price =
+            document
+            .getElementById("price")
+            .value
+            .trim() || "Contact Us";
+
+
+        /* VARIANTS */
+
+        const variantText =
+            document
+            .getElementById("variants")
+            .value
+            .trim();
+
+
+        /* ================================
+           GET PRODUCTS.JSON
+        ================================= */
+
+        showStatus(
+            "⏳ Reading products.json...",
+            "info"
+        );
+
+        const productsFile =
+            await getGitHubFile(PRODUCTS_FILE);
+
+
+        let products;
+
+try {
+    const rawContent = productsFile.content || "";
+
+    const cleanBase64 = rawContent
+        .replace(/\s/g, "");
+
+    const productsJson = base64ToText(cleanBase64)
+        .replace(/^\uFEFF/, "")
+        .trim();
+
+    products = JSON.parse(productsJson);
+
+} catch (error) {
+    console.error("products.json error:", error);
+
+    throw new Error(
+        "Unable to read products.json. Check GitHub file path and JSON content."
+    );
+}
+
+
+        if (!Array.isArray(products)) {
+
+            throw new Error(
+                "products.json must contain an array."
+            );
+
+        }
+
+
+        /* ================================
+           CREATE PRODUCT ID
+        ================================= */
+
+        let maxId = 0;
+
+        products.forEach(product => {
+
+            const id =
+                Number(product.id);
+
+            if (!isNaN(id) && id > maxId) {
+
+                maxId = id;
+
+            }
+
+        });
+
+        const newId = maxId + 1;
+
+
+        /* ================================
+           IMAGE FILE NAME
+        ================================= */
+
+        const extension =
+            imageFile.name
+            .split(".")
+            .pop()
+            .toLowerCase();
+
+        const safeName =
+            makeFileName(name);
+
+        const imageFileName =
+            safeName + "." + extension;
+
+        const imagePath =
+            IMAGE_FOLDER +
+            "/" +
+            imageFileName;
+
+
+        /* ================================
+           UPLOAD IMAGE
+        ================================= */
+
+        showStatus(
+            "⏳ Uploading product image...",
+            "info"
+        );
+
+
+        const imageBase64 =
+            await fileToBase64(imageFile);
+
+
+        let imageSha = null;
+
+
+        /* Check whether image already exists */
+
+        try {
+
+            const existingImage =
+                await getGitHubFile(imagePath);
+
+            imageSha =
+                existingImage.sha;
+
+        } catch (error) {
+
+            /* Image doesn't exist - that's okay */
+
+        }
+
+
+        await uploadGitHubFile(
+
+            imagePath,
+
+            imageBase64,
+
+            "Add product image: " + name,
+
+            imageSha
+
+        );
+
+
+        /* ================================
+           CREATE VARIANTS
+        ================================= */
+
+        let variants = [];
+
+        if (variantText) {
+
+            variants =
+                variantText
+                .split(",")
+                .map(item => item.trim())
+                .filter(item => item !== "")
+                .map(label => ({
+                    label: label
+                }));
+
+        }
+
+
+        /* ================================
+           CREATE PRODUCT
+        ================================= */
+
+        const newProduct = {
+
+            id: newId,
+
+            name: name,
+
+            category: category,
+
+            image: imagePath,
+
+            price: price,
+
+            variants: variants
+
+        };
+
+
+        products.push(newProduct);
+
+
+        /* ================================
+           UPDATE PRODUCTS.JSON
+        ================================= */
+
+        showStatus(
+            "⏳ Updating products.json...",
+            "info"
+        );
+
+
+        const newJson =
+            JSON.stringify(
+                products,
+                null,
+                2
+            );
+
+
+        const jsonBase64 =
+            textToBase64(newJson);
+
+
+        await uploadGitHubFile(
+
+            PRODUCTS_FILE,
+
+            jsonBase64,
+
+            "Add product: " + name,
+
+            productsFile.sha
+
+        );
+
+
+        /* ================================
+           SUCCESS
+        ================================= */
+
+        showStatus(
+
+            "✅ Product added successfully!<br><br>" +
+
+            "Product: <b>" + name + "</b><br>" +
+
+            "ID: <b>" + newId + "</b><br>" +
+
+            "Image: <b>" + imageFileName + "</b><br><br>" +
+
+            "🌐 GitHub Pages may take a little time to update.",
+
+            "success"
+
+        );
+
+
+        /* CLEAR FORM */
+
+        document
+        .getElementById("productName")
+        .value = "";
+
+        document
+        .getElementById("imageFile")
+        .value = "";
+
+        document
+        .getElementById("variants")
+        .value = "";
+
+        document
+        .getElementById("preview")
+        .style.display = "none";
+
+
+        /* TOKEN CLEAR */
+
+        document
+        .getElementById("token")
+        .value = "";
+
+
+    } catch (error) {
+
+        console.error(error);
+
+        showStatus(
+
+            "❌ Error:<br><br>" +
+            error.message,
+
+            "error"
+
+        );
+
+    } finally {
+
+        button.disabled = false;
+
+        button.innerText =
+            "➕ Add Product to Website";
+
+    }
+
+}
+
+</script>
+
+</body>
+</html>
