@@ -116,7 +116,7 @@ function renderProducts() {
                     class="product-image"
                     src="${product.image}"
                     alt="${product.name}"
-                    loading="lazy"
+                    
                 >
 
                 <div class="product-info">
