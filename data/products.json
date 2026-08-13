@@ -177,5 +177,20 @@
     "image": "images/products/cocroch-spray.jpg",
     "price": "Contact Us",
     "variants": []
+  },
+  {
+    "id": 21,
+    "name": "Dust Pan with Stick",
+    "category": "Detergents",
+    "image": "images/products/dust-pan-with-stick.jpg",
+    "price": "Contact Us",
+    "variants": [
+      {
+        "label": "Polo"
+      },
+      {
+        "label": "Esquire"
+      }
+    ]
   }
 ]
