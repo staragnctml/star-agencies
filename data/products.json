@@ -169,5 +169,13 @@
     "image": "images/products/cushion-chirava-small.jpg",
     "price": "Contact Us",
     "variants": []
+  },
+  {
+    "id": 20,
+    "name": "Cocroch Spray",
+    "category": "Detergents",
+    "image": "images/products/cocroch-spray.jpg",
+    "price": "Contact Us",
+    "variants": []
   }
 ]
