@@ -192,5 +192,13 @@
         "label": "Esquire"
       }
     ]
+  },
+  {
+    "id": 22,
+    "name": "Duster Big",
+    "category": "Plastic Products",
+    "image": "images/products/duster-big.jpg",
+    "price": "Contact Us",
+    "variants": []
   }
 ]
