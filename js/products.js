@@ -139,19 +139,21 @@ function renderProducts() {
 
                     <div class="product-actions">
 
-                        <a
-                            href="https://wa.me/919447016013?text=${message}"
-                            target="_blank"
-                            rel="noopener"
-                            class="btn-whatsapp"
+                    <a
+                        href="https://wa.me/919447016013?text=${message}"
+                        target="_blank"
+                        rel="noopener"
+                        class="btn-whatsapp"
+                        style="display: flex; align-items: center; justify-content: center; gap: 8px;"
+                    >
+                        <img
+                            class="whatsapp-icon"
+                            src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg"
+                            alt="WhatsApp"
+                            style="width: 24px; height: 24px;"
                         >
-                            <img
-                                class="whatsapp-icon"
-                                src="https://cdn.simpleicons.org/whatsapp/25D366"
-                                alt="WhatsApp"
-                            >
-                            WhatsApp
-                        </a>
+                        WhatsApp
+                    </a>
 
                     </div>
 
