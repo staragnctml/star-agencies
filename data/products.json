@@ -244,6 +244,11 @@
         "label": "5 L",
         "price": "1450",
         "image": "images/products/steel-cooker-5-l-1786736950626.jpg"
+      },
+      {
+        "label": "3L",
+        "price": "1235",
+        "image": "images/products/steel-cooker-3l-1786737150773.jpg"
       }
     ]
   }
