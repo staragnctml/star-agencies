@@ -17,7 +17,6 @@ button:disabled { background: #94a3b8; cursor: not-allowed; }
 .btn-secondary { background: #10b981; margin-top: 15px; }
 .btn-secondary:hover { background: #059669; }
 
-/* Variants Section Styles */
 .variants-container { margin-top: 20px; padding: 15px; border: 2px dashed #cbd5e1; border-radius: 8px; background: #f8fafc; }
 .variant-row { background: #ffffff; border: 1px solid #e2e8f0; padding: 15px; border-radius: 8px; margin-bottom: 15px; position: relative; }
 .variant-row h4 { margin: 0 0 10px 0; color: #0f172a; font-size: 15px; }
@@ -46,7 +45,6 @@ button:disabled { background: #94a3b8; cursor: not-allowed; }
 
     <div id="status" class="status"></div>
 
-    <!-- EDIT FORM (Hidden initially) -->
     <div id="editForm">
         <label>Select Product to Edit</label>
         <select id="productSelect" onchange="fillFormDetails()">
@@ -77,7 +75,6 @@ button:disabled { background: #94a3b8; cursor: not-allowed; }
         <label>Main Product Image (Leave blank to keep old image)</label>
         <input type="file" id="mainImageFile" accept="image/*">
 
-        <!-- OPTIONS / VARIANTS SECTION -->
         <div class="variants-container">
             <h3 style="margin-top:0; color: #334155;">✨ Product Options / Sizes</h3>
             <p style="font-size: 13px; color: #64748b; margin-top: -10px;">Edit options/sizes and their specific images.</p>
@@ -152,7 +149,6 @@ async function githubRequest(url, options) {
     return data;
 }
 
-// Load Products List
 async function loadProductsList() {
     const btn = document.getElementById("loadBtn");
     try {
@@ -185,10 +181,9 @@ async function loadProductsList() {
     }
 }
 
-// Add Variant Row (with pre-filled data if editing)
 function addVariantRow(label = "", price = "", imagePath = "") {
     const container = document.getElementById("variantsList");
-    const rowId = "var-row-" + Date.now() + Math.random().toString(36.substring(2, 7));
+    const rowId = "var-row-" + Date.now() + Math.random().toString(36).substring(2, 7);
     const row = document.createElement("div");
     row.className = "variant-row";
     row.id = rowId;
@@ -209,7 +204,6 @@ function addVariantRow(label = "", price = "", imagePath = "") {
     container.appendChild(row);
 }
 
-// Fill Form Details when a product is selected
 function fillFormDetails() {
     const selectedId = document.getElementById("productSelect").value;
     if (!selectedId) return;
@@ -222,7 +216,6 @@ function fillFormDetails() {
     document.getElementById("category").value = product.category || "Aluminium & Steel";
     document.getElementById("price").value = product.price || "";
     
-    // Clear & Load Variants
     const container = document.getElementById("variantsList");
     container.innerHTML = "";
 
@@ -231,7 +224,6 @@ function fillFormDetails() {
             let label = v.label || "";
             let price = v.price || "";
             
-            // Handle old format if any (e.g. "2L=500")
             if (!v.price && label.includes('=')) {
                 let parts = label.split('=');
                 label = parts[0].trim();
@@ -247,7 +239,6 @@ function fillFormDetails() {
     }
 }
 
-// Update Product Logic
 async function updateProduct() {
     const btn = document.getElementById("updateButton");
     const selectedId = document.getElementById("productSelect").value;
@@ -276,7 +267,6 @@ async function updateProduct() {
         const mainImgFile = document.getElementById("mainImageFile").files[0];
         const mainSafeName = makeFileName(newName);
 
-        // Upload new main image if selected
         if (mainImgFile) {
             showStatus("⏳ Uploading new main image...", "info");
             const ext = mainImgFile.name.split(".").pop().toLowerCase();
@@ -290,7 +280,6 @@ async function updateProduct() {
             product.image = mainImagePath;
         }
 
-        // Process Variants
         const variantRows = document.querySelectorAll('.variant-row');
         let variantsArray = [];
 
@@ -327,7 +316,6 @@ async function updateProduct() {
 
         product.variants = variantsArray;
 
-        // Upload updated products.json
         showStatus("⏳ Saving to GitHub...", "info");
         const updatedJson = JSON.stringify(allProducts, null, 2);
 
