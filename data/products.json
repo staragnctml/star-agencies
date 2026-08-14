@@ -238,12 +238,12 @@
     "brand": "Aadhi",
     "category": "Aluminium & Steel",
     "price": "1235",
-    "image": "images/products/steel-cooker-1786736781165.jpg",
+    "image": "images/products/steel-cooker-1786736948701.jpg",
     "variants": [
       {
-        "label": "5 L Steel Cooker",
+        "label": "5 L",
         "price": "1450",
-        "image": "images/products/steel-cooker-5-l-steel-cooker-1786736783193.jpg"
+        "image": "images/products/steel-cooker-5-l-1786736950626.jpg"
       }
     ]
   }
