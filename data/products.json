@@ -201,5 +201,24 @@
     "image": "images/products/duster-big.jpg",
     "price": "Contact Us",
     "variants": []
+  },
+  {
+    "id": 23,
+    "name": "Aluminium Cooker",
+    "brand": "Aadhi",
+    "category": "Aluminium & Steel",
+    "image": "images/products/aluminium-cooker.jpg",
+    "price": "Contact Us",
+    "variants": [
+      {
+        "label": "2L=727"
+      },
+      {
+        "label": "3L=815"
+      },
+      {
+        "label": "5L=1025"
+      }
+    ]
   }
 ]
