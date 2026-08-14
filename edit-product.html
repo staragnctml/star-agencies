@@ -3,93 +3,99 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Edit Product - Star Agencies</title>
-
 <style>
 * { box-sizing: border-box; }
-body { font-family: Arial, sans-serif; background: #f4f6f8; margin: 0; padding: 30px; }
-.container { max-width: 650px; margin: auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-h1 { text-align: center; color: #064b96; margin-bottom: 25px; }
-label { display: block; font-weight: bold; margin-top: 15px; margin-bottom: 6px; }
-input, select { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 6px; font-size: 16px; }
-button { width: 100%; padding: 13px; margin-top: 25px; background: #064b96; color: white; border: none; border-radius: 6px; font-size: 17px; cursor: pointer; }
-button:hover { background: #04366d; }
-button:disabled { background: #999; cursor: not-allowed; }
-.btn-secondary { background: #28a745; margin-top: 15px; }
-.btn-secondary:hover { background: #218838; }
-.status { margin-top: 20px; padding: 15px; border-radius: 6px; display: none; font-weight: bold; }
+body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f4f6f8; margin: 0; padding: 20px; }
+.container { max-width: 700px; margin: auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+h1 { text-align: center; color: #0b5ed7; margin-bottom: 25px; }
+label { display: block; font-weight: bold; margin-top: 15px; margin-bottom: 6px; color: #334155; }
+input[type="text"], input[type="password"], select, input[type="file"] { width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 15px; }
+button { width: 100%; padding: 14px; margin-top: 25px; background: #0b5ed7; color: white; border: none; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+button:hover { background: #084298; }
+button:disabled { background: #94a3b8; cursor: not-allowed; }
+.btn-secondary { background: #10b981; margin-top: 15px; }
+.btn-secondary:hover { background: #059669; }
+
+/* Variants Section Styles */
+.variants-container { margin-top: 20px; padding: 15px; border: 2px dashed #cbd5e1; border-radius: 8px; background: #f8fafc; }
+.variant-row { background: #ffffff; border: 1px solid #e2e8f0; padding: 15px; border-radius: 8px; margin-bottom: 15px; position: relative; }
+.variant-row h4 { margin: 0 0 10px 0; color: #0f172a; font-size: 15px; }
+.remove-btn { position: absolute; top: 10px; right: 10px; background: #ef4444; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 12px; width: auto; margin: 0; }
+.remove-btn:hover { background: #dc2626; }
+.add-variant-btn { background: #6366f1; margin-top: 10px; }
+.add-variant-btn:hover { background: #4f46e5; }
+
+.status { margin-top: 20px; padding: 15px; border-radius: 6px; display: none; font-weight: bold; text-align: center; }
 .success { display: block; background: #d1e7dd; color: #0f5132; }
 .error { display: block; background: #f8d7da; color: #842029; }
 .info { display: block; background: #cff4fc; color: #055160; }
-#editForm { display: none; margin-top: 20px; padding-top: 20px; border-top: 2px dashed #ccc; }
-.security { background: #e8f5e9; padding: 15px; border-radius: 6px; margin-top: 15px; font-size: 14px; }
+#editForm { display: none; margin-top: 20px; padding-top: 20px; border-top: 2px solid #e2e8f0; }
+.security { background: #fffbeb; padding: 15px; border-radius: 6px; margin-top: 20px; font-size: 13px; color: #92400e; border: 1px solid #fde68a; }
 </style>
 </head>
-
 <body>
 
 <div class="container">
+    <h1>✏️ Edit Product</h1>
 
-<h1>✏️ Edit Product</h1>
+    <label>GitHub Token (Required)</label>
+    <input type="password" id="token" placeholder="Paste your GitHub token here">
 
-<label>1. GitHub Token</label>
-<input type="password" id="token" placeholder="Paste your GitHub token here">
+    <button onclick="loadProductsList()" class="btn-secondary" id="loadBtn">🔄 Load Products from GitHub</button>
 
-<button onclick="loadProductsList()" class="btn-secondary" id="loadBtn">
-    🔄 Load Products
-</button>
+    <div id="status" class="status"></div>
 
-<div id="status" class="status"></div>
+    <!-- EDIT FORM (Hidden initially) -->
+    <div id="editForm">
+        <label>Select Product to Edit</label>
+        <select id="productSelect" onchange="fillFormDetails()">
+            <option value="">-- Choose a Product --</option>
+        </select>
 
-<!-- EDIT FORM (Hidden initially) -->
-<div id="editForm">
-    <label>2. Select Product to Edit</label>
-    <select id="productSelect" onchange="fillFormDetails()">
-        <option value="">-- Choose a Product --</option>
-    </select>
+        <label>Product Name (Main)</label>
+        <input type="text" id="productName">
 
-    <label>Product Name</label>
-    <input type="text" id="productName">
+        <label>Brand (Optional)</label>
+        <input type="text" id="productBrand">
 
-    <label>Brand Name (Optional)</label>
-    <input type="text" id="productBrand">
+        <label>Category</label>
+        <select id="category">
+            <option value="Aluminium & Steel">Aluminium & Steel</option>
+            <option value="Plastic Products">Plastic Products</option>
+            <option value="Cleaning Items">Cleaning Items</option>
+            <option value="Stationery Items">Stationery Items</option>
+            <option value="Hardware Items">Hardware Items</option>
+            <option value="Detergents">Detergents</option>
+            <option value="Floor Cleaners">Floor Cleaners</option>
+            <option value="Household">Household</option>
+        </select>
 
-    <label>Category</label>
-    <select id="category">
-        <option value="Plastic Products">Plastic Products</option>
-        <option value="Aluminium & Steel">Aluminium & Steel</option>
-        <option value="Cleaning Items">Cleaning Items</option>
-        <option value="Stationery Items">Stationery Items</option>
-        <option value="Hardware Items">Hardware Items</option>
-        <option value="Detergents">Detergents</option>
-        <option value="Floor Cleaners">Floor Cleaners</option>
-        <option value="Household">Household</option>
-    </select>
+        <label>Main Price (Default)</label>
+        <input type="text" id="price">
 
-    <label>Price</label>
-    <input type="text" id="price">
+        <label>Main Product Image (Leave blank to keep old image)</label>
+        <input type="file" id="mainImageFile" accept="image/*">
 
-    <label>Options / Variants</label>
-    <input type="text" id="variants" placeholder="Example: 2L, 3L, 5L">
+        <!-- OPTIONS / VARIANTS SECTION -->
+        <div class="variants-container">
+            <h3 style="margin-top:0; color: #334155;">✨ Product Options / Sizes</h3>
+            <p style="font-size: 13px; color: #64748b; margin-top: -10px;">Edit options/sizes and their specific images.</p>
+            
+            <div id="variantsList"></div>
 
-    <label>Change Image? (Leave blank to keep old image)</label>
-    <input type="file" id="imageFile" accept="image/*">
+            <button type="button" class="add-variant-btn" onclick="addVariantRow('', '', '')">+ Add New Option</button>
+        </div>
 
-    <button id="updateButton" onclick="updateProduct()">
-        ✅ Save Changes
-    </button>
-</div>
+        <button id="updateButton" onclick="updateProduct()">✅ Save Changes to Website</button>
+    </div>
 
-<div class="security">
-🔐 <b>Security:</b><br>
-Your GitHub token is used only in this browser session. It is not saved in the website.
-</div>
-
+    <div class="security">
+        🔒 <b>Security Note:</b> Your token is strictly used in your browser to connect to your GitHub. It is never saved anywhere else.
+    </div>
 </div>
 
 <script>
-/* GITHUB SETTINGS */
 const OWNER = "staragnctml";
 const REPO = "star-agencies";
 const BRANCH = "main";
@@ -99,36 +105,28 @@ const IMAGE_FOLDER = "images/products";
 let allProducts = [];
 let productsFileSha = "";
 
-function showStatus(message, type) {
-    const status = document.getElementById("status");
-    status.className = "status " + type;
-    status.innerHTML = message;
-    status.style.display = "block";
-}
-
-function base64ToText(base64) {
-    base64 = base64.replace(/\s/g, "");
-    const binary = atob(base64);
-    const bytes = Uint8Array.from(binary, char => char.charCodeAt(0));
-    let text = new TextDecoder("utf-8").decode(bytes);
-    text = text.replace(/^\uFEFF/, "");
-    return text.trim();
-}
-
-function textToBase64(text) {
-    const bytes = new TextEncoder().encode(text);
-    let binary = "";
-    bytes.forEach(byte => { binary += String.fromCharCode(byte); });
-    return btoa(binary);
+function showStatus(msg, type) {
+    const el = document.getElementById("status");
+    el.className = "status " + type;
+    el.innerHTML = msg;
+    el.style.display = "block";
 }
 
 function fileToBase64(file) {
     return new Promise((resolve, reject) => {
         const reader = new FileReader();
-        reader.onload = () => { resolve(reader.result.split(",")[1]); };
+        reader.onload = () => resolve(reader.result.split(",")[1]);
         reader.onerror = reject;
         reader.readAsDataURL(file);
     });
+}
+
+function textToBase64(text) {
+    return btoa(unescape(encodeURIComponent(text)));
+}
+
+function base64ToText(base64) {
+    return decodeURIComponent(escape(atob(base64.replace(/\s/g, ""))));
 }
 
 function makeFileName(name) {
@@ -137,7 +135,7 @@ function makeFileName(name) {
 
 async function githubRequest(url, options) {
     const token = document.getElementById("token").value.trim();
-    if (!token) throw new Error("Please enter your GitHub token.");
+    if (!token) throw new Error("Please enter your GitHub Token!");
     
     const response = await fetch(url, {
         ...options,
@@ -148,28 +146,13 @@ async function githubRequest(url, options) {
             ...(options.headers || {})
         }
     });
+    
     const data = await response.json();
-    if (!response.ok) throw new Error(data.message || "GitHub request failed.");
+    if (!response.ok) throw new Error(data.message || "GitHub API Error");
     return data;
 }
 
-async function getGitHubFile(path) {
-    const url = `https://api.github.com/repos/${OWNER}/${REPO}/contents/${path}?ref=${BRANCH}`;
-    return await githubRequest(url, { method: "GET" });
-}
-
-async function uploadGitHubFile(path, contentBase64, message, sha = null) {
-    const url = `https://api.github.com/repos/${OWNER}/${REPO}/contents/${path}`;
-    const body = { message: message, content: contentBase64, branch: BRANCH };
-    if (sha) body.sha = sha;
-    return await githubRequest(url, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body)
-    });
-}
-
-/* LOAD PRODUCTS LIST */
+// Load Products List
 async function loadProductsList() {
     const btn = document.getElementById("loadBtn");
     try {
@@ -177,14 +160,10 @@ async function loadProductsList() {
         btn.innerText = "⏳ Loading Products...";
         showStatus("⏳ Fetching products from GitHub...", "info");
 
-        const fileData = await getGitHubFile(PRODUCTS_FILE);
+        const fileData = await githubRequest(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${PRODUCTS_FILE}?ref=${BRANCH}`, { method: "GET" });
         productsFileSha = fileData.sha;
         
-        const rawContent = fileData.content || "";
-        const cleanBase64 = rawContent.replace(/\s/g, "");
-        const jsonText = base64ToText(cleanBase64);
-        
-        allProducts = JSON.parse(jsonText);
+        allProducts = JSON.parse(base64ToText(fileData.content));
         
         const select = document.getElementById("productSelect");
         select.innerHTML = '<option value="">-- Choose a Product --</option>';
@@ -197,16 +176,40 @@ async function loadProductsList() {
         });
 
         document.getElementById("editForm").style.display = "block";
-        showStatus("✅ Products loaded. Please select a product to edit.", "success");
+        showStatus("✅ Products loaded successfully. Select a product below.", "success");
     } catch (error) {
         showStatus("❌ Error: " + error.message, "error");
     } finally {
         btn.disabled = false;
-        btn.innerText = "🔄 Load Products";
+        btn.innerText = "🔄 Load Products from GitHub";
     }
 }
 
-/* FILL FORM DETAILS */
+// Add Variant Row (with pre-filled data if editing)
+function addVariantRow(label = "", price = "", imagePath = "") {
+    const container = document.getElementById("variantsList");
+    const rowId = "var-row-" + Date.now() + Math.random().toString(36.substring(2, 7));
+    const row = document.createElement("div");
+    row.className = "variant-row";
+    row.id = rowId;
+    
+    row.innerHTML = `
+        <button type="button" class="remove-btn" onclick="document.getElementById('${rowId}').remove()">X Remove</button>
+        <h4>Option</h4>
+        <label>Option Name/Size</label>
+        <input type="text" class="v-label" value="${label}" placeholder="e.g., 3L Induction Base">
+        
+        <label>Price for this Option</label>
+        <input type="text" class="v-price" value="${price}" placeholder="e.g., 1500">
+        
+        <label>Specific Image ${imagePath ? '(Current exists: ' + imagePath.split('/').pop() + ')' : ''}</label>
+        <input type="file" class="v-image" accept="image/*">
+        <input type="hidden" class="v-old-image" value="${imagePath}">
+    `;
+    container.appendChild(row);
+}
+
+// Fill Form Details when a product is selected
 function fillFormDetails() {
     const selectedId = document.getElementById("productSelect").value;
     if (!selectedId) return;
@@ -216,17 +219,35 @@ function fillFormDetails() {
 
     document.getElementById("productName").value = product.name || "";
     document.getElementById("productBrand").value = product.brand || "";
-    document.getElementById("category").value = product.category || "Household";
+    document.getElementById("category").value = product.category || "Aluminium & Steel";
     document.getElementById("price").value = product.price || "";
     
+    // Clear & Load Variants
+    const container = document.getElementById("variantsList");
+    container.innerHTML = "";
+
     if (product.variants && product.variants.length > 0) {
-        document.getElementById("variants").value = product.variants.map(v => v.label).join(", ");
-    } else {
-        document.getElementById("variants").value = "";
+        product.variants.forEach(v => {
+            let label = v.label || "";
+            let price = v.price || "";
+            
+            // Handle old format if any (e.g. "2L=500")
+            if (!v.price && label.includes('=')) {
+                let parts = label.split('=');
+                label = parts[0].trim();
+                price = parts[1].trim();
+            } else if (!v.price && label.includes(':')) {
+                let parts = label.split(':');
+                label = parts[0].trim();
+                price = parts[1].trim();
+            }
+
+            addVariantRow(label, price, v.image || "");
+        });
     }
 }
 
-/* UPDATE PRODUCT */
+// Update Product Logic
 async function updateProduct() {
     const btn = document.getElementById("updateButton");
     const selectedId = document.getElementById("productSelect").value;
@@ -238,55 +259,97 @@ async function updateProduct() {
 
     try {
         btn.disabled = true;
-        btn.innerText = "⏳ Saving Changes...";
+        showStatus("⏳ Updating product details...", "info");
 
-        // Find product index
         const index = allProducts.findIndex(p => p.id == selectedId);
-        if (index === -1) throw new Error("Product not found in array.");
+        if (index === -1) throw new Error("Product not found.");
 
         let product = allProducts[index];
+        const newName = document.getElementById("productName").value.trim();
+        if (!newName) throw new Error("Product Name cannot be empty!");
 
-        product.name = document.getElementById("productName").value.trim();
+        product.name = newName;
         product.brand = document.getElementById("productBrand").value.trim();
         product.category = document.getElementById("category").value;
-        product.price = document.getElementById("price").value.trim() || "Contact Us";
+        product.price = document.getElementById("price").value.trim();
 
-        const varText = document.getElementById("variants").value.trim();
-        if (varText) {
-            product.variants = varText.split(",").map(v => ({ label: v.trim() })).filter(v => v.label !== "");
-        } else {
-            product.variants = [];
+        const mainImgFile = document.getElementById("mainImageFile").files[0];
+        const mainSafeName = makeFileName(newName);
+
+        // Upload new main image if selected
+        if (mainImgFile) {
+            showStatus("⏳ Uploading new main image...", "info");
+            const ext = mainImgFile.name.split(".").pop().toLowerCase();
+            const mainImagePath = `${IMAGE_FOLDER}/${mainSafeName}-${Date.now()}.${ext}`;
+            const base64Img = await fileToBase64(mainImgFile);
+
+            await githubRequest(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${mainImagePath}`, {
+                method: "PUT",
+                body: JSON.stringify({ message: `Update main image for ${newName}`, content: base64Img, branch: BRANCH })
+            });
+            product.image = mainImagePath;
         }
 
-        /* Check for new image */
-        const imageFile = document.getElementById("imageFile").files[0];
-        if (imageFile) {
-            showStatus("⏳ Uploading new image...", "info");
-            const ext = imageFile.name.split(".").pop().toLowerCase();
-            const safeName = makeFileName(product.name);
-            const imagePath = IMAGE_FOLDER + "/" + safeName + "-" + Date.now() + "." + ext;
-            const imageBase64 = await fileToBase64(imageFile);
-            
-            await uploadGitHubFile(imagePath, imageBase64, "Update image for: " + product.name);
-            product.image = imagePath; // Update image path
+        // Process Variants
+        const variantRows = document.querySelectorAll('.variant-row');
+        let variantsArray = [];
+
+        for (let i = 0; i < variantRows.length; i++) {
+            const row = variantRows[i];
+            const vLabel = row.querySelector('.v-label').value.trim();
+            const vPrice = row.querySelector('.v-price').value.trim();
+            const vImgFile = row.querySelector('.v-image').files[0];
+            const oldImgPath = row.querySelector('.v-old-image').value;
+
+            if (vLabel) {
+                let finalImgPath = oldImgPath;
+
+                if (vImgFile) {
+                    showStatus(`⏳ Uploading image for option '${vLabel}'...`, "info");
+                    const ext = vImgFile.name.split(".").pop().toLowerCase();
+                    const vSafeName = makeFileName(vLabel);
+                    finalImgPath = `${IMAGE_FOLDER}/${mainSafeName}-${vSafeName}-${Date.now()}.${ext}`;
+                    const base64VImg = await fileToBase64(vImgFile);
+
+                    await githubRequest(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${finalImgPath}`, {
+                        method: "PUT",
+                        body: JSON.stringify({ message: `Update variant image: ${vLabel}`, content: base64VImg, branch: BRANCH })
+                    });
+                }
+
+                variantsArray.push({
+                    label: vLabel,
+                    price: vPrice,
+                    image: finalImgPath
+                });
+            }
         }
 
-        showStatus("⏳ Updating products.json...", "info");
-        const newJson = JSON.stringify(allProducts, null, 2);
-        const jsonBase64 = textToBase64(newJson);
+        product.variants = variantsArray;
 
-        await uploadGitHubFile(PRODUCTS_FILE, jsonBase64, "Updated product: " + product.name, productsFileSha);
+        // Upload updated products.json
+        showStatus("⏳ Saving to GitHub...", "info");
+        const updatedJson = JSON.stringify(allProducts, null, 2);
 
-        showStatus("✅ Product details updated successfully! Changes will appear on the website shortly.", "success");
-        
+        const putRes = await githubRequest(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${PRODUCTS_FILE}`, {
+            method: "PUT",
+            body: JSON.stringify({
+                message: `Update product: ${newName}`,
+                content: textToBase64(updatedJson),
+                sha: productsFileSha,
+                branch: BRANCH
+            })
+        });
+
+        productsFileSha = putRes.content.sha;
+        showStatus("✅ Product successfully updated! Changes will reflect on the website shortly.", "success");
+
     } catch (error) {
         showStatus("❌ Error: " + error.message, "error");
     } finally {
         btn.disabled = false;
-        btn.innerText = "✅ Save Changes";
     }
 }
 </script>
-
 </body>
 </html>
