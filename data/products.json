@@ -251,5 +251,14 @@
         "image": "images/products/steel-cooker-3l-1786737150773.jpg"
       }
     ]
+  },
+  {
+    "id": 1786737362029,
+    "name": "Fry Pan",
+    "brand": "Aadhi",
+    "category": "Aluminium & Steel",
+    "price": "399",
+    "image": "images/products/fry-pan-1786737359357.jpg",
+    "variants": []
   }
 ]
