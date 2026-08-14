@@ -211,13 +211,24 @@
     "price": "Contact Us",
     "variants": [
       {
-        "label": "2L=727"
+        "label": "2L",
+        "price": "727",
+        "image": ""
       },
       {
-        "label": "3L=815"
+        "label": "3L",
+        "price": "815",
+        "image": "images/products/aluminium-cooker-3l-1786736487405.jpg"
       },
       {
-        "label": "5L=1025"
+        "label": "5L",
+        "price": "1025",
+        "image": "images/products/aluminium-cooker-5l-1786736489675.jpg"
+      },
+      {
+        "label": "3 L induction base",
+        "price": "795",
+        "image": "images/products/aluminium-cooker-3-l-induction-base-1786736491797.jpg"
       }
     ]
   }
