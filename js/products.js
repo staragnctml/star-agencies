@@ -7,7 +7,7 @@ const noResults = document.getElementById("noResults");
 
 async function loadProducts() {
     try {
-        const response = await fetch("data/products.json");
+        const response = await fetch("data/products.json?t=" + new Date().getTime());
         if (!response.ok) throw new Error("products.json not found");
         allProducts = await response.json();
         renderProducts();
@@ -17,26 +17,26 @@ async function loadProducts() {
     }
 }
 
-function renderVariants(product, defaultPrice) {
+function renderVariants(product, defaultPrice, defaultImage) {
   if (!product.variants || product.variants.length === 0) {
     return "";
   }
 
   return `
     <div class="variants" style="margin-top: 15px; margin-bottom: 15px;">
-      <span class="variant-title" style="font-weight: 600; font-size: 14px; margin-bottom: 8px; display: block; color: #475569;">Options:</span>
+      <span class="variant-title" style="font-weight: 600; font-size: 14px; margin-bottom: 8px; display: block; color: #475569;">Select Option:</span>
       <div style="display: flex; gap: 8px; flex-wrap: wrap;">
       ${product.variants.map((v, index) => {
-         
-         /* വാരിയന്റിനും വിലയ്ക്കും ഇടയിൽ = അല്ലെങ്കിൽ : ഉണ്ടെങ്കിൽ വേർതിരിച്ചെടുക്കുന്നു */
-         let label = v.label;
-         let vPrice = defaultPrice;
-         
-         if (label.includes('=')) {
+         let label = v.label || v.name;
+         let vPrice = v.price || defaultPrice;
+         let vImage = v.image || defaultImage; 
+
+         // പഴയ രീതിയിലുള്ള വില വേർതിരിക്കൽ
+         if (label && label.includes('=')) {
              let parts = label.split('=');
              label = parts[0].trim();
              vPrice = parts[1].trim();
-         } else if (label.includes(':')) {
+         } else if (label && label.includes(':')) {
              let parts = label.split(':');
              label = parts[0].trim();
              vPrice = parts[1].trim();
@@ -46,7 +46,7 @@ function renderVariants(product, defaultPrice) {
         <button
           class="variant-btn ${index === 0 ? "active" : ""}"
           style="padding: 6px 14px; border: 1px solid #cbd5e1; border-radius: 8px; background: ${index === 0 ? '#0b5ed7' : '#fff'}; color: ${index === 0 ? '#fff' : '#475569'}; cursor: pointer; font-family: 'Poppins', sans-serif; font-size: 14px; transition: 0.2s; font-weight: 500;"
-          onclick="selectVariant(this, ${product.id}, '${label.replace(/'/g, "\\'")}', '${vPrice}', '${product.name.replace(/'/g, "\\'")}')">
+          onclick="selectVariant(this, ${product.id}, '${label.replace(/'/g, "\\'")}', '${vPrice}', '${product.name.replace(/'/g, "\\'")}', '${vImage}')">
           ${label}
         </button>
         `;
@@ -56,10 +56,10 @@ function renderVariants(product, defaultPrice) {
   `;
 }
 
-// വാരിയന്റ് സെലക്ട് ചെയ്യുമ്പോൾ വിലയും വാട്സാപ്പ് ലിങ്കും മാറ്റാനുള്ള ഫംഗ്ഷൻ
-window.selectVariant = function(button, productId, variantLabel, variantPrice, productName) {
+// ഓപ്ഷൻ സെലക്ട് ചെയ്യുമ്പോൾ പേരും, ഫോട്ടോയും, വിലയും മാറാനുള്ള ഫംഗ്ഷൻ
+window.selectVariant = function(button, productId, variantLabel, variantPrice, productName, variantImage) {
   
-  // 1. ബട്ടൺ സ്റ്റൈൽ മാറ്റുന്നു
+  // 1. ബട്ടൺ സ്റ്റൈൽ
   const buttons = button.parentElement.querySelectorAll("button");
   buttons.forEach(btn => {
     btn.classList.remove("active");
@@ -80,7 +80,19 @@ window.selectVariant = function(button, productId, variantLabel, variantPrice, p
       priceDiv.innerHTML = displayPrice;
   }
 
-  // 3. വാട്സാപ്പ് മെസ്സേജ് അപ്ഡേറ്റ് ചെയ്യുന്നു (സെലക്ട് ചെയ്ത വാരിയന്റ് ഉൾപ്പെടെ)
+  // 3. പേര് അപ്‌ഡേറ്റ് ചെയ്യുന്നു (ഉദാഹരണത്തിന്: Cooker - 3L Induction Base)
+  const nameDiv = document.getElementById(`name-${productId}`);
+  if (nameDiv) {
+      nameDiv.innerHTML = `${productName} <span style="color:#0b5ed7; font-size:16px;">- ${variantLabel}</span>`;
+  }
+
+  // 4. ഫോട്ടോ മാറ്റുന്നു (പുതിയ ഫോട്ടോ ഉണ്ടെങ്കിൽ മാത്രം)
+  const imgDiv = document.getElementById(`img-${productId}`);
+  if (imgDiv && variantImage && variantImage !== 'undefined') {
+      imgDiv.src = variantImage;
+  }
+
+  // 5. വാട്സാപ്പ് മെസ്സേജ് അപ്ഡേറ്റ് ചെയ്യുന്നു
   const waBtn = document.getElementById(`wa-${productId}`);
   if (waBtn) {
       const message = encodeURIComponent(`Hello Star Agencies, I am interested in ${productName} (Option: ${variantLabel}). Please send me details.`);
@@ -100,21 +112,28 @@ function renderProducts() {
         let basePrice = product.price || "Contact Us";
         let defaultVariantLabel = "";
         let displayPrice = basePrice;
+        let displayImage = product.image;
+        let displayName = product.name;
 
-        // ആദ്യത്തെ വാരിയന്റിൽ വില കൊടുത്തിട്ടുണ്ടോ എന്ന് പരിശോധിക്കുന്നു
+        // ആദ്യത്തെ ഓപ്ഷൻ വിലയും ഫോട്ടോയും എടുക്കുന്നു
         if (product.variants && product.variants.length > 0) {
-            let firstV = product.variants[0].label;
-            if(firstV.includes('=')) {
-                let parts = firstV.split('=');
+            let firstV = product.variants[0];
+            let label = firstV.label || firstV.name;
+            
+            if(label && label.includes('=')) {
+                let parts = label.split('=');
                 defaultVariantLabel = parts[0].trim();
                 displayPrice = parts[1].trim();
-            } else if (firstV.includes(':')) {
-                let parts = firstV.split(':');
+            } else if (label && label.includes(':')) {
+                let parts = label.split(':');
                 defaultVariantLabel = parts[0].trim();
                 displayPrice = parts[1].trim();
             } else {
-                defaultVariantLabel = firstV;
+                defaultVariantLabel = label;
+                if(firstV.price) displayPrice = firstV.price;
             }
+            
+            if(firstV.image) displayImage = firstV.image;
         }
 
         let finalPriceText = displayPrice;
@@ -125,18 +144,19 @@ function renderProducts() {
         let waMessage = `Hello Star Agencies, I am interested in ${product.name}`;
         if (defaultVariantLabel) {
             waMessage += ` (Option: ${defaultVariantLabel})`;
+            displayName = `${product.name} <span style="color:#0b5ed7; font-size:16px;">- ${defaultVariantLabel}</span>`;
         }
         waMessage += `. Please send me details.`;
 
         return `
             <article class="product-card">
-                <img class="product-image" src="${product.image}" alt="${product.name}">
+                <img id="img-${product.id}" class="product-image" src="${displayImage}" alt="${product.name}" style="transition: all 0.3s ease;">
                 <div class="product-info">
                     <span class="product-category" style="font-size: 12px; color: #0b5ed7; font-weight: 600; text-transform: uppercase;">
                         ${product.category || ""}
                     </span>
                     
-                    <h3 style="margin: 8px 0; font-size: 18px;">${product.name}</h3>
+                    <h3 id="name-${product.id}" style="margin: 8px 0; font-size: 18px; transition: all 0.3s ease;">${displayName}</h3>
                     
                     ${product.brand ? `<div class="brand" style="font-size: 14px; color: #64748b; margin-bottom: 8px;">${product.brand}</div>` : ''}
                     
@@ -144,7 +164,7 @@ function renderProducts() {
                         ${finalPriceText}
                     </div>
 
-                    ${renderVariants(product, basePrice)}
+                    ${renderVariants(product, basePrice, product.image)}
 
                     <div class="product-actions">
                         <a id="wa-${product.id}" href="https://wa.me/919447016013?text=${encodeURIComponent(waMessage)}" target="_blank" rel="noopener" class="modern-wa-btn" style="display: flex; align-items: center; justify-content: center; text-decoration: none; border: 1px solid #e2e8f0; padding: 10px; border-radius: 50px; background: #f8fafc; margin-top: 15px; transition: 0.3s;">
