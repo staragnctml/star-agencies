@@ -24,3 +24,45 @@ body, h1, h2, h3, h4, h5, h6, p, a, span, div, button, input, select {
     font-weight: 400 !important;
     color: #555;
 }
+/* Modern WhatsApp Button Design */
+.modern-wa-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    padding: 10px 15px;
+    background-color: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 50px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    margin-top: 15px;
+}
+
+.modern-wa-btn:hover {
+    background-color: #f0fdf4;
+    border-color: #25D366;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(37, 211, 102, 0.15);
+}
+
+.wa-text {
+    font-size: 14px;
+    font-weight: 600;
+    color: #475569;
+}
+
+.modern-wa-btn:hover .wa-text {
+    color: #166534;
+}
+
+.wa-svg {
+    width: 20px;
+    height: 20px;
+    transition: transform 0.3s ease;
+}
+
+.modern-wa-btn:hover .wa-svg {
+    transform: scale(1.1);
+}
