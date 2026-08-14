@@ -66,3 +66,102 @@ body, h1, h2, h3, h4, h5, h6, p, a, span, div, button, input, select {
 .modern-wa-btn:hover .wa-svg {
     transform: scale(1.1);
 }
+/* =========================================
+   MODERN UI UPGRADES (NEW DESIGN)
+   ========================================= */
+
+/* 1. Modern Product Card */
+.product-card {
+    background: #ffffff;
+    border-radius: 20px !important;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    border: 1px solid #f1f5f9;
+    padding-bottom: 15px;
+}
+
+.product-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 30px rgba(0, 0, 0, 0.08);
+}
+
+.product-image {
+    width: 100%;
+    aspect-ratio: 1/1;
+    object-fit: contain;
+    background: #f8fafc;
+    padding: 10px;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.product-info {
+    padding: 20px;
+}
+
+/* 2. Premium Search Box */
+#searchInput {
+    width: 100%;
+    max-width: 500px;
+    padding: 16px 24px;
+    border-radius: 50px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+    font-size: 16px;
+    outline: none;
+    transition: all 0.3s ease;
+    margin: 0 auto 25px;
+    display: block;
+    background: #fff;
+}
+
+#searchInput:focus {
+    border-color: #0b5ed7;
+    box-shadow: 0 0 0 4px rgba(11, 94, 215, 0.15);
+}
+
+/* 3. Modern Category Filter Buttons */
+.filter-buttons {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 40px;
+}
+
+.filter-btn {
+    padding: 10px 24px;
+    border-radius: 50px;
+    border: 1px solid #e2e8f0;
+    background: #ffffff;
+    color: #475569;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 15px;
+}
+
+.filter-btn:hover {
+    background: #f8fafc;
+    border-color: #cbd5e1;
+    transform: translateY(-2px);
+}
+
+.filter-btn.active {
+    background: #0b5ed7;
+    color: #ffffff;
+    border-color: #0b5ed7;
+    box-shadow: 0 6px 15px rgba(11, 94, 215, 0.3);
+}
+
+/* 4. Beautiful Price Tag */
+.product-info .price {
+    font-size: 18px;
+    font-weight: 700;
+    color: #059669; /* പച്ച നിറത്തിലുള്ള പ്രീമിയം പ്രൈസ് കളർ */
+    margin: 10px 0;
+    background: #ecfdf5;
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 8px;
+}
