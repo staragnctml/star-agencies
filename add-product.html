@@ -143,6 +143,14 @@ button:disabled {
     placeholder="Example: 3D Sona Broom"
 >
 
+<!-- BRAND INPUT ADDED HERE -->
+<label>Brand Name (Optional)</label>
+<input
+    type="text"
+    id="productBrand"
+    placeholder="Example: Milton, Cello, Star"
+>
+
 <label>Category</label>
 <select id="category">
 
@@ -572,6 +580,14 @@ async function addProduct() {
 
         }
 
+        /* BRAND - NEW ADDITION */
+        
+        const brand = 
+            document
+            .getElementById("productBrand")
+            .value
+            .trim();
+
 
         /* IMAGE */
 
@@ -630,25 +646,25 @@ async function addProduct() {
 
         let products;
 
-try {
-    const rawContent = productsFile.content || "";
+        try {
+            const rawContent = productsFile.content || "";
 
-    const cleanBase64 = rawContent
-        .replace(/\s/g, "");
+            const cleanBase64 = rawContent
+                .replace(/\s/g, "");
 
-    const productsJson = base64ToText(cleanBase64)
-        .replace(/^\uFEFF/, "")
-        .trim();
+            const productsJson = base64ToText(cleanBase64)
+                .replace(/^\uFEFF/, "")
+                .trim();
 
-    products = JSON.parse(productsJson);
+            products = JSON.parse(productsJson);
 
-} catch (error) {
-    console.error("products.json error:", error);
+        } catch (error) {
+            console.error("products.json error:", error);
 
-    throw new Error(
-        "Unable to read products.json. Check GitHub file path and JSON content."
-    );
-}
+            throw new Error(
+                "Unable to read products.json. Check GitHub file path and JSON content."
+            );
+        }
 
 
         if (!Array.isArray(products)) {
@@ -781,6 +797,8 @@ try {
 
             name: name,
 
+            brand: brand, // <-- BRAND INCLUDED HERE
+
             category: category,
 
             image: imagePath,
@@ -855,6 +873,11 @@ try {
 
         document
         .getElementById("productName")
+        .value = "";
+
+        // BRAND CLEAR ADDED HERE
+        document
+        .getElementById("productBrand")
         .value = "";
 
         document
