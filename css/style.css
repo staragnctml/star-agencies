@@ -156,9 +156,9 @@ body, h1, h2, h3, h4, h5, h6, p, a, span, div, button, input, select {
 
 /* 4. Beautiful Price Tag */
 .product-info .price {
-    font-size: 18px;
-    font-weight: 700;
-    color: #059669; /* പച്ച നിറത്തിലുള്ള പ്രീമിയം പ്രൈസ് കളർ */
+    font-size: 16px;
+    font-weight: 400 !important; /* Bold ഒഴിവാക്കാൻ ഇത് 400 ആക്കി */
+    color: #059669; 
     margin: 10px 0;
     background: #ecfdf5;
     display: inline-block;
