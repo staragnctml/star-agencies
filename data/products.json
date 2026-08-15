@@ -1,5 +1,36 @@
 [
   {
+    "id": "1786821948987",
+    "name": "Print Jar",
+    "brand": "Priya",
+    "category": "Plastic Products",
+    "subCategory": "Container",
+    "price": "25",
+    "image": "images/products/print-jar-1786821942621.jpg",
+    "variants": [
+      {
+        "label": "650ml",
+        "price": "25",
+        "image": ""
+      },
+      {
+        "label": "1000ml",
+        "price": "27",
+        "image": "images/products/print-jar-1000ml-1786821944142.jpg"
+      },
+      {
+        "label": "2500ml",
+        "price": "45",
+        "image": "images/products/print-jar-2500ml-1786821945764.jpg"
+      },
+      {
+        "label": "3500",
+        "price": "57",
+        "image": "images/products/print-jar-3500-1786821947234.jpg"
+      }
+    ]
+  },
+  {
     "id": "1786820564869",
     "name": "Laundry Basket Big",
     "brand": "Priya Plastics",
