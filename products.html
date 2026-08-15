@@ -61,223 +61,115 @@
 <body>
 
     <!-- ================= HEADER ================= -->
-
     <header class="site-header">
-
         <div class="container navbar">
-
             <a href="index.html" class="brand">
-
-                <img
-                    src="images/logo.jpg"
-                    alt="Star Agencies Logo"
-                >
-
+                <img src="images/logo.jpg" alt="Star Agencies Logo">
                 <span>STAR AGENCIES</span>
-
             </a>
 
-
             <nav class="nav-links">
-
-                <a href="index.html">
-                    Home
-                </a>
-
-                <a href="products.html" class="active">
-                    Products
-                </a>
-
-                <a href="about.html">
-                    About
-                </a>
-
-                <a href="contact.html">
-                    Contact
-                </a>
-
+                <a href="index.html">Home</a>
+                <a href="products.html" class="active">Products</a>
+                <a href="about.html">About</a>
+                <a href="contact.html">Contact</a>
             </nav>
-
         </div>
-
     </header>
 
 
     <!-- ================= MAIN ================= -->
-
     <main>
 
         <!-- PAGE BANNER -->
-
         <section class="page-banner">
-
             <div class="container">
-
-                <span class="eyebrow">
-                    OUR CATALOGUE
-                </span>
-
-                <h1>
-                    Products
-                </h1>
-
-                <p>
-                    Browse our products
-                </p>
-
+                <span class="eyebrow">OUR CATALOGUE</span>
+                <h1>Products</h1>
+                <p>Browse our products</p>
             </div>
-
         </section>
 
 
         <!-- PRODUCTS SECTION -->
-
         <section class="products-section">
-
             <div class="container">
 
-
                 <!-- SEARCH + FILTER -->
-
                 <div class="catalogue-tools">
 
-
                     <!-- SEARCH -->
-
-                    <input
-                        type="search"
-                        id="searchInput"
-                        placeholder="Search products..."
-                        aria-label="Search products"
-                    >
-
+                    <input type="search" id="searchInput" placeholder="Search products..." aria-label="Search products">
 
                     <!-- CATEGORY FILTERS -->
-
                     <div class="filter-buttons">
 
-
-                        <button
-                            class="filter-btn active"
-                            data-category="All"
-                        >
-                            All
-                        </button>
-
-
-                        <button
-                            class="filter-btn"
-                            data-category="Stationery Items"
-                        >
-                            Stationery
-                        </button>
-
+                        <button class="filter-btn active" data-category="All">All</button>
+                        <button class="filter-btn" data-category="Stationery Items">Stationery</button>
 
                         <!-- Plastic Dropdown Menu -->
                         <div class="filter-dropdown">
-                            <button
-                                class="filter-btn filter-dropdown-btn"
-                                data-category="Plastic Products"
-                            >
+                            <button class="filter-btn filter-dropdown-btn" data-category="Plastic Products">
                                 Plastic ▼
                             </button>
                             <div class="filter-dropdown-content">
+                                <!-- 's' ഒഴിവാക്കി കൃത്യമായ പേരുകൾ കൊടുത്തു -->
                                 <button onclick="selectPlasticSub('Bucket')">Bucket</button>
-                                <button onclick="selectPlasticSub('Basins')">Basins</button>
-                                <button onclick="selectPlasticSub('Drums')">Drums</button>
-                                <button onclick="selectPlasticSub('Containers')">Containers</button>
-                                <button onclick="selectPlasticSub('Laundry Products')">Laundry Products</button>
+                                <button onclick="selectPlasticSub('Basin')">Basins</button>
+                                <button onclick="selectPlasticSub('Drum')">Drums</button>
+                                <button onclick="selectPlasticSub('Container')">Containers</button>
+                                <button onclick="selectPlasticSub('Laundry')">Laundry Products</button>
                             </div>
                         </div>
 
-
-                        <button
-                            class="filter-btn"
-                            data-category="Cleaning Items"
-                        >
-                            Cleaning
-                        </button>
-
-
-                        <button
-                            class="filter-btn"
-                            data-category="Aluminium & Steel"
-                        >
-                            Aluminium &amp; Steel
-                        </button>
-
-
-                        <button
-                            class="filter-btn"
-                            data-category="Household"
-                        >
-                            Household
-                        </button>
-
+                        <button class="filter-btn" data-category="Cleaning Items">Cleaning</button>
+                        <button class="filter-btn" data-category="Aluminium & Steel">Aluminium &amp; Steel</button>
+                        <button class="filter-btn" data-category="Household">Household</button>
 
                     </div>
-
                 </div>
 
-
-                <!-- ================= PRODUCTS ================= -->
-
-                <!-- Products will be loaded from products.json -->
-
-                <div
-                    class="products-grid"
-                    id="productsContainer"
-                >
-                </div>
-
+                <!-- PRODUCTS GRID -->
+                <div class="products-grid" id="productsContainer"></div>
 
                 <!-- NO RESULTS -->
-
-                <p
-                    id="noResults"
-                    hidden
-                >
-                    No products found.
-                </p>
-
+                <p id="noResults" hidden>No products found.</p>
 
             </div>
-
         </section>
 
     </main>
 
 
     <!-- ================= FOOTER ================= -->
-
     <footer class="site-footer">
-
         <div class="container">
-
-            <p>
-                © 2026 Star Agencies. All rights reserved.
-            </p>
-
+            <p>© 2026 Star Agencies. All rights reserved.</p>
         </div>
-
     </footer>
 
 
     <!-- ================= JAVASCRIPT ================= -->
-
     <script src="js/products.js"></script>
 
     <script>
         // Sub-category search helper for plastic items
         function selectPlasticSub(subName) {
+            // 1. സെർച്ച് ബോക്സിൽ പേര് കൊടുക്കുന്നു
             const searchInput = document.getElementById("searchInput");
             if (searchInput) {
                 searchInput.value = subName;
+            }
+            
+            // 2. ഓട്ടോമാറ്റിക് ആയി "Plastic Products" ബട്ടൺ ക്ലിക്ക് ചെയ്യപ്പെടുന്നു (അതോടെ കൃത്യമായി ഫിൽറ്റർ ആകും)
+            const plasticBtn = document.querySelector('[data-category="Plastic Products"]');
+            if (plasticBtn) {
+                plasticBtn.click(); 
+            } else if (searchInput) {
                 searchInput.dispatchEvent(new Event('input'));
             }
         }
     </script>
 
 </body>
-
 </html>
