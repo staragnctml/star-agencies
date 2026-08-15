@@ -31,6 +31,9 @@ button:disabled { background: #94a3b8; cursor: not-allowed; }
 .info { display: block; background: #cff4fc; color: #055160; }
 #editForm { display: none; margin-top: 20px; padding-top: 20px; border-top: 2px solid #e2e8f0; }
 .security { background: #fffbeb; padding: 15px; border-radius: 6px; margin-top: 20px; font-size: 13px; color: #92400e; border: 1px solid #fde68a; }
+
+/* Sub category div initially hidden */
+#subCategoryDiv { display: none; background: #e0f2fe; padding: 15px; border-radius: 8px; border: 1px solid #bae6fd; margin-top: 15px; }
 </style>
 </head>
 <body>
@@ -58,7 +61,7 @@ button:disabled { background: #94a3b8; cursor: not-allowed; }
         <input type="text" id="productBrand">
 
         <label>Category</label>
-        <select id="category">
+        <select id="category" onchange="toggleSubCategory()">
             <option value="Aluminium & Steel">Aluminium & Steel</option>
             <option value="Plastic Products">Plastic Products</option>
             <option value="Cleaning Items">Cleaning Items</option>
@@ -68,6 +71,19 @@ button:disabled { background: #94a3b8; cursor: not-allowed; }
             <option value="Floor Cleaners">Floor Cleaners</option>
             <option value="Household">Household</option>
         </select>
+
+        <!-- Sub Category (Only for Plastic) -->
+        <div id="subCategoryDiv">
+            <label style="color: #0369a1; margin-top: 0;">Plastic Sub-Category</label>
+            <select id="subCategory">
+                <option value="">-- Select Option --</option>
+                <option value="Bucket">Bucket</option>
+                <option value="Basin">Basin</option>
+                <option value="Drum">Drum</option>
+                <option value="Container">Container</option>
+                <option value="Laundry">Laundry Products</option>
+            </select>
+        </div>
 
         <label>Main Price (Default)</label>
         <input type="text" id="price">
@@ -107,6 +123,18 @@ function showStatus(msg, type) {
     el.className = "status " + type;
     el.innerHTML = msg;
     el.style.display = "block";
+}
+
+// Function to show/hide Plastic sub-categories
+function toggleSubCategory() {
+    const cat = document.getElementById("category").value;
+    const subDiv = document.getElementById("subCategoryDiv");
+    if(cat === "Plastic Products") {
+        subDiv.style.display = "block";
+    } else {
+        subDiv.style.display = "none";
+        document.getElementById("subCategory").value = "";
+    }
 }
 
 function fileToBase64(file) {
@@ -214,6 +242,15 @@ function fillFormDetails() {
     document.getElementById("productName").value = product.name || "";
     document.getElementById("productBrand").value = product.brand || "";
     document.getElementById("category").value = product.category || "Aluminium & Steel";
+    
+    // Sub-Category Auto Fill
+    toggleSubCategory(); // Show/hide div based on category
+    if (product.subCategory) {
+        document.getElementById("subCategory").value = product.subCategory;
+    } else {
+        document.getElementById("subCategory").value = "";
+    }
+
     document.getElementById("price").value = product.price || "";
     
     const container = document.getElementById("variantsList");
@@ -262,6 +299,7 @@ async function updateProduct() {
         product.name = newName;
         product.brand = document.getElementById("productBrand").value.trim();
         product.category = document.getElementById("category").value;
+        product.subCategory = document.getElementById("subCategory").value; // Save sub-category
         product.price = document.getElementById("price").value.trim();
 
         const mainImgFile = document.getElementById("mainImageFile").files[0];
