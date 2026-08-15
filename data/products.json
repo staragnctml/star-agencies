@@ -1,5 +1,15 @@
 [
   {
+    "id": "1786822782179",
+    "name": "Mavarippa",
+    "brand": "Priya",
+    "category": "Plastic Products",
+    "subCategory": "",
+    "price": "53",
+    "image": "images/products/mavarippa-1786822779928.jpg",
+    "variants": []
+  },
+  {
     "id": "1786822680068",
     "name": "Drum 2nd",
     "brand": "Priya",
