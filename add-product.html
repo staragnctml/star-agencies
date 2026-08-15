@@ -8,120 +8,118 @@
 * { box-sizing: border-box; }
 body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f4f6f8; margin: 0; padding: 20px; }
 .container { max-width: 700px; margin: auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-h1 { text-align: center; color: #0b5ed7; margin-bottom: 25px; }
+h1 { text-align: center; color: #10b981; margin-bottom: 25px; }
 label { display: block; font-weight: bold; margin-top: 15px; margin-bottom: 6px; color: #334155; }
 input[type="text"], input[type="password"], select, input[type="file"] { width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 15px; }
-button { width: 100%; padding: 14px; margin-top: 25px; background: #0b5ed7; color: white; border: none; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.3s; }
-button:hover { background: #084298; }
+button { width: 100%; padding: 14px; margin-top: 25px; background: #10b981; color: white; border: none; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+button:hover { background: #059669; }
 button:disabled { background: #94a3b8; cursor: not-allowed; }
 
-/* Variants Section Styles */
 .variants-container { margin-top: 20px; padding: 15px; border: 2px dashed #cbd5e1; border-radius: 8px; background: #f8fafc; }
 .variant-row { background: #ffffff; border: 1px solid #e2e8f0; padding: 15px; border-radius: 8px; margin-bottom: 15px; position: relative; }
 .variant-row h4 { margin: 0 0 10px 0; color: #0f172a; font-size: 15px; }
 .remove-btn { position: absolute; top: 10px; right: 10px; background: #ef4444; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 12px; width: auto; margin: 0; }
 .remove-btn:hover { background: #dc2626; }
-.add-variant-btn { background: #10b981; margin-top: 10px; }
-.add-variant-btn:hover { background: #059669; }
+.add-variant-btn { background: #6366f1; margin-top: 10px; }
+.add-variant-btn:hover { background: #4f46e5; }
 
 .status { margin-top: 20px; padding: 15px; border-radius: 6px; display: none; font-weight: bold; text-align: center; }
 .success { display: block; background: #d1e7dd; color: #0f5132; }
 .error { display: block; background: #f8d7da; color: #842029; }
 .info { display: block; background: #cff4fc; color: #055160; }
 .security { background: #fffbeb; padding: 15px; border-radius: 6px; margin-top: 20px; font-size: 13px; color: #92400e; border: 1px solid #fde68a; }
+
+/* Sub category div initially hidden */
+#subCategoryDiv { display: none; background: #e0f2fe; padding: 15px; border-radius: 8px; border: 1px solid #bae6fd; margin-top: 15px; }
 </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>📦 Add New Product</h1>
+    <h1>➕ Add New Product</h1>
 
     <label>GitHub Token (Required)</label>
     <input type="password" id="token" placeholder="Paste your GitHub token here">
 
     <label>Product Name (Main)</label>
-    <input type="text" id="name" placeholder="e.g., Pressure Cooker">
+    <input type="text" id="productName" placeholder="e.g., Round Basin">
 
     <label>Brand (Optional)</label>
-    <input type="text" id="brand" placeholder="e.g., Ultix">
+    <input type="text" id="productBrand" placeholder="e.g., Priya Plastics">
 
     <label>Category</label>
-    <select id="category">
+    <select id="category" onchange="toggleSubCategory()">
         <option value="Aluminium & Steel">Aluminium & Steel</option>
         <option value="Plastic Products">Plastic Products</option>
         <option value="Cleaning Items">Cleaning Items</option>
         <option value="Stationery Items">Stationery Items</option>
         <option value="Hardware Items">Hardware Items</option>
-        <option value="Detergents">Detergents</option>
-        <option value="Floor Cleaners">Floor Cleaners</option>
         <option value="Household">Household</option>
     </select>
 
-    <label>Main Price (Default)</label>
-    <input type="text" id="price" placeholder="e.g., 1200 or Contact Us">
-
-    <label>Main Product Image</label>
-    <input type="file" id="mainImage" accept="image/*">
-
-    <!-- OPTIONS / VARIANTS SECTION -->
-    <div class="variants-container">
-        <h3 style="margin-top:0; color: #334155;">✨ Product Options / Sizes</h3>
-        <p style="font-size: 13px; color: #64748b; margin-top: -10px;">Add different sizes or models (e.g., 2L, 3L Induction). You can upload a specific photo for each.</p>
-        
-        <div id="variantsList">
-            <!-- Variant rows will be added here -->
-        </div>
-
-        <button type="button" class="add-variant-btn" onclick="addVariantRow()">+ Add New Option</button>
+    <!-- Sub Category (Only for Plastic) -->
+    <div id="subCategoryDiv">
+        <label style="color: #0369a1; margin-top: 0;">Plastic Sub-Category</label>
+        <select id="subCategory">
+            <option value="">-- Select Option --</option>
+            <option value="Bucket">Bucket</option>
+            <option value="Basin">Basin</option>
+            <option value="Drum">Drum</option>
+            <option value="Container">Container</option>
+            <option value="Laundry">Laundry Products</option>
+        </select>
     </div>
 
-    <button id="submitBtn" onclick="saveProduct()">🚀 Upload Product to Website</button>
+    <label>Main Price (Default)</label>
+    <input type="text" id="price" placeholder="e.g., 150">
+
+    <label>Main Product Image</label>
+    <input type="file" id="mainImageFile" accept="image/*">
+
+    <div class="variants-container">
+        <h3 style="margin-top:0; color: #334155;">✨ Product Options / Sizes</h3>
+        <p style="font-size: 13px; color: #64748b; margin-top: -10px;">Add different sizes and specific images (if any).</p>
+        
+        <div id="variantsList"></div>
+
+        <button type="button" class="add-variant-btn" onclick="addVariantRow()">+ Add Option/Size</button>
+    </div>
+
+    <button id="saveButton" onclick="saveProduct()">✅ Upload Product to Website</button>
+
     <div id="status" class="status"></div>
 
     <div class="security">
-        🔒 <b>Security Note:</b> Your token is strictly used in your browser to connect to your GitHub. It is never saved anywhere else.
+        🔒 <b>Security Note:</b> Your token is strictly used in your browser to connect to your GitHub.
     </div>
 </div>
 
 <script>
-// GitHub Repo Details
 const OWNER = "staragnctml";
 const REPO = "star-agencies";
 const BRANCH = "main";
 const PRODUCTS_FILE = "data/products.json";
 const IMAGE_FOLDER = "images/products";
 
-let variantCount = 0;
-
-// Add a new variant row to the form
-function addVariantRow() {
-    variantCount++;
-    const container = document.getElementById("variantsList");
-    const row = document.createElement("div");
-    row.className = "variant-row";
-    row.id = `var-row-${variantCount}`;
-    
-    row.innerHTML = `
-        <button type="button" class="remove-btn" onclick="removeVariantRow('${row.id}')">X Remove</button>
-        <h4>Option ${variantCount}</h4>
-        <label>Option Name/Size</label>
-        <input type="text" class="v-label" placeholder="e.g., 3L Induction Base">
-        
-        <label>Price for this Option</label>
-        <input type="text" class="v-price" placeholder="e.g., 1500">
-        
-        <label>Specific Image for this Option (Optional)</label>
-        <input type="file" class="v-image" accept="image/*">
-    `;
-    container.appendChild(row);
+function showStatus(msg, type) {
+    const el = document.getElementById("status");
+    el.className = "status " + type;
+    el.innerHTML = msg;
+    el.style.display = "block";
 }
 
-// Remove a variant row
-function removeVariantRow(rowId) {
-    document.getElementById(rowId).remove();
+// Function to show/hide Plastic sub-categories
+function toggleSubCategory() {
+    const cat = document.getElementById("category").value;
+    const subDiv = document.getElementById("subCategoryDiv");
+    if(cat === "Plastic Products") {
+        subDiv.style.display = "block";
+    } else {
+        subDiv.style.display = "none";
+        document.getElementById("subCategory").value = "";
+    }
 }
 
-// Base64 Conversion
 function fileToBase64(file) {
     return new Promise((resolve, reject) => {
         const reader = new FileReader();
@@ -143,14 +141,6 @@ function makeFileName(name) {
     return name.trim().toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
 }
 
-function showStatus(msg, type) {
-    const el = document.getElementById("status");
-    el.className = "status " + type;
-    el.innerHTML = msg;
-    el.style.display = "block";
-}
-
-// GitHub API Request
 async function githubRequest(url, options) {
     const token = document.getElementById("token").value.trim();
     if (!token) throw new Error("Please enter your GitHub Token!");
@@ -170,118 +160,135 @@ async function githubRequest(url, options) {
     return data;
 }
 
-// Save Product Logic
+function addVariantRow() {
+    const container = document.getElementById("variantsList");
+    const rowId = "var-row-" + Date.now();
+    const row = document.createElement("div");
+    row.className = "variant-row";
+    row.id = rowId;
+    
+    row.innerHTML = `
+        <button type="button" class="remove-btn" onclick="document.getElementById('${rowId}').remove()">X Remove</button>
+        <h4>Option</h4>
+        <label>Option Name/Size</label>
+        <input type="text" class="v-label" placeholder="e.g., 09L">
+        
+        <label>Price for this Option</label>
+        <input type="text" class="v-price" placeholder="e.g., 150">
+        
+        <label>Specific Image (Optional)</label>
+        <input type="file" class="v-image" accept="image/*">
+    `;
+    container.appendChild(row);
+}
+
 async function saveProduct() {
-    const btn = document.getElementById("submitBtn");
+    const btn = document.getElementById("saveButton");
     try {
         btn.disabled = true;
         
-        const name = document.getElementById("name").value.trim();
-        const mainImageFile = document.getElementById("mainImage").files[0];
-        
-        if (!name) throw new Error("Product Name is required!");
-        if (!mainImageFile) throw new Error("Main Product Image is required!");
+        const newName = document.getElementById("productName").value.trim();
+        if (!newName) throw new Error("Product Name cannot be empty!");
 
-        showStatus("⏳ Step 1: Uploading Main Image...", "info");
+        showStatus("⏳ Fetching existing products...", "info");
+        let allProducts = [];
+        let productsFileSha = "";
         
-        // 1. Upload Main Image
-        const mainExt = mainImageFile.name.split(".").pop().toLowerCase();
-        const mainSafeName = makeFileName(name);
-        const mainImagePath = `${IMAGE_FOLDER}/${mainSafeName}-${Date.now()}.${mainExt}`;
-        const mainImageBase64 = await fileToBase64(mainImageFile);
-        
-        await githubRequest(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${mainImagePath}`, {
-            method: "PUT",
-            body: JSON.stringify({
-                message: `Add main image for ${name}`,
-                content: mainImageBase64,
-                branch: BRANCH
-            })
-        });
+        try {
+            const fileData = await githubRequest(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${PRODUCTS_FILE}?ref=${BRANCH}`, { method: "GET" });
+            productsFileSha = fileData.sha;
+            allProducts = JSON.parse(base64ToText(fileData.content));
+        } catch(e) {
+            console.log("No existing products found or error fetching.");
+        }
 
-        // 2. Process Variants
-        const variantElements = document.querySelectorAll('.variant-row');
+        const mainImgFile = document.getElementById("mainImageFile").files[0];
+        const mainSafeName = makeFileName(newName);
+        let mainImagePath = "";
+
+        if (mainImgFile) {
+            showStatus("⏳ Uploading main image...", "info");
+            const ext = mainImgFile.name.split(".").pop().toLowerCase();
+            mainImagePath = `${IMAGE_FOLDER}/${mainSafeName}-${Date.now()}.${ext}`;
+            const base64Img = await fileToBase64(mainImgFile);
+
+            await githubRequest(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${mainImagePath}`, {
+                method: "PUT",
+                body: JSON.stringify({ message: `Upload main image for ${newName}`, content: base64Img, branch: BRANCH })
+            });
+        }
+
+        const variantRows = document.querySelectorAll('.variant-row');
         let variantsArray = [];
-        
-        for (let i = 0; i < variantElements.length; i++) {
-            const row = variantElements[i];
+
+        for (let i = 0; i < variantRows.length; i++) {
+            const row = variantRows[i];
             const vLabel = row.querySelector('.v-label').value.trim();
             const vPrice = row.querySelector('.v-price').value.trim();
             const vImgFile = row.querySelector('.v-image').files[0];
-            
+
             if (vLabel) {
-                let vImgPath = "";
-                
-                // If variant has a specific image, upload it
+                let finalImgPath = "";
                 if (vImgFile) {
-                    showStatus(`⏳ Step 2: Uploading image for option '${vLabel}'...`, "info");
-                    const vExt = vImgFile.name.split(".").pop().toLowerCase();
+                    showStatus(`⏳ Uploading image for option '${vLabel}'...`, "info");
+                    const ext = vImgFile.name.split(".").pop().toLowerCase();
                     const vSafeName = makeFileName(vLabel);
-                    vImgPath = `${IMAGE_FOLDER}/${mainSafeName}-${vSafeName}-${Date.now()}.${vExt}`;
-                    const vImageBase64 = await fileToBase64(vImgFile);
-                    
-                    await githubRequest(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${vImgPath}`, {
+                    finalImgPath = `${IMAGE_FOLDER}/${mainSafeName}-${vSafeName}-${Date.now()}.${ext}`;
+                    const base64VImg = await fileToBase64(vImgFile);
+
+                    await githubRequest(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${finalImgPath}`, {
                         method: "PUT",
-                        body: JSON.stringify({
-                            message: `Add variant image: ${vLabel}`,
-                            content: vImageBase64,
-                            branch: BRANCH
-                        })
+                        body: JSON.stringify({ message: `Upload variant image: ${vLabel}`, content: base64VImg, branch: BRANCH })
                     });
                 }
-                
+
                 variantsArray.push({
                     label: vLabel,
                     price: vPrice,
-                    image: vImgPath // will be empty if no specific image uploaded
+                    image: finalImgPath
                 });
             }
         }
 
-        // 3. Fetch existing products.json
-        showStatus("⏳ Step 3: Updating Website Data...", "info");
-        const fileData = await githubRequest(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${PRODUCTS_FILE}?ref=${BRANCH}`, { method: "GET" });
-        
-        let allProducts = [];
-        if (fileData.content) {
-            allProducts = JSON.parse(base64ToText(fileData.content));
-        }
-        
-        // 4. Create new product object
+        // Sub Category കൂടി JSON-ൽ സേവ് ചെയ്യുന്നു
         const newProduct = {
-            id: Date.now(),
-            name: name,
-            brand: document.getElementById("brand").value.trim(),
+            id: Date.now().toString(),
+            name: newName,
+            brand: document.getElementById("productBrand").value.trim(),
             category: document.getElementById("category").value,
+            subCategory: document.getElementById("subCategory").value,
             price: document.getElementById("price").value.trim(),
             image: mainImagePath,
             variants: variantsArray
         };
-        
-        allProducts.push(newProduct);
-        
-        // 5. Upload updated products.json
+
+        allProducts.unshift(newProduct);
+
+        showStatus("⏳ Saving product to GitHub...", "info");
         const updatedJson = JSON.stringify(allProducts, null, 2);
-        
+
+        const bodyData = {
+            message: `Add product: ${newName}`,
+            content: textToBase64(updatedJson),
+            branch: BRANCH
+        };
+        if (productsFileSha) bodyData.sha = productsFileSha;
+
         await githubRequest(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${PRODUCTS_FILE}`, {
             method: "PUT",
-            body: JSON.stringify({
-                message: `Add new product: ${name} with variants`,
-                content: textToBase64(updatedJson),
-                sha: fileData.sha,
-                branch: BRANCH
-            })
+            body: JSON.stringify(bodyData)
         });
 
-        showStatus("✅ Success! Product and all options added completely. It will appear on your website in a minute.", "success");
+        showStatus("✅ Product successfully added! You can add another one.", "success");
         
-        // Clear form
-        document.getElementById("name").value = "";
-        document.getElementById("brand").value = "";
+        // Reset form
+        document.getElementById("productName").value = "";
+        document.getElementById("productBrand").value = "";
         document.getElementById("price").value = "";
-        document.getElementById("mainImage").value = "";
+        document.getElementById("mainImageFile").value = "";
+        document.getElementById("subCategory").value = "";
+        document.getElementById("subCategoryDiv").style.display = "none";
         document.getElementById("variantsList").innerHTML = "";
-        variantCount = 0;
 
     } catch (error) {
         showStatus("❌ Error: " + error.message, "error");
