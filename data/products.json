@@ -268,32 +268,37 @@
     "brand": "Priya Platics",
     "category": "Plastic Products",
     "price": "29",
-    "image": "images/products/basin-1786815494737.jpg",
+    "image": "images/products/basin-1786815768616.jpg",
     "variants": [
+      {
+        "label": "09L",
+        "price": "29",
+        "image": "images/products/basin-09l-1786815770080.jpg"
+      },
       {
         "label": "11L",
         "price": "39",
-        "image": "images/products/basin-9-11l-1786815225361.jpg"
+        "image": "images/products/basin-11l-1786815771416.jpg"
       },
       {
         "label": "13L",
         "price": "63",
-        "image": "images/products/basin-9-13l-1786815227142.jpg"
+        "image": "images/products/basin-13l-1786815773190.jpg"
       },
       {
         "label": "15L",
         "price": "77",
-        "image": "images/products/basin-9-15l-1786815228935.jpg"
+        "image": "images/products/basin-15l-1786815775034.jpg"
       },
       {
         "label": "16L",
         "price": "97",
-        "image": "images/products/basin-9-16l-1786815230626.jpg"
+        "image": "images/products/basin-16l-1786815776535.jpg"
       },
       {
         "label": "18L",
         "price": "147",
-        "image": "images/products/basin-9-18l-1786815232390.jpg"
+        "image": "images/products/basin-18l-1786815778255.jpg"
       }
     ]
   }
