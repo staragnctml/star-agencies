@@ -5,6 +5,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Star Agencies | Home</title>
     <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* Dropdown Menu Styles */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #ffffff;
+            min-width: 210px;
+            box-shadow: 0px 8px 16px rgba(0,0,0,0.15);
+            z-index: 1000;
+            border-radius: 8px;
+            overflow: hidden;
+            top: 100%;
+            left: 0;
+        }
+        .dropdown-content a {
+            color: #1e293b !important;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            border-bottom: 1px solid #f1f5f9;
+            transition: 0.2s;
+        }
+        .dropdown-content a:hover {
+            background-color: #f8fafc;
+            color: #0b5ed7 !important;
+            padding-left: 20px;
+        }
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+    </style>
 </head>
 <body>
 
@@ -19,6 +56,19 @@
             <nav class="nav-links">
                 <a href="index.html" class="active">Home</a>
                 <a href="products.html">Products</a>
+                
+                <!-- Plastic Products Dropdown -->
+                <div class="dropdown">
+                    <a href="products.html" style="cursor: pointer;">Plastic Products ▼</a>
+                    <div class="dropdown-content">
+                        <a href="products.html">Bucket</a>
+                        <a href="products.html">Basins</a>
+                        <a href="products.html">Drums</a>
+                        <a href="products.html">Containers</a>
+                        <a href="products.html">Laundry Products</a>
+                    </div>
+                </div>
+
                 <a href="about.html">About</a>
                 <a href="contact.html">Contact</a>
             </nav>
