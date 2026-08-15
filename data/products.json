@@ -261,5 +261,40 @@
     "price": "399",
     "image": "images/products/fry-pan-1786737359357.jpg",
     "variants": []
+  },
+  {
+    "id": 1786815234837,
+    "name": "Basin 9",
+    "brand": "Priya Platics",
+    "category": "Plastic Products",
+    "price": "9L",
+    "image": "images/products/basin-9-1786815223498.jpg",
+    "variants": [
+      {
+        "label": "11L",
+        "price": "39",
+        "image": "images/products/basin-9-11l-1786815225361.jpg"
+      },
+      {
+        "label": "13L",
+        "price": "63",
+        "image": "images/products/basin-9-13l-1786815227142.jpg"
+      },
+      {
+        "label": "15L",
+        "price": "77",
+        "image": "images/products/basin-9-15l-1786815228935.jpg"
+      },
+      {
+        "label": "16L",
+        "price": "97",
+        "image": "images/products/basin-9-16l-1786815230626.jpg"
+      },
+      {
+        "label": "18L",
+        "price": "147",
+        "image": "images/products/basin-9-18l-1786815232390.jpg"
+      }
+    ]
   }
 ]
