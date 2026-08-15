@@ -9,12 +9,100 @@
 
     <!-- Main CSS -->
     <link rel="stylesheet" href="css/style.css">
-
     <!-- Products CSS -->
     <link rel="stylesheet" href="css/products.css">
 
-    <!-- Plastic Dropdown Styling -->
+    <!-- Modern UI Styling for Banner, Search, and Filters -->
     <style>
+        /* Modern Page Banner */
+        .page-banner {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: white;
+            text-align: center;
+            padding: 70px 20px;
+            border-radius: 0 0 40px 40px;
+            margin-bottom: 50px;
+            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.1);
+        }
+        .page-banner .eyebrow {
+            color: #fbbf24;
+            font-weight: 700;
+            letter-spacing: 3px;
+            font-size: 13px;
+            display: block;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+        .page-banner h1 {
+            font-size: clamp(32px, 5vw, 46px);
+            margin: 0 0 15px 0;
+            font-weight: 800;
+            color: #ffffff;
+        }
+        .page-banner p {
+            font-size: 16px;
+            color: #94a3b8;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* Modern Search Bar */
+        .catalogue-tools {
+            max-width: 900px;
+            margin: 0 auto 40px;
+            text-align: center;
+        }
+        #searchInput {
+            width: 100%;
+            max-width: 600px;
+            padding: 16px 25px;
+            font-size: 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 50px;
+            outline: none;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+            transition: all 0.3s ease;
+            margin-bottom: 30px;
+            color: #1e293b;
+        }
+        #searchInput:focus {
+            border-color: #0b5ed7;
+            box-shadow: 0 4px 20px rgba(11, 94, 215, 0.15);
+        }
+
+        /* Premium Filter Buttons */
+        .filter-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .filter-btn {
+            padding: 10px 22px;
+            border: 1px solid #cbd5e1;
+            background: #ffffff;
+            color: #475569;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        .filter-btn:hover {
+            background: #f1f5f9;
+            color: #0b5ed7;
+            border-color: #94a3b8;
+            transform: translateY(-2px);
+        }
+        .filter-btn.active {
+            background: #0b5ed7;
+            color: #ffffff;
+            border-color: #0b5ed7;
+            box-shadow: 0 4px 12px rgba(11, 94, 215, 0.25);
+        }
+
+        /* Plastic Dropdown Styling */
         .filter-dropdown {
             position: relative;
             display: inline-block;
@@ -24,19 +112,20 @@
             position: absolute;
             background-color: #ffffff;
             min-width: 190px;
-            box-shadow: 0px 8px 16px rgba(0,0,0,0.15);
+            box-shadow: 0px 10px 25px rgba(0,0,0,0.1);
             z-index: 1000;
-            border-radius: 8px;
+            border-radius: 12px;
             overflow: hidden;
             top: 100%;
-            left: 0;
-            margin-top: 5px;
+            left: 50%;
+            transform: translateX(-50%);
+            margin-top: 8px;
             text-align: left;
-            border: 1px solid #cbd5e1;
+            border: 1px solid #e2e8f0;
         }
         .filter-dropdown-content button {
             width: 100%;
-            padding: 10px 15px;
+            padding: 12px 18px;
             border: none;
             background: none;
             color: #1e293b;
@@ -44,13 +133,13 @@
             cursor: pointer;
             font-size: 14px;
             font-weight: 500;
-            border-bottom: 1px solid #f1f5f9;
+            border-bottom: 1px solid #f8fafc;
             transition: 0.2s;
         }
         .filter-dropdown-content button:hover {
-            background-color: #f8fafc;
+            background-color: #f1f5f9;
             color: #0b5ed7;
-            padding-left: 18px;
+            padding-left: 22px;
         }
         .filter-dropdown:hover .filter-dropdown-content {
             display: block;
@@ -81,12 +170,12 @@
     <!-- ================= MAIN ================= -->
     <main>
 
-        <!-- PAGE BANNER -->
+        <!-- PAGE BANNER (Upgraded) -->
         <section class="page-banner">
             <div class="container">
                 <span class="eyebrow">OUR CATALOGUE</span>
-                <h1>Products</h1>
-                <p>Browse our products</p>
+                <h1>Explore Our Products</h1>
+                <p>Find the best quality household, cleaning, plastic, and hardware items for your everyday needs.</p>
             </div>
         </section>
 
@@ -99,7 +188,7 @@
                 <div class="catalogue-tools">
 
                     <!-- SEARCH -->
-                    <input type="search" id="searchInput" placeholder="Search products..." aria-label="Search products">
+                    <input type="search" id="searchInput" placeholder="Search for products, categories, or brands..." aria-label="Search products">
 
                     <!-- CATEGORY FILTERS -->
                     <div class="filter-buttons">
@@ -113,7 +202,6 @@
                                 Plastic ▼
                             </button>
                             <div class="filter-dropdown-content">
-                                <!-- 's' ഒഴിവാക്കി കൃത്യമായ പേരുകൾ കൊടുത്തു -->
                                 <button onclick="selectPlasticSub('Bucket')">Bucket</button>
                                 <button onclick="selectPlasticSub('Basin')">Basins</button>
                                 <button onclick="selectPlasticSub('Drum')">Drums</button>
@@ -129,11 +217,15 @@
                     </div>
                 </div>
 
-                <!-- PRODUCTS GRID -->
-                <div class="products-grid" id="productsContainer"></div>
+                <!-- ================= PRODUCTS GRID ================= -->
+                <div class="products-grid" id="productsContainer">
+                    <!-- Products will be loaded here dynamically -->
+                </div>
 
                 <!-- NO RESULTS -->
-                <p id="noResults" hidden>No products found.</p>
+                <p id="noResults" hidden style="text-align: center; color: #64748b; font-size: 16px; margin-top: 40px;">
+                    No products found matching your search.
+                </p>
 
             </div>
         </section>
@@ -155,13 +247,11 @@
     <script>
         // Sub-category search helper for plastic items
         function selectPlasticSub(subName) {
-            // 1. സെർച്ച് ബോക്സിൽ പേര് കൊടുക്കുന്നു
             const searchInput = document.getElementById("searchInput");
             if (searchInput) {
                 searchInput.value = subName;
             }
             
-            // 2. ഓട്ടോമാറ്റിക് ആയി "Plastic Products" ബട്ടൺ ക്ലിക്ക് ചെയ്യപ്പെടുന്നു (അതോടെ കൃത്യമായി ഫിൽറ്റർ ആകും)
             const plasticBtn = document.querySelector('[data-category="Plastic Products"]');
             if (plasticBtn) {
                 plasticBtn.click(); 
