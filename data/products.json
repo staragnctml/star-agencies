@@ -301,5 +301,25 @@
         "image": "images/products/basin-18l-1786815778255.jpg"
       }
     ]
+  },
+  {
+    "id": 1786815953580,
+    "name": "Super Bowl",
+    "brand": "Priya Plastics",
+    "category": "Plastic Products",
+    "price": "",
+    "image": "images/products/super-bowl-1786815948464.jpg",
+    "variants": [
+      {
+        "label": "07",
+        "price": "17",
+        "image": "images/products/super-bowl-07-1786815950235.jpg"
+      },
+      {
+        "label": "08",
+        "price": "23",
+        "image": "images/products/super-bowl-08-1786815951767.jpg"
+      }
+    ]
   }
 ]
