@@ -1,5 +1,15 @@
 [
   {
+    "id": "1786820380843",
+    "name": "Mug",
+    "brand": "Priya Plastics",
+    "category": "Plastic Products",
+    "subCategory": "Laundry",
+    "price": "10",
+    "image": "images/products/mug-1786820379196.jpg",
+    "variants": []
+  },
+  {
     "id": 1,
     "name": "Aluminium Bucket",
     "category": "Aluminium & Steel",
