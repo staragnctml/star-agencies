@@ -17,7 +17,13 @@
     "subCategory": "Laundry",
     "price": "10",
     "image": "images/products/mug-1786820379196.jpg",
-    "variants": []
+    "variants": [
+      {
+        "label": "500ml",
+        "price": "",
+        "image": ""
+      }
+    ]
   },
   {
     "id": 1,
