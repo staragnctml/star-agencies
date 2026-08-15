@@ -3,191 +3,118 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Star Agencies | Home</title>
-
     <link rel="stylesheet" href="css/style.css">
 </head>
-
 <body>
 
     <!-- Header -->
     <header class="site-header">
         <div class="container navbar">
-
             <a href="index.html" class="brand">
                 <img src="images/logo.jpg" alt="Star Agencies Logo">
                 <span>STAR AGENCIES</span>
             </a>
-
-            <button class="menu-toggle" aria-label="Open menu">
-                ☰
-            </button>
-
+            <button class="menu-toggle" aria-label="Open menu">☰</button>
             <nav class="nav-links">
                 <a href="index.html" class="active">Home</a>
                 <a href="products.html">Products</a>
                 <a href="about.html">About</a>
                 <a href="contact.html">Contact</a>
             </nav>
-
         </div>
     </header>
 
-
-    <!-- Hero Section -->
+    <!-- Hero Section with Background Banner -->
     <main>
-
-        <section class="hero">
-            <div class="container hero-content">
-
-                <div class="hero-text">
-                    <span class="eyebrow">WELCOME TO STAR AGENCIES</span>
-
-                    <h1>
-                        Quality Products for
-                        <span>Everyday Needs</span>
-                    </h1>
-
-                    <p>
-                        Explore our collection of household, cleaning,
-                        plastic and general products at Star Agencies.
-                    </p>
-
-                    <div class="hero-buttons">
-                        <a href="products.html" class="btn btn-primary">
-                            View Products
-                        </a>
-
-                        <a href="contact.html" class="btn btn-secondary">
-                            Contact Us
-                        </a>
-                    </div>
+        <section class="hero" style="background: linear-gradient(rgba(11, 23, 42, 0.75), rgba(11, 23, 42, 0.75)), url('images/hero-bg.jpg') center/cover no-repeat; color: white; padding: 110px 0; text-align: center;">
+            <div class="container">
+                <span class="eyebrow" style="color: #ffd700; font-size: 14px; letter-spacing: 3px; font-weight: 700; text-transform: uppercase;">For your needs only with</span>
+                <h1 style="font-size: clamp(38px, 6vw, 68px); font-weight: 800; margin: 15px 0 20px; color: #ffffff; line-height: 1.1;">
+                    Beauty & <span style="color: #ff4d4d;">Quality</span>
+                </h1>
+                <p style="font-size: 18px; max-width: 650px; margin: 0 auto 35px; color: #e2e8f0;">
+                    Explore our wide range of high-quality household, cleaning, plastic, and hardware products at the best prices.
+                </p>
+                <div class="hero-actions" style="justify-content: center; display: flex; gap: 15px;">
+                    <a href="products.html" class="btn btn-primary" style="background: #0b5ed7; color: white; padding: 14px 30px; border-radius: 50px; font-weight: 600; text-decoration: none; transition: 0.3s;">View Products</a>
+                    <a href="contact.html" class="btn btn-secondary" style="background: transparent; border: 2px solid #fff; color: white; padding: 14px 30px; border-radius: 50px; font-weight: 600; text-decoration: none; transition: 0.3s;">Contact Us</a>
                 </div>
-
             </div>
         </section>
-
 
         <!-- Categories -->
-        <section class="categories section">
+        <section class="categories section" style="padding: 70px 0; background: #f8fafc;">
             <div class="container">
-
-                <div class="section-heading">
-                    <span class="eyebrow">OUR PRODUCTS</span>
-
-                    <h2>Everything You Need</h2>
-
-                    <p>
-                        Browse our range of useful products for home,
-                        cleaning and everyday use.
-                    </p>
+                <div class="section-heading" style="text-align: center; margin-bottom: 40px;">
+                    <span class="eyebrow" style="color: #b08000; font-weight: 800; letter-spacing: 2px; font-size: 13px;">OUR PRODUCTS</span>
+                    <h2 style="font-size: 34px; margin-top: 8px; color: #0f172a;">Everything You Need</h2>
+                    <p style="color: #64748b; margin-top: 10px;">Browse our range of useful products for home, cleaning and everyday use.</p>
                 </div>
 
-                <div class="category-grid">
-
-                    <div class="category-card">
-                        <div class="category-icon">🪣</div>
-                        <h3>Plastic Products</h3>
-                        <p>
-                            Buckets, plates and other useful plastic items.
-                        </p>
+                <div class="category-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;">
+                    <div class="category-card" style="padding: 30px; background: #fff; border: 1px solid #e2e8f0; border-radius: 16px;">
+                        <div class="category-icon" style="font-size: 42px; margin-bottom: 15px;">🪣</div>
+                        <h3 style="margin-bottom: 7px; color: #0f172a;">Plastic Products</h3>
+                        <p style="color: #64748b;">Buckets, plates and other useful plastic items.</p>
                     </div>
 
-                    <div class="category-card">
-                        <div class="category-icon">🧹</div>
-                        <h3>Cleaning Products</h3>
-                        <p>
-                            Brooms, mops and cleaning accessories.
-                        </p>
+                    <div class="category-card" style="padding: 30px; background: #fff; border: 1px solid #e2e8f0; border-radius: 16px;">
+                        <div class="category-icon" style="font-size: 42px; margin-bottom: 15px;">🧹</div>
+                        <h3 style="margin-bottom: 7px; color: #0f172a;">Cleaning Products</h3>
+                        <p style="color: #64748b;">Brooms, mops and cleaning accessories.</p>
                     </div>
 
-                    <div class="category-card">
-                        <div class="category-icon">🏠</div>
-                        <h3>Household Items</h3>
-                        <p>
-                            Practical products for everyday household use.
-                        </p>
+                    <div class="category-card" style="padding: 30px; background: #fff; border: 1px solid #e2e8f0; border-radius: 16px;">
+                        <div class="category-icon" style="font-size: 42px; margin-bottom: 15px;">🏠</div>
+                        <h3 style="margin-bottom: 7px; color: #0f172a;">Household Items</h3>
+                        <p style="color: #64748b;">Practical products for everyday household use.</p>
                     </div>
-
                 </div>
-
             </div>
         </section>
-
 
         <!-- About Preview -->
-        <section class="about-preview section">
+        <section class="about-preview section" style="padding: 70px 0;">
             <div class="container">
-
-                <div class="about-box">
-
+                <div class="about-box" style="display: flex; justify-content: space-between; align-items: center; background: #fff; padding: 40px; border-radius: 20px; border: 1px solid #e2e8f0; flex-wrap: wrap; gap: 20px;">
                     <div>
-                        <span class="eyebrow">STAR AGENCIES</span>
-
-                        <h2>Your Trusted Product Partner</h2>
-
-                        <p>
-                            We provide a variety of quality products for
-                            household and everyday requirements.
-                        </p>
+                        <span class="eyebrow" style="color: #b08000; font-weight: 800; font-size: 13px;">STAR AGENCIES</span>
+                        <h2 style="font-size: 30px; margin: 8px 0; color: #0f172a;">Your Trusted Product Partner</h2>
+                        <p style="color: #64748b;">We provide a variety of quality products for household and everyday requirements.</p>
                     </div>
-
-                    <a href="about.html" class="btn btn-primary">
-                        Learn More
-                    </a>
-
+                    <a href="about.html" class="btn btn-primary" style="background: #0b5ed7; color: white; padding: 12px 25px; border-radius: 8px; font-weight: 600; text-decoration: none;">Learn More</a>
                 </div>
-
             </div>
         </section>
-
 
         <!-- Contact CTA -->
-        <section class="cta-section">
+        <section class="cta-section" style="background: #0b5ed7; color: white; padding: 60px 0; text-align: center;">
             <div class="container">
-
-                <h2>Looking for a Product?</h2>
-
-                <p>
-                    Contact Star Agencies for product details and enquiries.
-                </p>
-
-                <a href="contact.html" class="btn btn-light">
-                    Contact Us
-                </a>
-
+                <h2 style="font-size: 32px; margin-bottom: 10px;">Looking for a Product?</h2>
+                <p style="margin-bottom: 25px; color: #e2e8f0;">Contact Star Agencies for product details and enquiries.</p>
+                <a href="contact.html" class="btn btn-light" style="background: white; color: #0b5ed7; padding: 12px 28px; border-radius: 50px; font-weight: 700; text-decoration: none;">Contact Us</a>
             </div>
         </section>
-
     </main>
 
-
     <!-- Footer -->
-    <footer class="site-footer">
-        <div class="container footer-content">
-
+    <footer class="site-footer" style="background: #0f172a; color: #cbd5e1; padding: 40px 0 20px;">
+        <div class="container footer-content" style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 20px; margin-bottom: 30px;">
             <div>
-                <h3>STAR AGENCIES</h3>
+                <h3 style="color: white; margin-bottom: 5px;">STAR AGENCIES</h3>
                 <p>Quality Products • Reliable Service</p>
             </div>
-
             <div>
                 <p>Parandakuzhy, Kerala</p>
                 <p>Phone: 9447016013</p>
             </div>
-
         </div>
-
-        <div class="footer-bottom">
-            <p>
-                © 2026 Star Agencies. All Rights Reserved.
-            </p>
+        <div class="footer-bottom" style="text-align: center; border-top: 1px solid #1e293b; padding-top: 20px;">
+            <p>© 2026 Star Agencies. All Rights Reserved.</p>
         </div>
     </footer>
 
-
     <script src="js/script.js"></script>
-
 </body>
 </html>
