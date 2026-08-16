@@ -42,22 +42,27 @@
   },
   {
     "id": "1786822680068",
-    "name": "Drum 2nd",
-    "brand": "Priya",
+    "name": "Drum",
+    "brand": "",
     "category": "Plastic Products",
     "subCategory": "Drum",
     "price": "119",
     "image": "images/products/drum-2nd-1786822678236.jpg",
     "variants": [
       {
-        "label": "30L",
+        "label": "2nd |Priya| 30L",
         "price": "119",
         "image": ""
       },
       {
-        "label": "50L",
+        "label": "2nd | Priya|50L",
         "price": "177",
         "image": ""
+      },
+      {
+        "label": "1st|Priya|50L",
+        "price": "337",
+        "image": "images/products/drum-1st-priya-50l-1786899774949.jpg"
       }
     ]
   },
