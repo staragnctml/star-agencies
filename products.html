@@ -1,18 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Products | Star Agencies</title>
 
-    <!-- Main CSS -->
     <link rel="stylesheet" href="css/style.css">
-    <!-- Products CSS -->
     <link rel="stylesheet" href="css/products.css">
 
-    <!-- Modern UI Styling for Banner, Search, and Filters -->
     <style>
         /* Modern Page Banner */
         .page-banner {
@@ -24,139 +19,90 @@
             margin-bottom: 50px;
             box-shadow: 0 10px 30px rgba(15, 23, 42, 0.1);
         }
-        .page-banner .eyebrow {
-            color: #fbbf24;
-            font-weight: 700;
-            letter-spacing: 3px;
-            font-size: 13px;
-            display: block;
-            margin-bottom: 15px;
-            text-transform: uppercase;
-        }
-        .page-banner h1 {
-            font-size: clamp(32px, 5vw, 46px);
-            margin: 0 0 15px 0;
-            font-weight: 800;
-            color: #ffffff;
-        }
-        .page-banner p {
-            font-size: 16px;
-            color: #94a3b8;
-            max-width: 600px;
-            margin: 0 auto;
-            line-height: 1.6;
-        }
+        .page-banner .eyebrow { color: #fbbf24; font-weight: 700; letter-spacing: 3px; font-size: 13px; display: block; margin-bottom: 15px; text-transform: uppercase; }
+        .page-banner h1 { font-size: clamp(32px, 5vw, 46px); margin: 0 0 15px 0; font-weight: 800; color: #ffffff; }
+        .page-banner p { font-size: 16px; color: #94a3b8; max-width: 600px; margin: 0 auto; line-height: 1.6; }
 
-        /* Modern Search Bar */
-        .catalogue-tools {
-            max-width: 900px;
-            margin: 0 auto 40px;
-            text-align: center;
-        }
-        #searchInput {
+        /* Search Bar & Filters */
+        .catalogue-tools { max-width: 900px; margin: 0 auto 40px; text-align: center; }
+        #searchInput { width: 100%; max-width: 600px; padding: 16px 25px; font-size: 16px; border: 2px solid #e2e8f0; border-radius: 50px; outline: none; box-shadow: 0 4px 20px rgba(0,0,0,0.04); transition: all 0.3s ease; margin-bottom: 30px; color: #1e293b; }
+        #searchInput:focus { border-color: #0b5ed7; box-shadow: 0 4px 20px rgba(11, 94, 215, 0.15); }
+        .filter-buttons { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
+        .filter-btn { padding: 10px 22px; border: 1px solid #cbd5e1; background: #ffffff; color: #475569; border-radius: 50px; cursor: pointer; font-weight: 600; font-size: 14px; transition: all 0.3s ease; }
+        .filter-btn:hover { background: #f1f5f9; color: #0b5ed7; border-color: #94a3b8; transform: translateY(-2px); }
+        .filter-btn.active { background: #0b5ed7; color: #ffffff; border-color: #0b5ed7; box-shadow: 0 4px 12px rgba(11, 94, 215, 0.25); }
+
+        /* Plastic Dropdown */
+        .filter-dropdown { position: relative; display: inline-block; }
+        .filter-dropdown-content { display: none; position: absolute; background-color: #ffffff; min-width: 190px; box-shadow: 0px 10px 25px rgba(0,0,0,0.1); z-index: 1000; border-radius: 12px; overflow: hidden; top: 100%; left: 50%; transform: translateX(-50%); margin-top: 8px; text-align: left; border: 1px solid #e2e8f0; }
+        .filter-dropdown-content button { width: 100%; padding: 12px 18px; border: none; background: none; color: #1e293b; text-align: left; cursor: pointer; font-size: 14px; font-weight: 500; border-bottom: 1px solid #f8fafc; transition: 0.2s; }
+        .filter-dropdown-content button:hover { background-color: #f1f5f9; color: #0b5ed7; padding-left: 22px; }
+        .filter-dropdown:hover .filter-dropdown-content { display: block; }
+
+        /* =========================================
+           4 COLUMNS & COLORFUL CARDS (NEW STYLES) 
+           ========================================= */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr) !important; /* 4 നിരകൾ (Columns) ആക്കി */
+            gap: 20px;
+            padding: 10px 0 30px;
             width: 100%;
-            max-width: 600px;
-            padding: 16px 25px;
-            font-size: 16px;
-            border: 2px solid #e2e8f0;
-            border-radius: 50px;
-            outline: none;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.04);
-            transition: all 0.3s ease;
-            margin-bottom: 30px;
-            color: #1e293b;
         }
-        #searchInput:focus {
-            border-color: #0b5ed7;
-            box-shadow: 0 4px 20px rgba(11, 94, 215, 0.15);
-        }
+        @media (max-width: 1100px) { .products-grid { grid-template-columns: repeat(3, 1fr) !important; } }
+        @media (max-width: 850px) { .products-grid { grid-template-columns: repeat(2, 1fr) !important; } }
+        @media (max-width: 500px) { .products-grid { grid-template-columns: 1fr !important; } }
 
-        /* Premium Filter Buttons */
-        .filter-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-        .filter-btn {
-            padding: 10px 22px;
-            border: 1px solid #cbd5e1;
+        .product-card {
             background: #ffffff;
-            color: #475569;
-            border-radius: 50px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 14px;
-            transition: all 0.3s ease;
-        }
-        .filter-btn:hover {
-            background: #f1f5f9;
-            color: #0b5ed7;
-            border-color: #94a3b8;
-            transform: translateY(-2px);
-        }
-        .filter-btn.active {
-            background: #0b5ed7;
-            color: #ffffff;
-            border-color: #0b5ed7;
-            box-shadow: 0 4px 12px rgba(11, 94, 215, 0.25);
-        }
-
-        /* Plastic Dropdown Styling */
-        .filter-dropdown {
-            position: relative;
-            display: inline-block;
-        }
-        .filter-dropdown-content {
-            display: none;
-            position: absolute;
-            background-color: #ffffff;
-            min-width: 190px;
-            box-shadow: 0px 10px 25px rgba(0,0,0,0.1);
-            z-index: 1000;
-            border-radius: 12px;
+            border-radius: 16px;
+            border: 1px solid #f1f5f9 !important;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
             overflow: hidden;
-            top: 100%;
-            left: 50%;
-            transform: translateX(-50%);
-            margin-top: 8px;
-            text-align: left;
-            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
         }
-        .filter-dropdown-content button {
+        /* കാർഡിന് മുകളിലെ കളർഫുൾ ലൈൻ */
+        .product-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #0b5ed7, #10b981, #f59e0b, #ef4444);
+        }
+        .product-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 30px rgba(11, 94, 215, 0.12);
+            border-color: #cbd5e1 !important;
+        }
+        .product-image {
             width: 100%;
-            padding: 12px 18px;
-            border: none;
-            background: none;
-            color: #1e293b;
-            text-align: left;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 500;
-            border-bottom: 1px solid #f8fafc;
-            transition: 0.2s;
+            height: 180px;
+            object-fit: contain;
+            padding: 20px;
+            background: radial-gradient(circle, #ffffff 0%, #f8fafc 100%);
+            border-bottom: 1px solid #f1f5f9;
         }
-        .filter-dropdown-content button:hover {
-            background-color: #f1f5f9;
-            color: #0b5ed7;
-            padding-left: 22px;
-        }
-        .filter-dropdown:hover .filter-dropdown-content {
-            display: block;
+        .product-info {
+            padding: 18px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
         }
     </style>
 </head>
 
 <body>
-
-    <!-- ================= HEADER ================= -->
+    <!-- Header -->
     <header class="site-header">
         <div class="container navbar">
             <a href="index.html" class="brand">
                 <img src="images/logo.jpg" alt="Star Agencies Logo">
                 <span>STAR AGENCIES</span>
             </a>
-
             <nav class="nav-links">
                 <a href="index.html">Home</a>
                 <a href="products.html" class="active">Products</a>
@@ -166,11 +112,8 @@
         </div>
     </header>
 
-
-    <!-- ================= MAIN ================= -->
     <main>
-
-        <!-- PAGE BANNER (Upgraded) -->
+        <!-- Page Banner -->
         <section class="page-banner">
             <div class="container">
                 <span class="eyebrow">OUR CATALOGUE</span>
@@ -179,28 +122,17 @@
             </div>
         </section>
 
-
-        <!-- PRODUCTS SECTION -->
         <section class="products-section">
             <div class="container">
-
                 <!-- SEARCH + FILTER -->
                 <div class="catalogue-tools">
-
-                    <!-- SEARCH -->
                     <input type="search" id="searchInput" placeholder="Search for products, categories, or brands..." aria-label="Search products">
-
-                    <!-- CATEGORY FILTERS -->
                     <div class="filter-buttons">
-
                         <button class="filter-btn active" data-category="All">All</button>
                         <button class="filter-btn" data-category="Stationery Items">Stationery</button>
-
-                        <!-- Plastic Dropdown Menu -->
+                        
                         <div class="filter-dropdown">
-                            <button class="filter-btn filter-dropdown-btn" data-category="Plastic Products">
-                                Plastic ▼
-                            </button>
+                            <button class="filter-btn filter-dropdown-btn" data-category="Plastic Products">Plastic ▼</button>
                             <div class="filter-dropdown-content">
                                 <button onclick="selectPlasticSub('Bucket')">Bucket</button>
                                 <button onclick="selectPlasticSub('Basin')">Basins</button>
@@ -211,55 +143,37 @@
                         </div>
 
                         <button class="filter-btn" data-category="Cleaning Items">Cleaning</button>
-                        <button class="filter-btn" data-category="Aluminium & Steel">Aluminium &amp; Steel</button>
+                        <button class="filter-btn" data-category="Aluminium & Steel">Aluminium & Steel</button>
                         <button class="filter-btn" data-category="Household">Household</button>
-
                     </div>
                 </div>
 
-                <!-- ================= PRODUCTS GRID ================= -->
-                <div class="products-grid" id="productsContainer">
-                    <!-- Products will be loaded here dynamically -->
-                </div>
+                <!-- PRODUCTS GRID -->
+                <div class="products-grid" id="productsContainer"></div>
 
-                <!-- NO RESULTS -->
                 <p id="noResults" hidden style="text-align: center; color: #64748b; font-size: 16px; margin-top: 40px;">
                     No products found matching your search.
                 </p>
-
             </div>
         </section>
-
     </main>
 
-
-    <!-- ================= FOOTER ================= -->
+    <!-- Footer -->
     <footer class="site-footer">
         <div class="container">
             <p>© 2026 Star Agencies. All rights reserved.</p>
         </div>
     </footer>
 
-
-    <!-- ================= JAVASCRIPT ================= -->
     <script src="js/products.js"></script>
-
     <script>
-        // Sub-category search helper for plastic items
         function selectPlasticSub(subName) {
             const searchInput = document.getElementById("searchInput");
-            if (searchInput) {
-                searchInput.value = subName;
-            }
-            
+            if (searchInput) searchInput.value = subName;
             const plasticBtn = document.querySelector('[data-category="Plastic Products"]');
-            if (plasticBtn) {
-                plasticBtn.click(); 
-            } else if (searchInput) {
-                searchInput.dispatchEvent(new Event('input'));
-            }
+            if (plasticBtn) plasticBtn.click(); 
+            else if (searchInput) searchInput.dispatchEvent(new Event('input'));
         }
     </script>
-
 </body>
 </html>
