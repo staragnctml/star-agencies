@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Edit Product - Star Agencies</title>
+<title>Edit / Delete Product - Star Agencies</title>
 <style>
 * { box-sizing: border-box; }
 body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f4f6f8; margin: 0; padding: 20px; }
@@ -11,11 +11,17 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:
 h1 { text-align: center; color: #0b5ed7; margin-bottom: 25px; }
 label { display: block; font-weight: bold; margin-top: 15px; margin-bottom: 6px; color: #334155; }
 input[type="text"], input[type="password"], select, input[type="file"] { width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 15px; }
-button { width: 100%; padding: 14px; margin-top: 25px; background: #0b5ed7; color: white; border: none; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+button { width: 100%; padding: 14px; margin-top: 15px; background: #0b5ed7; color: white; border: none; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.3s; }
 button:hover { background: #084298; }
 button:disabled { background: #94a3b8; cursor: not-allowed; }
 .btn-secondary { background: #10b981; margin-top: 15px; }
 .btn-secondary:hover { background: #059669; }
+
+/* ഡിലീറ്റ് ബട്ടൺ സ്റ്റൈൽ */
+.btn-danger { background: #ef4444; }
+.btn-danger:hover { background: #dc2626; }
+
+.action-buttons { display: flex; gap: 15px; margin-top: 25px; }
 
 .variants-container { margin-top: 20px; padding: 15px; border: 2px dashed #cbd5e1; border-radius: 8px; background: #f8fafc; }
 .variant-row { background: #ffffff; border: 1px solid #e2e8f0; padding: 15px; border-radius: 8px; margin-bottom: 15px; position: relative; }
@@ -24,32 +30,37 @@ button:disabled { background: #94a3b8; cursor: not-allowed; }
 .remove-btn:hover { background: #dc2626; }
 .add-variant-btn { background: #6366f1; margin-top: 10px; }
 .add-variant-btn:hover { background: #4f46e5; }
-
 .status { margin-top: 20px; padding: 15px; border-radius: 6px; display: none; font-weight: bold; text-align: center; }
 .success { display: block; background: #d1e7dd; color: #0f5132; }
 .error { display: block; background: #f8d7da; color: #842029; }
 .info { display: block; background: #cff4fc; color: #055160; }
 #editForm { display: none; margin-top: 20px; padding-top: 20px; border-top: 2px solid #e2e8f0; }
 .security { background: #fffbeb; padding: 15px; border-radius: 6px; margin-top: 20px; font-size: 13px; color: #92400e; border: 1px solid #fde68a; }
-
-/* Sub category div initially hidden */
 #subCategoryDiv { display: none; background: #e0f2fe; padding: 15px; border-radius: 8px; border: 1px solid #bae6fd; margin-top: 15px; }
 </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>✏️ Edit Product</h1>
+    <h1>✏️ Edit or Delete Product</h1>
+
+    <datalist id="brandSuggestions">
+        <option value="Milton"></option>
+        <option value="Cello"></option>
+        <option value="Priya Plastics"></option>
+        <option value="Nayasa"></option>
+        <option value="First Quality"></option>
+        <option value="Second Quality"></option>
+    </datalist>
 
     <label>GitHub Token (Required)</label>
     <input type="password" id="token" placeholder="Paste your GitHub token here">
-
+    
     <button onclick="loadProductsList()" class="btn-secondary" id="loadBtn">🔄 Load Products from GitHub</button>
-
     <div id="status" class="status"></div>
 
     <div id="editForm">
-        <label>Select Product to Edit</label>
+        <label>Select Product to Edit or Delete</label>
         <select id="productSelect" onchange="fillFormDetails()">
             <option value="">-- Choose a Product --</option>
         </select>
@@ -57,8 +68,8 @@ button:disabled { background: #94a3b8; cursor: not-allowed; }
         <label>Product Name (Main)</label>
         <input type="text" id="productName">
 
-        <label>Brand (Optional - Leave blank if multiple brands exist)</label>
-        <input type="text" id="productBrand">
+        <label>Main Brand</label>
+        <input type="text" id="productBrand" list="brandSuggestions">
 
         <label>Category</label>
         <select id="category" onchange="toggleSubCategory()">
@@ -67,12 +78,9 @@ button:disabled { background: #94a3b8; cursor: not-allowed; }
             <option value="Cleaning Items">Cleaning Items</option>
             <option value="Stationery Items">Stationery Items</option>
             <option value="Hardware Items">Hardware Items</option>
-            <option value="Detergents">Detergents</option>
-            <option value="Floor Cleaners">Floor Cleaners</option>
             <option value="Household">Household</option>
         </select>
 
-        <!-- Sub Category (Only for Plastic) -->
         <div id="subCategoryDiv">
             <label style="color: #0369a1; margin-top: 0;">Plastic Sub-Category</label>
             <select id="subCategory">
@@ -85,27 +93,23 @@ button:disabled { background: #94a3b8; cursor: not-allowed; }
             </select>
         </div>
 
-        <label>Main Price (Default)</label>
+        <label>Main Price</label>
         <input type="text" id="price">
 
         <label>Main Product Image (Leave blank to keep old image)</label>
         <input type="file" id="mainImageFile" accept="image/*">
 
-        <!-- ഇതാണ് പുതിയ മാറ്റം വരുത്തിയ ഭാഗം -->
         <div class="variants-container">
-            <h3 style="margin-top:0; color: #334155;">✨ Product Options (Size / Quality / Brand)</h3>
-            <p style="font-size: 13px; color: #64748b; margin-top: -10px;">Edit sizes, qualities (First/Second), or brands along with their prices.</p>
-            
+            <h3 style="margin-top:0; color: #334155;">✨ Multiple Brands / Sizes / Qualities</h3>
             <div id="variantsList"></div>
-
-            <button type="button" class="add-variant-btn" onclick="addVariantRow('', '', '')">+ Add Option (Size/Quality/Brand)</button>
+            <button type="button" class="add-variant-btn" onclick="addVariantRow('', '', '')">+ Add Brand / Option</button>
         </div>
 
-        <button id="updateButton" onclick="updateProduct()">✅ Save Changes to Website</button>
-    </div>
-
-    <div class="security">
-        🔒 <b>Security Note:</b> Your token is strictly used in your browser to connect to your GitHub. It is never saved anywhere else.
+        <!-- ഡിലീറ്റ് ബട്ടൺ കൂടി ഇവിടെ നൽകിയിട്ടുണ്ട് -->
+        <div class="action-buttons">
+            <button id="updateButton" onclick="updateProduct()" style="flex: 1;">✅ Save Changes</button>
+            <button id="deleteButton" class="btn-danger" onclick="deleteProduct()" style="flex: 1;">🗑️ Delete Product</button>
+        </div>
     </div>
 </div>
 
@@ -115,7 +119,6 @@ const REPO = "star-agencies";
 const BRANCH = "main";
 const PRODUCTS_FILE = "data/products.json";
 const IMAGE_FOLDER = "images/products";
-
 let allProducts = [];
 let productsFileSha = "";
 
@@ -126,16 +129,11 @@ function showStatus(msg, type) {
     el.style.display = "block";
 }
 
-// Function to show/hide Plastic sub-categories
 function toggleSubCategory() {
     const cat = document.getElementById("category").value;
     const subDiv = document.getElementById("subCategoryDiv");
-    if(cat === "Plastic Products") {
-        subDiv.style.display = "block";
-    } else {
-        subDiv.style.display = "none";
-        document.getElementById("subCategory").value = "";
-    }
+    if(cat === "Plastic Products") subDiv.style.display = "block";
+    else { subDiv.style.display = "none"; document.getElementById("subCategory").value = ""; }
 }
 
 function fileToBase64(file) {
@@ -146,33 +144,17 @@ function fileToBase64(file) {
         reader.readAsDataURL(file);
     });
 }
-
-function textToBase64(text) {
-    return btoa(unescape(encodeURIComponent(text)));
-}
-
-function base64ToText(base64) {
-    return decodeURIComponent(escape(atob(base64.replace(/\s/g, ""))));
-}
-
-function makeFileName(name) {
-    return name.trim().toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
-}
+function textToBase64(text) { return btoa(unescape(encodeURIComponent(text))); }
+function base64ToText(base64) { return decodeURIComponent(escape(atob(base64.replace(/\s/g, "")))); }
+function makeFileName(name) { return name.trim().toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, ""); }
 
 async function githubRequest(url, options) {
     const token = document.getElementById("token").value.trim();
     if (!token) throw new Error("Please enter your GitHub Token!");
-    
     const response = await fetch(url, {
         ...options,
-        headers: {
-            "Accept": "application/vnd.github+json",
-            "Authorization": "Bearer " + token,
-            "X-GitHub-Api-Version": "2022-11-28",
-            ...(options.headers || {})
-        }
+        headers: { "Accept": "application/vnd.github+json", "Authorization": "Bearer " + token, "X-GitHub-Api-Version": "2022-11-28", ...(options.headers || {}) }
     });
-    
     const data = await response.json();
     if (!response.ok) throw new Error(data.message || "GitHub API Error");
     return data;
@@ -181,33 +163,20 @@ async function githubRequest(url, options) {
 async function loadProductsList() {
     const btn = document.getElementById("loadBtn");
     try {
-        btn.disabled = true;
-        btn.innerText = "⏳ Loading Products...";
-        showStatus("⏳ Fetching products from GitHub...", "info");
-
+        btn.disabled = true; btn.innerText = "⏳ Loading Products...";
+        showStatus("⏳ Fetching products...", "info");
         const fileData = await githubRequest(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${PRODUCTS_FILE}?ref=${BRANCH}`, { method: "GET" });
         productsFileSha = fileData.sha;
-        
         allProducts = JSON.parse(base64ToText(fileData.content));
         
         const select = document.getElementById("productSelect");
         select.innerHTML = '<option value="">-- Choose a Product --</option>';
+        allProducts.forEach(p => { select.appendChild(new Option(`${p.name} (ID: ${p.id})`, p.id)); });
         
-        allProducts.forEach(p => {
-            const opt = document.createElement("option");
-            opt.value = p.id;
-            opt.innerText = `${p.name} (ID: ${p.id})`;
-            select.appendChild(opt);
-        });
-
         document.getElementById("editForm").style.display = "block";
-        showStatus("✅ Products loaded successfully. Select a product below.", "success");
-    } catch (error) {
-        showStatus("❌ Error: " + error.message, "error");
-    } finally {
-        btn.disabled = false;
-        btn.innerText = "🔄 Load Products from GitHub";
-    }
+        showStatus("✅ Products loaded successfully.", "success");
+    } catch (error) { showStatus("❌ Error: " + error.message, "error"); } 
+    finally { btn.disabled = false; btn.innerText = "🔄 Load Products from GitHub"; }
 }
 
 function addVariantRow(label = "", price = "", imagePath = "") {
@@ -216,17 +185,14 @@ function addVariantRow(label = "", price = "", imagePath = "") {
     const row = document.createElement("div");
     row.className = "variant-row";
     row.id = rowId;
-    
     row.innerHTML = `
         <button type="button" class="remove-btn" onclick="document.getElementById('${rowId}').remove()">X Remove</button>
         <h4>Option</h4>
-        <label>Option Name (e.g., First Quality, Milton, 09L)</label>
-        <input type="text" class="v-label" value="${label}" placeholder="Enter Quality, Brand or Size">
-        
-        <label>Price for this Option</label>
+        <label>Select Brand / Quality / Size (e.g. Priya - 650ml)</label>
+        <input type="text" class="v-label" list="brandSuggestions" value="${label}" placeholder="Click to select or type">
+        <label>Price</label>
         <input type="text" class="v-price" value="${price}" placeholder="e.g., 1500">
-        
-        <label>Specific Image ${imagePath ? '(Current exists: ' + imagePath.split('/').pop() + ')' : ''}</label>
+        <label>Specific Image ${imagePath ? '(Current: ' + imagePath.split('/').pop() + ')' : ''}</label>
         <input type="file" class="v-image" accept="image/*">
         <input type="hidden" class="v-old-image" value="${imagePath}">
     `;
@@ -236,7 +202,6 @@ function addVariantRow(label = "", price = "", imagePath = "") {
 function fillFormDetails() {
     const selectedId = document.getElementById("productSelect").value;
     if (!selectedId) return;
-
     const product = allProducts.find(p => p.id == selectedId);
     if (!product) return;
 
@@ -244,84 +209,51 @@ function fillFormDetails() {
     document.getElementById("productBrand").value = product.brand || "";
     document.getElementById("category").value = product.category || "Aluminium & Steel";
     
-    // Sub-Category Auto Fill
-    toggleSubCategory(); // Show/hide div based on category
-    if (product.subCategory) {
-        document.getElementById("subCategory").value = product.subCategory;
-    } else {
-        document.getElementById("subCategory").value = "";
-    }
-
+    toggleSubCategory();
+    document.getElementById("subCategory").value = product.subCategory || "";
     document.getElementById("price").value = product.price || "";
     
     const container = document.getElementById("variantsList");
     container.innerHTML = "";
-
-    if (product.variants && product.variants.length > 0) {
-        product.variants.forEach(v => {
-            let label = v.label || "";
-            let price = v.price || "";
-            
-            if (!v.price && label.includes('=')) {
-                let parts = label.split('=');
-                label = parts[0].trim();
-                price = parts[1].trim();
-            } else if (!v.price && label.includes(':')) {
-                let parts = label.split(':');
-                label = parts[0].trim();
-                price = parts[1].trim();
-            }
-
-            addVariantRow(label, price, v.image || "");
-        });
+    if (product.variants) {
+        product.variants.forEach(v => { addVariantRow(v.label || v.name || "", v.price || "", v.image || ""); });
     }
 }
 
 async function updateProduct() {
     const btn = document.getElementById("updateButton");
+    const delBtn = document.getElementById("deleteButton");
     const selectedId = document.getElementById("productSelect").value;
-
-    if (!selectedId) {
-        alert("Please select a product to edit!");
-        return;
-    }
+    if (!selectedId) { alert("Select a product!"); return; }
 
     try {
         btn.disabled = true;
-        showStatus("⏳ Updating product details...", "info");
-
+        delBtn.disabled = true;
+        showStatus("⏳ Updating product...", "info");
         const index = allProducts.findIndex(p => p.id == selectedId);
-        if (index === -1) throw new Error("Product not found.");
-
         let product = allProducts[index];
         const newName = document.getElementById("productName").value.trim();
-        if (!newName) throw new Error("Product Name cannot be empty!");
+        if (!newName) throw new Error("Name cannot be empty!");
 
         product.name = newName;
         product.brand = document.getElementById("productBrand").value.trim();
         product.category = document.getElementById("category").value;
-        product.subCategory = document.getElementById("subCategory").value; // Save sub-category
+        product.subCategory = document.getElementById("subCategory").value;
         product.price = document.getElementById("price").value.trim();
 
         const mainImgFile = document.getElementById("mainImageFile").files[0];
         const mainSafeName = makeFileName(newName);
-
         if (mainImgFile) {
-            showStatus("⏳ Uploading new main image...", "info");
             const ext = mainImgFile.name.split(".").pop().toLowerCase();
             const mainImagePath = `${IMAGE_FOLDER}/${mainSafeName}-${Date.now()}.${ext}`;
-            const base64Img = await fileToBase64(mainImgFile);
-
             await githubRequest(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${mainImagePath}`, {
-                method: "PUT",
-                body: JSON.stringify({ message: `Update main image for ${newName}`, content: base64Img, branch: BRANCH })
+                method: "PUT", body: JSON.stringify({ message: `Update image`, content: await fileToBase64(mainImgFile), branch: BRANCH })
             });
             product.image = mainImagePath;
         }
 
         const variantRows = document.querySelectorAll('.variant-row');
         let variantsArray = [];
-
         for (let i = 0; i < variantRows.length; i++) {
             const row = variantRows[i];
             const vLabel = row.querySelector('.v-label').value.trim();
@@ -331,37 +263,60 @@ async function updateProduct() {
 
             if (vLabel) {
                 let finalImgPath = oldImgPath;
-
                 if (vImgFile) {
-                    showStatus(`⏳ Uploading image for option '${vLabel}'...`, "info");
                     const ext = vImgFile.name.split(".").pop().toLowerCase();
-                    const vSafeName = makeFileName(vLabel);
-                    finalImgPath = `${IMAGE_FOLDER}/${mainSafeName}-${vSafeName}-${Date.now()}.${ext}`;
-                    const base64VImg = await fileToBase64(vImgFile);
-
+                    finalImgPath = `${IMAGE_FOLDER}/${mainSafeName}-${makeFileName(vLabel)}-${Date.now()}.${ext}`;
                     await githubRequest(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${finalImgPath}`, {
-                        method: "PUT",
-                        body: JSON.stringify({ message: `Update variant image: ${vLabel}`, content: base64VImg, branch: BRANCH })
+                        method: "PUT", body: JSON.stringify({ message: `Update variant image`, content: await fileToBase64(vImgFile), branch: BRANCH })
                     });
                 }
-
-                variantsArray.push({
-                    label: vLabel,
-                    price: vPrice,
-                    image: finalImgPath
-                });
+                variantsArray.push({ label: vLabel, price: vPrice, image: finalImgPath });
             }
         }
-
         product.variants = variantsArray;
 
         showStatus("⏳ Saving to GitHub...", "info");
-        const updatedJson = JSON.stringify(allProducts, null, 2);
+        const putRes = await githubRequest(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${PRODUCTS_FILE}`, {
+            method: "PUT", body: JSON.stringify({ message: `Update product: ${newName}`, content: textToBase64(JSON.stringify(allProducts, null, 2)), sha: productsFileSha, branch: BRANCH })
+        });
+        productsFileSha = putRes.content.sha;
+        showStatus("✅ Product successfully updated!", "success");
+        setTimeout(() => location.reload(), 2000);
+    } catch (error) { showStatus("❌ Error: " + error.message, "error"); } 
+    finally { btn.disabled = false; delBtn.disabled = false; }
+}
 
+// ==========================================
+// പുതിയതായി ചേർത്ത ഡിലീറ്റ് ഫംഗ്ഷൻ (DELETE FUNCTION)
+// ==========================================
+async function deleteProduct() {
+    const btn = document.getElementById("deleteButton");
+    const updateBtn = document.getElementById("updateButton");
+    const selectedId = document.getElementById("productSelect").value;
+    
+    if (!selectedId) { 
+        alert("Please select a product to delete!"); 
+        return; 
+    }
+
+    // ശരിക്കും ഡിലീറ്റ് ചെയ്യണോ എന്ന് ഉറപ്പുവരുത്താൻ
+    const confirmDelete = confirm("Are you sure you want to permanently delete this product? (ഇത് ഡിലീറ്റ് ചെയ്യണോ?)");
+    if (!confirmDelete) return;
+
+    try {
+        btn.disabled = true;
+        updateBtn.disabled = true;
+        showStatus("⏳ Deleting product...", "info");
+
+        // ആ പ്രൊഡക്റ്റ് ഒഴിവാക്കി പുതിയ ലിസ്റ്റ് ഉണ്ടാക്കുന്നു
+        const remainingProducts = allProducts.filter(p => p.id != selectedId);
+
+        // ഇത് GitHub-ൽ സേവ് ചെയ്യുന്നു
+        const updatedJson = JSON.stringify(remainingProducts, null, 2);
         const putRes = await githubRequest(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${PRODUCTS_FILE}`, {
             method: "PUT",
             body: JSON.stringify({
-                message: `Update product: ${newName}`,
+                message: `Delete product ID: ${selectedId}`,
                 content: textToBase64(updatedJson),
                 sha: productsFileSha,
                 branch: BRANCH
@@ -369,13 +324,16 @@ async function updateProduct() {
         });
 
         productsFileSha = putRes.content.sha;
-        showStatus("✅ Product successfully updated! Changes will reflect on the website shortly.", "success");
+        showStatus("✅ Product successfully deleted! (പ്രൊഡക്റ്റ് ഡിലീറ്റ് ആയി)", "success");
+        
+        // കുറച്ച് നിമിഷങ്ങൾക്ക് ശേഷം പേജ് റീലോഡ് ആവാൻ
+        setTimeout(() => location.reload(), 2000);
 
-    } catch (error) {
-        showStatus("❌ Error: " + error.message, "error");
-    } finally {
+    } catch (error) { 
+        showStatus("❌ Error: " + error.message, "error"); 
         btn.disabled = false;
-    }
+        updateBtn.disabled = false;
+    } 
 }
 </script>
 </body>
