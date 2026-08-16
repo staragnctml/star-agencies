@@ -1,6 +1,5 @@
 let allProducts = [];
 let selectedCategory = "All";
-window.productVariantsMap = {}; // ബ്രാൻഡും സൈസും ഗ്രൂപ്പ് ചെയ്യാൻ
 
 const container = document.getElementById("productsContainer");
 const searchInput = document.getElementById("searchInput");
@@ -18,10 +17,75 @@ async function loadProducts() {
     }
 }
 
+// വളരെ സ്റ്റൈലിഷ് ആയ ഒറ്റ ഡ്രോപ്പ്ഡൗൺ ആക്കി മാറ്റിയ ഭാഗം
+function renderVariants(product, defaultPrice, defaultImage) {
+    if (!product.variants || product.variants.length === 0) return "";
+
+    let optionsHTML = product.variants.map((v, index) => {
+        let label = v.label || v.name;
+        let vPrice = v.price || defaultPrice;
+        let vImage = v.image || defaultImage;
+        return `<option value="${index}" data-label="${label.replace(/"/g, '&quot;')}" data-price="${vPrice}" data-image="${vImage}">${label}</option>`;
+    }).join("");
+
+    return `
+    <div class="variants" style="margin-top: 10px; margin-bottom: 15px;">
+        <span style="font-size: 11px; color: #64748b; font-weight: 700; margin-bottom: 6px; display: block; letter-spacing: 0.5px;">SELECT OPTION:</span>
+        <div style="position: relative;">
+            <select onchange="handleVariantChange(this, '${product.id}', '${product.name.replace(/'/g, "\\'")}')"
+                style="appearance: none; -webkit-appearance: none; width: 100%; padding: 10px 35px 10px 15px; border: 1.5px solid #cbd5e1; border-radius: 8px; background-color: #f8fafc; color: #0f172a; font-size: 14px; font-weight: 600; cursor: pointer; outline: none; transition: 0.3s; box-shadow: 0 2px 5px rgba(0,0,0,0.02);">
+                ${optionsHTML}
+            </select>
+            <!-- Stylish Custom Arrow Icon -->
+            <div style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); pointer-events: none;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#334155" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M6 9l6 6 6-6"/>
+                </svg>
+            </div>
+        </div>
+    </div>
+    `;
+}
+
+window.handleVariantChange = function (selectElement, productId, productName) {
+    const selectedOption = selectElement.options[selectElement.selectedIndex];
+    const variantLabel = selectedOption.getAttribute('data-label');
+    const variantPrice = selectedOption.getAttribute('data-price');
+    const variantImage = selectedOption.getAttribute('data-image');
+
+    const priceDiv = document.getElementById(`price-${productId}`);
+    if (priceDiv) {
+        let displayPrice = variantPrice;
+        if (!isNaN(variantPrice) && variantPrice !== "" && variantPrice !== "Contact Us") {
+            displayPrice = `₹${variantPrice}`;
+        }
+        priceDiv.innerHTML = displayPrice;
+    }
+
+    const nameDiv = document.getElementById(`name-${productId}`);
+    if (nameDiv) {
+        nameDiv.innerHTML = `${productName} <span style="color:#0b5ed7; font-size:12px; background: #eff6ff; padding: 2px 6px; border-radius: 4px; margin-left: 5px;">${variantLabel}</span>`;
+    }
+
+    const imgDiv = document.getElementById(`img-${productId}`);
+    if (imgDiv && variantImage && variantImage !== 'undefined') {
+        imgDiv.src = variantImage;
+    }
+
+    const waBtn = document.getElementById(`wa-${productId}`);
+    if (waBtn) {
+        const message = encodeURIComponent(`Hello Star Agencies, I am interested in ${productName} (Option: ${variantLabel}). Please send me details.`);
+        waBtn.href = `https://wa.me/919447016013?text=${message}`;
+    }
+    
+    // ക്ലിക്ക് ചെയ്യുമ്പോൾ ബോർഡർ കളർ മാറി തിരികെ വരാൻ (Stylish Effect)
+    selectElement.style.borderColor = "#0b5ed7";
+    setTimeout(() => selectElement.style.borderColor = "#cbd5e1", 400);
+}
+
 function renderProducts() {
     const term = searchInput ? searchInput.value.trim().toLowerCase() : "";
-    window.productVariantsMap = {}; // Reset
-
+    
     const filtered = allProducts.filter(product => {
         const categoryMatch = selectedCategory === "All" || product.category === selectedCategory;
         const variantText = product.variants ? product.variants.map(v => v.label || "").join(" ") : "";
@@ -31,92 +95,16 @@ function renderProducts() {
 
     container.innerHTML = filtered.map(product => {
         let basePrice = product.price || "Contact Us";
+        let defaultVariantLabel = "";
         let displayPrice = basePrice;
         let displayImage = product.image;
         let displayName = product.name;
-        let defaultVariantLabel = "";
-        let variantsHTML = "";
 
         if (product.variants && product.variants.length > 0) {
-            let brandGroups = {};
-            let hasHyphen = false;
-
-            // ബ്രാൻഡും സൈസും ഹൈഫൺ വെച്ച് വേർതിരിക്കുന്നുണ്ടോ എന്ന് നോക്കുന്നു (e.g., Priya - 650ml)
-            product.variants.forEach(v => {
-                let lbl = v.label || v.name || "";
-                if (lbl.includes("-")) {
-                    hasHyphen = true;
-                    let parts = lbl.split("-");
-                    let bName = parts[0].trim();
-                    let sName = parts.slice(1).join("-").trim();
-                    if (!brandGroups[bName]) brandGroups[bName] = [];
-                    brandGroups[bName].push({ size: sName, price: v.price, image: v.image, originalLabel: lbl });
-                }
-            });
-
-            if (hasHyphen && Object.keys(brandGroups).length > 0) {
-                // ==========================================
-                // രീതി 1: BRAND DROPDOWN + SIZE BUTTONS
-                // ==========================================
-                window.productVariantsMap[product.id] = brandGroups;
-                
-                let brands = Object.keys(brandGroups);
-                let firstBrand = brands[0];
-                let firstSize = brandGroups[firstBrand][0];
-                
-                defaultVariantLabel = firstSize.originalLabel;
-                if (firstSize.price) displayPrice = firstSize.price;
-                if (firstSize.image) displayImage = firstSize.image;
-
-                // Brand Dropdown ഉണ്ടാക്കുന്നു
-                let brandSelectHTML = `<select onchange="changeBrand(this, '${product.id}', '${product.name.replace(/'/g, "\\'")}')" style="width:100%; padding:8px 12px; border:2px solid #e2e8f0; border-radius:8px; outline:none; margin-bottom:12px; font-weight:600; font-size:14px; color:#1e293b; background:#f8fafc; cursor:pointer;">`;
-                brands.forEach(b => {
-                    brandSelectHTML += `<option value="${b.replace(/"/g, '&quot;')}">${b}</option>`;
-                });
-                brandSelectHTML += `</select>`;
-
-                // Size Buttons ഉണ്ടാക്കുന്നു
-                let sizeButtonsHTML = `<div id="sizes-${product.id}" style="display:flex; gap:6px; flex-wrap:wrap;">`;
-                brandGroups[firstBrand].forEach((sz, idx) => {
-                    let bg = idx === 0 ? "#0b5ed7" : "#fff";
-                    let col = idx === 0 ? "#fff" : "#475569";
-                    let act = idx === 0 ? "active" : "";
-                    sizeButtonsHTML += `<button class="sz-btn ${act}" onclick="selectSize(this, '${product.id}', '${sz.originalLabel.replace(/'/g, "\\'")}', '${sz.price || basePrice}', '${product.name.replace(/'/g, "\\'")}', '${sz.image || displayImage}')" style="padding: 5px 12px; border: 1px solid #cbd5e1; border-radius: 6px; background: ${bg}; color: ${col}; cursor: pointer; font-size: 13px; font-weight: 600; transition:0.2s;">${sz.size}</button>`;
-                });
-                sizeButtonsHTML += `</div>`;
-
-                variantsHTML = `
-                    <div class="variants" style="margin-top: 10px; margin-bottom: 15px;">
-                        <span style="font-size: 11px; color: #64748b; font-weight: 700; margin-bottom:6px; display:block; letter-spacing:0.5px;">SELECT BRAND:</span>
-                        ${brandSelectHTML}
-                        <span style="font-size: 11px; color: #64748b; font-weight: 700; margin-top:8px; margin-bottom:6px; display:block; letter-spacing:0.5px;">SELECT SIZE:</span>
-                        ${sizeButtonsHTML}
-                    </div>
-                `;
-            } else {
-                // ==========================================
-                // രീതി 2: NORMAL BUTTONS (ഹൈഫൺ ഇല്ലാത്തവയ്ക്ക്)
-                // ==========================================
-                let firstV = product.variants[0];
-                defaultVariantLabel = firstV.label || firstV.name;
-                if (firstV.price) displayPrice = firstV.price;
-                if (firstV.image) displayImage = firstV.image;
-
-                let btns = product.variants.map((v, idx) => {
-                    let lbl = v.label || v.name;
-                    let bg = idx === 0 ? "#0b5ed7" : "#fff";
-                    let col = idx === 0 ? "#fff" : "#475569";
-                    let act = idx === 0 ? "active" : "";
-                    return `<button class="sz-btn ${act}" onclick="selectSize(this, '${product.id}', '${lbl.replace(/'/g, "\\'")}', '${v.price || basePrice}', '${product.name.replace(/'/g, "\\'")}', '${v.image || displayImage}')" style="padding: 5px 12px; border: 1px solid #cbd5e1; border-radius: 6px; background: ${bg}; color: ${col}; cursor: pointer; font-size: 13px; font-weight: 600; transition:0.2s;">${lbl}</button>`;
-                }).join("");
-
-                variantsHTML = `
-                    <div class="variants" style="margin-top: 10px; margin-bottom: 15px;">
-                        <span style="font-size: 11px; color: #64748b; font-weight: 700; margin-bottom:6px; display:block; letter-spacing:0.5px;">SELECT OPTION:</span>
-                        <div style="display:flex; gap:6px; flex-wrap:wrap;">${btns}</div>
-                    </div>
-                `;
-            }
+            let firstV = product.variants[0];
+            defaultVariantLabel = firstV.label || firstV.name;
+            if (firstV.price) displayPrice = firstV.price;
+            if (firstV.image) displayImage = firstV.image;
         }
 
         let finalPriceText = displayPrice;
@@ -131,7 +119,6 @@ function renderProducts() {
         }
         waMessage += `. Please send me details.`;
 
-        // ഹൈഫൺ ഇല്ലാത്ത സിംഗിൾ പ്രൊഡക്റ്റുകൾക്ക് മാത്രം ബ്രാൻഡ് ടെക്സ്റ്റ് കാണിക്കാൻ
         const showBrandText = (!product.variants || product.variants.length === 0) && product.brand ? 
             `<div style="font-size: 12px; color: #64748b; margin-bottom: 8px; font-weight: 600;">Brand: <span style="color: #334155;">${product.brand}</span></div>` : '';
 
@@ -151,7 +138,7 @@ function renderProducts() {
                         ${finalPriceText}
                     </div>
 
-                    ${variantsHTML}
+                    ${renderVariants(product, basePrice, product.image)}
 
                     <div style="flex-grow: 1;"></div> 
 
@@ -167,69 +154,6 @@ function renderProducts() {
     }).join("");
 
     if(noResults) noResults.hidden = filtered.length !== 0;
-}
-
-// ഡ്രോപ്പ്ഡൗണിൽ നിന്ന് ബ്രാൻഡ് മാറ്റുമ്പോൾ അളവുകൾ (Sizes) മാറാൻ
-window.changeBrand = function(selectEl, productId, productName) {
-    let selectedBrand = selectEl.value;
-    let groups = window.productVariantsMap[productId];
-    if(!groups || !groups[selectedBrand]) return;
-
-    let sizeContainer = document.getElementById(`sizes-${productId}`);
-    let sizes = groups[selectedBrand];
-    
-    let sizeButtonsHTML = "";
-    sizes.forEach((sz, idx) => {
-        let bg = idx === 0 ? "#0b5ed7" : "#fff";
-        let col = idx === 0 ? "#fff" : "#475569";
-        let act = idx === 0 ? "active" : "";
-        sizeButtonsHTML += `<button class="sz-btn ${act}" onclick="selectSize(this, '${productId}', '${sz.originalLabel.replace(/'/g, "\\'")}', '${sz.price || ""}', '${productName.replace(/'/g, "\\'")}', '${sz.image || ""}')" style="padding: 5px 12px; border: 1px solid #cbd5e1; border-radius: 6px; background: ${bg}; color: ${col}; cursor: pointer; font-size: 13px; font-weight: 600; transition:0.2s;">${sz.size}</button>`;
-    });
-    sizeContainer.innerHTML = sizeButtonsHTML;
-
-    // ഓട്ടോമാറ്റിക് ആയി ആദ്യത്തെ സൈസ് ക്ലിക്ക് ആവാൻ
-    let firstButton = sizeContainer.querySelector('button');
-    if(firstButton) {
-        firstButton.click();
-    }
-}
-
-// ബട്ടൺ ക്ലിക്ക് ചെയ്യുമ്പോൾ വിലയും പേരും മാറാൻ
-window.selectSize = function(btn, productId, variantLabel, variantPrice, productName, variantImage) {
-    const buttons = btn.parentElement.querySelectorAll("button");
-    buttons.forEach(b => {
-        b.classList.remove("active");
-        b.style.background = "#fff";
-        b.style.color = "#475569";
-    });
-    btn.classList.add("active");
-    btn.style.background = "#0b5ed7";
-    btn.style.color = "#fff";
-
-    const priceDiv = document.getElementById(`price-${productId}`);
-    if (priceDiv) {
-        let displayPrice = variantPrice;
-        if (!isNaN(variantPrice) && variantPrice !== "" && variantPrice !== "Contact Us" && variantPrice !== "undefined") {
-            displayPrice = `₹${variantPrice}`;
-        }
-        priceDiv.innerHTML = displayPrice;
-    }
-
-    const nameDiv = document.getElementById(`name-${productId}`);
-    if (nameDiv) {
-        nameDiv.innerHTML = `${productName} <span style="color:#0b5ed7; font-size:12px; background: #eff6ff; padding: 2px 6px; border-radius: 4px; margin-left: 5px;">${variantLabel}</span>`;
-    }
-
-    const imgDiv = document.getElementById(`img-${productId}`);
-    if (imgDiv && variantImage && variantImage !== 'undefined' && variantImage !== 'null') {
-        imgDiv.src = variantImage;
-    }
-
-    const waBtn = document.getElementById(`wa-${productId}`);
-    if (waBtn) {
-        const message = encodeURIComponent(`Hello Star Agencies, I am interested in ${productName} (Option: ${variantLabel}). Please send me details.`);
-        waBtn.href = `https://wa.me/919447016013?text=${message}`;
-    }
 }
 
 if (searchInput) searchInput.addEventListener("input", renderProducts);
