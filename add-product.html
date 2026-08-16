@@ -44,7 +44,7 @@ button:disabled { background: #94a3b8; cursor: not-allowed; }
     <label>Product Name (Main)</label>
     <input type="text" id="productName" placeholder="e.g., Round Basin">
 
-    <label>Brand (Optional)</label>
+    <label>Brand (Optional - Leave blank if multiple brands exist)</label>
     <input type="text" id="productBrand" placeholder="e.g., Priya Plastics">
 
     <label>Category</label>
@@ -76,13 +76,14 @@ button:disabled { background: #94a3b8; cursor: not-allowed; }
     <label>Main Product Image</label>
     <input type="file" id="mainImageFile" accept="image/*">
 
+    <!-- ഇതാണ് പുതിയ മാറ്റം വരുത്തിയ ഭാഗം -->
     <div class="variants-container">
-        <h3 style="margin-top:0; color: #334155;">✨ Product Options / Sizes</h3>
-        <p style="font-size: 13px; color: #64748b; margin-top: -10px;">Add different sizes and specific images (if any).</p>
+        <h3 style="margin-top:0; color: #334155;">✨ Product Options (Size / Quality / Brand)</h3>
+        <p style="font-size: 13px; color: #64748b; margin-top: -10px;">Add different sizes, qualities (First/Second), or brands along with their prices.</p>
         
         <div id="variantsList"></div>
 
-        <button type="button" class="add-variant-btn" onclick="addVariantRow()">+ Add Option/Size</button>
+        <button type="button" class="add-variant-btn" onclick="addVariantRow()">+ Add Option (Size/Quality/Brand)</button>
     </div>
 
     <button id="saveButton" onclick="saveProduct()">✅ Upload Product to Website</button>
@@ -167,16 +168,17 @@ function addVariantRow() {
     row.className = "variant-row";
     row.id = rowId;
     
+    // ഇവിടെയും Label മാറ്റിയിട്ടുണ്ട് 
     row.innerHTML = `
         <button type="button" class="remove-btn" onclick="document.getElementById('${rowId}').remove()">X Remove</button>
         <h4>Option</h4>
-        <label>Option Name/Size</label>
-        <input type="text" class="v-label" placeholder="e.g., 09L">
+        <label>Option Name (e.g., First Quality, Milton, 09L)</label>
+        <input type="text" class="v-label" placeholder="Enter Quality, Brand or Size">
         
         <label>Price for this Option</label>
         <input type="text" class="v-price" placeholder="e.g., 150">
         
-        <label>Specific Image (Optional)</label>
+        <label>Specific Image (Optional - If it looks different)</label>
         <input type="file" class="v-image" accept="image/*">
     `;
     container.appendChild(row);
@@ -250,7 +252,6 @@ async function saveProduct() {
             }
         }
 
-        // Sub Category കൂടി JSON-ൽ സേവ് ചെയ്യുന്നു
         const newProduct = {
             id: Date.now().toString(),
             name: newName,
