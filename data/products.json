@@ -120,15 +120,35 @@
   {
     "id": "1786820380843",
     "name": "Mug",
-    "brand": "Priya Plastics",
+    "brand": "Priya",
     "category": "Plastic Products",
     "subCategory": "Laundry",
-    "price": "10",
+    "price": "",
     "image": "images/products/mug-1786820379196.jpg",
     "variants": [
       {
-        "label": "500ml",
+        "label": "Priya - 500ml",
         "price": "",
+        "image": ""
+      },
+      {
+        "label": "Polo - 500ml",
+        "price": "11",
+        "image": "images/products/mug-polo-500ml-1786904744295.jpg"
+      },
+      {
+        "label": "Polo - 1L",
+        "price": "14",
+        "image": ""
+      },
+      {
+        "label": "Polo - 1.6L",
+        "price": "19",
+        "image": ""
+      },
+      {
+        "label": "Polo - 2L",
+        "price": "29",
         "image": ""
       }
     ]
