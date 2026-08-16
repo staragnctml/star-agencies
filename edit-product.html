@@ -57,7 +57,7 @@ button:disabled { background: #94a3b8; cursor: not-allowed; }
         <label>Product Name (Main)</label>
         <input type="text" id="productName">
 
-        <label>Brand (Optional)</label>
+        <label>Brand (Optional - Leave blank if multiple brands exist)</label>
         <input type="text" id="productBrand">
 
         <label>Category</label>
@@ -91,13 +91,14 @@ button:disabled { background: #94a3b8; cursor: not-allowed; }
         <label>Main Product Image (Leave blank to keep old image)</label>
         <input type="file" id="mainImageFile" accept="image/*">
 
+        <!-- ഇതാണ് പുതിയ മാറ്റം വരുത്തിയ ഭാഗം -->
         <div class="variants-container">
-            <h3 style="margin-top:0; color: #334155;">✨ Product Options / Sizes</h3>
-            <p style="font-size: 13px; color: #64748b; margin-top: -10px;">Edit options/sizes and their specific images.</p>
+            <h3 style="margin-top:0; color: #334155;">✨ Product Options (Size / Quality / Brand)</h3>
+            <p style="font-size: 13px; color: #64748b; margin-top: -10px;">Edit sizes, qualities (First/Second), or brands along with their prices.</p>
             
             <div id="variantsList"></div>
 
-            <button type="button" class="add-variant-btn" onclick="addVariantRow('', '', '')">+ Add New Option</button>
+            <button type="button" class="add-variant-btn" onclick="addVariantRow('', '', '')">+ Add Option (Size/Quality/Brand)</button>
         </div>
 
         <button id="updateButton" onclick="updateProduct()">✅ Save Changes to Website</button>
@@ -219,8 +220,8 @@ function addVariantRow(label = "", price = "", imagePath = "") {
     row.innerHTML = `
         <button type="button" class="remove-btn" onclick="document.getElementById('${rowId}').remove()">X Remove</button>
         <h4>Option</h4>
-        <label>Option Name/Size</label>
-        <input type="text" class="v-label" value="${label}" placeholder="e.g., 3L Induction Base">
+        <label>Option Name (e.g., First Quality, Milton, 09L)</label>
+        <input type="text" class="v-label" value="${label}" placeholder="Enter Quality, Brand or Size">
         
         <label>Price for this Option</label>
         <input type="text" class="v-price" value="${price}" placeholder="e.g., 1500">
