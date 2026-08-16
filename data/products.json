@@ -1,5 +1,36 @@
 [
   {
+    "id": "1786899357951",
+    "name": "Muram",
+    "brand": "Soumya",
+    "category": "Plastic Products",
+    "subCategory": "",
+    "price": "79",
+    "image": "images/products/muram-1786899350264.jpg",
+    "variants": [
+      {
+        "label": "1st,Soumya, Big",
+        "price": "79",
+        "image": "images/products/muram-1st-soumya-big-1786899351768.jpg"
+      },
+      {
+        "label": "1st, Priya, Big",
+        "price": "95",
+        "image": "images/products/muram-1st-priya-big-1786899353685.jpg"
+      },
+      {
+        "label": "2nd, Soumya, Big",
+        "price": "50",
+        "image": "images/products/muram-2nd-soumya-big-1786899355178.jpg"
+      },
+      {
+        "label": "1st, Priya, medium",
+        "price": "77",
+        "image": "images/products/muram-1st-priya-medium-1786899356543.jpg"
+      }
+    ]
+  },
+  {
     "id": "1786822782179",
     "name": "Mavarippa",
     "brand": "Priya",
