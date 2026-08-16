@@ -32,66 +32,25 @@
         .filter-btn:hover { background: #f1f5f9; color: #0b5ed7; border-color: #94a3b8; transform: translateY(-2px); }
         .filter-btn.active { background: #0b5ed7; color: #ffffff; border-color: #0b5ed7; box-shadow: 0 4px 12px rgba(11, 94, 215, 0.25); }
 
-        /* Plastic Dropdown */
+        /* Plastic Dropdown (ഗ്യാപ്പ് വന്ന് മാഞ്ഞുപോകാതിരിക്കാൻ പരിഹരിച്ചത്) */
         .filter-dropdown { position: relative; display: inline-block; }
-        .filter-dropdown-content { display: none; position: absolute; background-color: #ffffff; min-width: 190px; box-shadow: 0px 10px 25px rgba(0,0,0,0.1); z-index: 1000; border-radius: 12px; overflow: hidden; top: 100%; left: 50%; transform: translateX(-50%); margin-top: 8px; text-align: left; border: 1px solid #e2e8f0; }
+        .filter-dropdown::after { content: ''; position: absolute; top: 100%; left: 0; width: 100%; height: 15px; } /* പാലം പോലെ വർക്ക് ചെയ്യും */
+        .filter-dropdown-content { display: none; position: absolute; background-color: #ffffff; min-width: 190px; box-shadow: 0px 10px 25px rgba(0,0,0,0.1); z-index: 1000; border-radius: 12px; overflow: hidden; top: 100%; left: 50%; transform: translateX(-50%); margin-top: 10px; text-align: left; border: 1px solid #e2e8f0; }
         .filter-dropdown-content button { width: 100%; padding: 12px 18px; border: none; background: none; color: #1e293b; text-align: left; cursor: pointer; font-size: 14px; font-weight: 500; border-bottom: 1px solid #f8fafc; transition: 0.2s; }
         .filter-dropdown-content button:hover { background-color: #f1f5f9; color: #0b5ed7; padding-left: 22px; }
         .filter-dropdown:hover .filter-dropdown-content { display: block; }
 
-        /* =========================================
-           4 COLUMNS & COLORFUL CARDS (NEW STYLES) 
-           ========================================= */
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr) !important; /* 4 നിരകൾ (Columns) ആക്കി */
-            gap: 20px;
-            padding: 10px 0 30px;
-            width: 100%;
-        }
+        /* 4 COLUMNS GRID */
+        .products-grid { display: grid; grid-template-columns: repeat(4, 1fr) !important; gap: 20px; padding: 10px 0 30px; width: 100%; }
         @media (max-width: 1100px) { .products-grid { grid-template-columns: repeat(3, 1fr) !important; } }
         @media (max-width: 850px) { .products-grid { grid-template-columns: repeat(2, 1fr) !important; } }
         @media (max-width: 500px) { .products-grid { grid-template-columns: 1fr !important; } }
 
-        .product-card {
-            background: #ffffff;
-            border-radius: 16px;
-            border: 1px solid #f1f5f9 !important;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-            overflow: hidden;
-            transition: all 0.3s ease;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-        }
-        /* കാർഡിന് മുകളിലെ കളർഫുൾ ലൈൻ */
-        .product-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, #0b5ed7, #10b981, #f59e0b, #ef4444);
-        }
-        .product-card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 12px 30px rgba(11, 94, 215, 0.12);
-            border-color: #cbd5e1 !important;
-        }
-        .product-image {
-            width: 100%;
-            height: 180px;
-            object-fit: contain;
-            padding: 20px;
-            background: radial-gradient(circle, #ffffff 0%, #f8fafc 100%);
-            border-bottom: 1px solid #f1f5f9;
-        }
-        .product-info {
-            padding: 18px;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-        }
+        .product-card { background: #ffffff; border-radius: 16px; border: 1px solid #f1f5f9 !important; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); overflow: hidden; transition: all 0.3s ease; position: relative; display: flex; flex-direction: column; height: 100%; }
+        .product-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, #0b5ed7, #10b981, #f59e0b, #ef4444); }
+        .product-card:hover { transform: translateY(-6px); box-shadow: 0 12px 30px rgba(11, 94, 215, 0.12); border-color: #cbd5e1 !important; }
+        .product-image { width: 100%; height: 180px; object-fit: contain; padding: 20px; background: radial-gradient(circle, #ffffff 0%, #f8fafc 100%); border-bottom: 1px solid #f1f5f9; }
+        .product-info { padding: 18px; flex-grow: 1; display: flex; flex-direction: column; }
     </style>
 </head>
 
@@ -101,7 +60,7 @@
         <div class="container navbar">
             <a href="index.html" class="brand">
                 <img src="images/logo.jpg" alt="Star Agencies Logo">
-                <span>STAR AGENCIES</span>
+                <span style="font-family: 'Century Gothic', sans-serif; font-weight: bold; letter-spacing: 1px;">STAR AGENCIES</span>
             </a>
             <nav class="nav-links">
                 <a href="index.html">Home</a>
@@ -134,11 +93,11 @@
                         <div class="filter-dropdown">
                             <button class="filter-btn filter-dropdown-btn" data-category="Plastic Products">Plastic ▼</button>
                             <div class="filter-dropdown-content">
-                                <button onclick="selectPlasticSub('Bucket')">Bucket</button>
-                                <button onclick="selectPlasticSub('Basin')">Basins</button>
-                                <button onclick="selectPlasticSub('Drum')">Drums</button>
-                                <button onclick="selectPlasticSub('Container')">Containers</button>
-                                <button onclick="selectPlasticSub('Laundry')">Laundry Products</button>
+                                <button type="button" onclick="selectPlasticSub('Bucket')">Bucket</button>
+                                <button type="button" onclick="selectPlasticSub('Basin')">Basins</button>
+                                <button type="button" onclick="selectPlasticSub('Drum')">Drums</button>
+                                <button type="button" onclick="selectPlasticSub('Container')">Containers</button>
+                                <button type="button" onclick="selectPlasticSub('Laundry')">Laundry Products</button>
                             </div>
                         </div>
 
@@ -166,14 +125,5 @@
     </footer>
 
     <script src="js/products.js"></script>
-    <script>
-        function selectPlasticSub(subName) {
-            const searchInput = document.getElementById("searchInput");
-            if (searchInput) searchInput.value = subName;
-            const plasticBtn = document.querySelector('[data-category="Plastic Products"]');
-            if (plasticBtn) plasticBtn.click(); 
-            else if (searchInput) searchInput.dispatchEvent(new Event('input'));
-        }
-    </script>
 </body>
 </html>
