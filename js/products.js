@@ -1,6 +1,6 @@
 let allProducts = [];
 let selectedCategory = "All";
-window.productVariantsMap = {}; // ബ്രാൻഡും സൈസും വേർതിരിക്കാൻ
+window.productVariantsMap = {}; 
 
 const container = document.getElementById("productsContainer");
 const searchInput = document.getElementById("searchInput");
@@ -20,7 +20,7 @@ async function loadProducts() {
 
 function renderProducts() {
     const term = searchInput ? searchInput.value.trim().toLowerCase() : "";
-    window.productVariantsMap = {}; // Reset
+    window.productVariantsMap = {}; 
 
     const filtered = allProducts.filter(product => {
         const categoryMatch = selectedCategory === "All" || product.category === selectedCategory;
@@ -41,7 +41,6 @@ function renderProducts() {
             let brandGroups = {};
             let hasHyphen = false;
 
-            // ഹൈഫൺ (-) വെച്ച് ബ്രാൻഡും സൈസും വേർതിരിക്കുന്നു (ഉദാ: Soumya - 1st)
             product.variants.forEach(v => {
                 let lbl = v.label || v.name || "";
                 if (lbl.includes("-")) {
@@ -64,20 +63,17 @@ function renderProducts() {
                 if (firstSize.price) displayPrice = firstSize.price;
                 if (firstSize.image) displayImage = firstSize.image;
 
-                // STYLISH BRAND DROPDOWN
                 let brandSelectHTML = `
                 <div style="position: relative; margin-bottom: 8px;">
                     <select onchange="changeBrand(this, '${product.id}', '${product.name.replace(/'/g, "\\'")}')"
                         style="appearance: none; -webkit-appearance: none; width: 100%; padding: 6px 30px 6px 10px; border: 1px solid #cbd5e1; border-radius: 6px; background-color: #f8fafc; color: #0f172a; font-size: 13px; font-weight: 600; cursor: pointer; outline: none; transition: 0.3s; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
                         ${brands.map(b => `<option value="${b.replace(/"/g, '&quot;')}">${b}</option>`).join('')}
                     </select>
-                    <!-- Custom Arrow for Dropdown -->
                     <div style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); pointer-events: none;">
                         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#475569" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
                     </div>
                 </div>`;
 
-                // SMALL SIZE BUTTONS
                 let sizeButtonsHTML = `<div id="sizes-${product.id}" style="display:flex; gap:5px; flex-wrap:wrap;">`;
                 brandGroups[firstBrand].forEach((sz, idx) => {
                     let bg = idx === 0 ? "#0b5ed7" : "#fff";
@@ -96,7 +92,6 @@ function renderProducts() {
                     </div>
                 `;
             } else {
-                // സിംഗിൾ ഓപ്ഷനുകൾ ആണെങ്കിൽ (ഹൈഫൺ ഇല്ലാത്തവ)
                 let firstV = product.variants[0];
                 defaultVariantLabel = firstV.label || firstV.name;
                 if (firstV.price) displayPrice = firstV.price;
@@ -163,7 +158,6 @@ function renderProducts() {
     if(noResults) noResults.hidden = filtered.length !== 0;
 }
 
-// ബ്രാൻഡ് മാറ്റുമ്പോൾ അതിൻ്റെ സൈസ് താഴെ വരാൻ
 window.changeBrand = function(selectEl, productId, productName) {
     let selectedBrand = selectEl.value;
     let groups = window.productVariantsMap[productId];
@@ -181,14 +175,12 @@ window.changeBrand = function(selectEl, productId, productName) {
     });
     sizeContainer.innerHTML = sizeButtonsHTML;
 
-    // ഓട്ടോമാറ്റിക് ആയി ആ ബ്രാൻഡിന്റെ ആദ്യത്തെ സൈസ് ക്ലിക്ക് ആവാൻ
     let firstButton = sizeContainer.querySelector('button');
     if(firstButton) {
         firstButton.click();
     }
 }
 
-// സൈസ് സെലക്ട് ചെയ്യുമ്പോൾ വിലയും പേരും മാറാൻ
 window.selectSize = function(btn, productId, variantLabel, variantPrice, productName, variantImage) {
     const buttons = btn.parentElement.querySelectorAll("button");
     buttons.forEach(b => {
@@ -226,15 +218,36 @@ window.selectSize = function(btn, productId, variantLabel, variantPrice, product
     }
 }
 
+// ==========================================
+// പുതിയ മാറ്റങ്ങൾ ഇവിടെയാണ് (Filter & Dropdown Fix)
+// ==========================================
+
+// ഡ്രോപ്പ്ഡൗണിലെ ഐറ്റം (ഉദാ: Bucket) ക്ലിക്ക് ചെയ്യുമ്പോൾ വർക്ക് ആവാൻ
+window.selectPlasticSub = function(subName) {
+    const searchInput = document.getElementById("searchInput");
+    if (searchInput) searchInput.value = subName;
+    
+    document.querySelectorAll(".filter-btn").forEach(btn => btn.classList.remove("active"));
+    const plasticBtn = document.querySelector('[data-category="Plastic Products"]');
+    if (plasticBtn) plasticBtn.classList.add("active");
+    
+    selectedCategory = "Plastic Products";
+    renderProducts();
+}
+
 if (searchInput) searchInput.addEventListener("input", renderProducts);
 
+// ഫിൽറ്റർ ബട്ടണുകൾ ക്ലിക്ക് ചെയ്യുമ്പോൾ വർക്ക് ആവാൻ
 document.querySelectorAll(".filter-btn").forEach(button => {
     button.addEventListener("click", () => {
-        if (button.classList.contains('filter-dropdown-btn')) return;
-
         document.querySelectorAll(".filter-btn").forEach(btn => btn.classList.remove("active"));
         button.classList.add("active");
         selectedCategory = button.dataset.category || "All";
+        
+        // വേറെ കാറ്റഗറി ക്ലിക്ക് ചെയ്യുമ്പോൾ സെർച്ച് ബോക്സ് ക്ലിയർ ആക്കാൻ
+        const searchInput = document.getElementById("searchInput");
+        if (searchInput) searchInput.value = "";
+        
         renderProducts();
     });
 });
