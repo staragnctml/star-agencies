@@ -11,25 +11,35 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:
 h1 { text-align: center; color: #10b981; margin-bottom: 25px; }
 label { display: block; font-weight: bold; margin-top: 15px; margin-bottom: 6px; color: #334155; }
 input[type="text"], input[type="password"], select, input[type="file"] { width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 15px; }
-button { width: 100%; padding: 14px; margin-top: 25px; background: #10b981; color: white; border: none; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+button { width: 100%; padding: 14px; background: #10b981; color: white; border: none; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.3s; }
 button:hover { background: #059669; }
 button:disabled { background: #94a3b8; cursor: not-allowed; }
 
-.variants-container { margin-top: 20px; padding: 15px; border: 2px dashed #cbd5e1; border-radius: 8px; background: #f8fafc; }
-.variant-row { background: #ffffff; border: 1px solid #e2e8f0; padding: 15px; border-radius: 8px; margin-bottom: 15px; position: relative; }
-.variant-row h4 { margin: 0 0 10px 0; color: #0f172a; font-size: 15px; }
-.remove-btn { position: absolute; top: 10px; right: 10px; background: #ef4444; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 12px; width: auto; margin: 0; }
-.remove-btn:hover { background: #dc2626; }
-.add-variant-btn { background: #6366f1; margin-top: 10px; }
-.add-variant-btn:hover { background: #4f46e5; }
+/* പുതിയ ബ്രാൻഡ് ഗ്രൂപ്പ് ഡിസൈൻ */
+.brand-group { background: #e0f2fe; border: 2px solid #bae6fd; border-radius: 10px; padding: 15px; margin-top: 20px; position: relative; }
+.bg-header { display: flex; gap: 10px; margin-bottom: 15px; align-items: center; }
+.bg-name { flex: 1; padding: 10px; border: 1px solid #7dd3fc; border-radius: 6px; font-weight: bold; font-size: 16px; color: #0369a1; }
+.remove-bg-btn { background: #ef4444; width: auto; padding: 10px 15px; font-size: 13px; margin: 0; }
+.remove-bg-btn:hover { background: #dc2626; }
+
+/* പുതിയ സൈസ് നിര ഡിസൈൻ */
+.sizes-container { background: white; padding: 15px; border-radius: 8px; border: 1px solid #cbd5e1; }
+.size-row { display: flex; gap: 10px; margin-bottom: 10px; align-items: center; border-bottom: 1px dashed #e2e8f0; padding-bottom: 10px; flex-wrap: wrap; }
+.sz-input { flex: 2; min-width: 120px; }
+.sz-price { flex: 1; min-width: 90px; }
+.sz-file { flex: 2; min-width: 150px; font-size: 12px; padding: 8px; }
+.remove-sz-btn { background: #f43f5e; width: auto; padding: 8px 12px; font-size: 12px; margin: 0; }
+
+.add-size-btn { background: #6366f1; width: auto; padding: 10px 15px; font-size: 14px; margin-top: 10px; }
+.add-size-btn:hover { background: #4f46e5; }
+.add-brand-btn { background: #3b82f6; margin-top: 25px; border: 2px dashed #93c5fd; }
+.add-brand-btn:hover { background: #2563eb; }
+.save-btn { margin-top: 35px; font-size: 18px; padding: 16px; }
 
 .status { margin-top: 20px; padding: 15px; border-radius: 6px; display: none; font-weight: bold; text-align: center; }
 .success { display: block; background: #d1e7dd; color: #0f5132; }
 .error { display: block; background: #f8d7da; color: #842029; }
 .info { display: block; background: #cff4fc; color: #055160; }
-.security { background: #fffbeb; padding: 15px; border-radius: 6px; margin-top: 20px; font-size: 13px; color: #92400e; border: 1px solid #fde68a; }
-
-/* Sub category div initially hidden */
 #subCategoryDiv { display: none; background: #e0f2fe; padding: 15px; border-radius: 8px; border: 1px solid #bae6fd; margin-top: 15px; }
 </style>
 </head>
@@ -41,11 +51,8 @@ button:disabled { background: #94a3b8; cursor: not-allowed; }
     <label>GitHub Token (Required)</label>
     <input type="password" id="token" placeholder="Paste your GitHub token here">
 
-    <label>Product Name (Main)</label>
-    <input type="text" id="productName" placeholder="e.g., Round Basin">
-
-    <label>Brand (Optional - Leave blank if multiple brands exist)</label>
-    <input type="text" id="productBrand" placeholder="e.g., Priya Plastics">
+    <label>Product Name</label>
+    <input type="text" id="productName" placeholder="e.g., Plastic Round Basin">
 
     <label>Category</label>
     <select id="category" onchange="toggleSubCategory()">
@@ -57,7 +64,6 @@ button:disabled { background: #94a3b8; cursor: not-allowed; }
         <option value="Household">Household</option>
     </select>
 
-    <!-- Sub Category (Only for Plastic) -->
     <div id="subCategoryDiv">
         <label style="color: #0369a1; margin-top: 0;">Plastic Sub-Category</label>
         <select id="subCategory">
@@ -70,29 +76,21 @@ button:disabled { background: #94a3b8; cursor: not-allowed; }
         </select>
     </div>
 
-    <label>Main Price (Default)</label>
-    <input type="text" id="price" placeholder="e.g., 150">
-
     <label>Main Product Image</label>
     <input type="file" id="mainImageFile" accept="image/*">
 
-    <!-- ഇതാണ് പുതിയ മാറ്റം വരുത്തിയ ഭാഗം -->
-    <div class="variants-container">
-        <h3 style="margin-top:0; color: #334155;">✨ Product Options (Size / Quality / Brand)</h3>
-        <p style="font-size: 13px; color: #64748b; margin-top: -10px;">Add different sizes, qualities (First/Second), or brands along with their prices.</p>
+    <!-- പുതിയ Brands & Sizes സെക്ഷൻ -->
+    <div style="margin-top: 30px; border-top: 2px solid #e2e8f0; padding-top: 20px;">
+        <h3 style="color: #0f172a; margin-bottom: 5px;">📦 Brands & Sizes (Prices)</h3>
+        <p style="font-size: 13px; color: #64748b; margin-top: 0;">Add a brand, then add its sizes and prices below.</p>
         
-        <div id="variantsList"></div>
+        <div id="brandGroupsContainer"></div>
 
-        <button type="button" class="add-variant-btn" onclick="addVariantRow()">+ Add Option (Size/Quality/Brand)</button>
+        <button type="button" class="add-brand-btn" onclick="addNewBrandGroup()">+ Add Brand</button>
     </div>
 
-    <button id="saveButton" onclick="saveProduct()">✅ Upload Product to Website</button>
-
+    <button id="saveButton" class="save-btn" onclick="saveProduct()">✅ Upload Product to Website</button>
     <div id="status" class="status"></div>
-
-    <div class="security">
-        🔒 <b>Security Note:</b> Your token is strictly used in your browser to connect to your GitHub.
-    </div>
 </div>
 
 <script>
@@ -109,16 +107,11 @@ function showStatus(msg, type) {
     el.style.display = "block";
 }
 
-// Function to show/hide Plastic sub-categories
 function toggleSubCategory() {
     const cat = document.getElementById("category").value;
     const subDiv = document.getElementById("subCategoryDiv");
-    if(cat === "Plastic Products") {
-        subDiv.style.display = "block";
-    } else {
-        subDiv.style.display = "none";
-        document.getElementById("subCategory").value = "";
-    }
+    if(cat === "Plastic Products") subDiv.style.display = "block";
+    else { subDiv.style.display = "none"; document.getElementById("subCategory").value = ""; }
 }
 
 function fileToBase64(file) {
@@ -129,66 +122,62 @@ function fileToBase64(file) {
         reader.readAsDataURL(file);
     });
 }
-
-function textToBase64(text) {
-    return btoa(unescape(encodeURIComponent(text)));
-}
-
-function base64ToText(base64) {
-    return decodeURIComponent(escape(atob(base64.replace(/\s/g, ""))));
-}
-
-function makeFileName(name) {
-    return name.trim().toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
-}
+function textToBase64(text) { return btoa(unescape(encodeURIComponent(text))); }
+function base64ToText(base64) { return decodeURIComponent(escape(atob(base64.replace(/\s/g, "")))); }
+function makeFileName(name) { return name.trim().toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, ""); }
 
 async function githubRequest(url, options) {
     const token = document.getElementById("token").value.trim();
     if (!token) throw new Error("Please enter your GitHub Token!");
-    
-    const response = await fetch(url, {
-        ...options,
-        headers: {
-            "Accept": "application/vnd.github+json",
-            "Authorization": "Bearer " + token,
-            "X-GitHub-Api-Version": "2022-11-28",
-            ...(options.headers || {})
-        }
-    });
-    
+    const response = await fetch(url, { ...options, headers: { "Accept": "application/vnd.github+json", "Authorization": "Bearer " + token, "X-GitHub-Api-Version": "2022-11-28", ...(options.headers || {}) } });
     const data = await response.json();
     if (!response.ok) throw new Error(data.message || "GitHub API Error");
     return data;
 }
 
-function addVariantRow() {
-    const container = document.getElementById("variantsList");
-    const rowId = "var-row-" + Date.now();
-    const row = document.createElement("div");
-    row.className = "variant-row";
-    row.id = rowId;
+// പുതിയ ബ്രാൻഡ് ഗ്രൂപ്പ് ആഡ് ചെയ്യാനുള്ള ഫംഗ്ഷൻ
+function addNewBrandGroup(brandName = "") {
+    const container = document.getElementById("brandGroupsContainer");
+    const groupId = "bg-" + Date.now() + Math.random().toString(36).substr(2, 5);
+    const div = document.createElement("div");
+    div.className = "brand-group";
+    div.id = groupId;
     
-    // ഇവിടെയും Label മാറ്റിയിട്ടുണ്ട് 
-    row.innerHTML = `
-        <button type="button" class="remove-btn" onclick="document.getElementById('${rowId}').remove()">X Remove</button>
-        <h4>Option</h4>
-        <label>Option Name (e.g., First Quality, Milton, 09L)</label>
-        <input type="text" class="v-label" placeholder="Enter Quality, Brand or Size">
-        
-        <label>Price for this Option</label>
-        <input type="text" class="v-price" placeholder="e.g., 150">
-        
-        <label>Specific Image (Optional - If it looks different)</label>
-        <input type="file" class="v-image" accept="image/*">
+    div.innerHTML = `
+        <div class="bg-header">
+            <input type="text" class="bg-name" placeholder="Brand Name (e.g. Priya)" value="${brandName}">
+            <button type="button" class="remove-bg-btn" onclick="document.getElementById('${groupId}').remove()">X Remove Brand</button>
+        </div>
+        <div class="sizes-container" id="sizes-${groupId}">
+            <p style="font-size:12px; color:#64748b; margin-top:0; margin-bottom:10px;">Add Sizes for this brand:</p>
+        </div>
+        <button type="button" class="add-size-btn" onclick="addSizeRow('${groupId}')">+ Add Size</button>
     `;
-    container.appendChild(row);
+    container.appendChild(div);
+    addSizeRow(groupId); // ഒരു ബ്ലാങ്ക് സൈസ് നിര ഓട്ടോമാറ്റിക് ആയി വരും
+}
+
+// ബ്രാൻഡിനുള്ളിൽ സൈസ് ആഡ് ചെയ്യാനുള്ള ഫംഗ്ഷൻ
+function addSizeRow(groupId, sizeLabel = "", price = "") {
+    const container = document.getElementById("sizes-" + groupId);
+    const rowId = "sz-" + Date.now() + Math.random().toString(36).substr(2, 5);
+    const div = document.createElement("div");
+    div.className = "size-row";
+    div.id = rowId;
+    
+    div.innerHTML = `
+        <input type="text" class="sz-input" placeholder="Size (e.g. 650ml)" value="${sizeLabel}">
+        <input type="text" class="sz-price" placeholder="Price (₹)" value="${price}">
+        <input type="file" class="sz-file" accept="image/*">
+        <button type="button" class="remove-sz-btn" onclick="document.getElementById('${rowId}').remove()">X</button>
+    `;
+    container.appendChild(div);
 }
 
 async function saveProduct() {
     const btn = document.getElementById("saveButton");
     try {
         btn.disabled = true;
-        
         const newName = document.getElementById("productName").value.trim();
         if (!newName) throw new Error("Product Name cannot be empty!");
 
@@ -200,9 +189,7 @@ async function saveProduct() {
             const fileData = await githubRequest(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${PRODUCTS_FILE}?ref=${BRANCH}`, { method: "GET" });
             productsFileSha = fileData.sha;
             allProducts = JSON.parse(base64ToText(fileData.content));
-        } catch(e) {
-            console.log("No existing products found or error fetching.");
-        }
+        } catch(e) { console.log("No existing products."); }
 
         const mainImgFile = document.getElementById("mainImageFile").files[0];
         const mainSafeName = makeFileName(newName);
@@ -213,90 +200,74 @@ async function saveProduct() {
             const ext = mainImgFile.name.split(".").pop().toLowerCase();
             mainImagePath = `${IMAGE_FOLDER}/${mainSafeName}-${Date.now()}.${ext}`;
             const base64Img = await fileToBase64(mainImgFile);
-
-            await githubRequest(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${mainImagePath}`, {
-                method: "PUT",
-                body: JSON.stringify({ message: `Upload main image for ${newName}`, content: base64Img, branch: BRANCH })
-            });
+            await githubRequest(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${mainImagePath}`, { method: "PUT", body: JSON.stringify({ message: `Upload image`, content: base64Img, branch: BRANCH }) });
         }
 
-        const variantRows = document.querySelectorAll('.variant-row');
         let variantsArray = [];
+        let finalMainBrand = "";
+        let finalMainPrice = "";
+        let isFirstRow = true;
 
-        for (let i = 0; i < variantRows.length; i++) {
-            const row = variantRows[i];
-            const vLabel = row.querySelector('.v-label').value.trim();
-            const vPrice = row.querySelector('.v-price').value.trim();
-            const vImgFile = row.querySelector('.v-image').files[0];
+        // ഫാമിലെ ഡാറ്റ എടുത്ത് സിസ്റ്റത്തിന് വേണ്ട രീതിയിൽ (Priya - 650ml) ആക്കുന്നു
+        const brandGroups = document.querySelectorAll('.brand-group');
+        for (let i = 0; i < brandGroups.length; i++) {
+            const bg = brandGroups[i];
+            const brandName = bg.querySelector('.bg-name').value.trim();
+            if (isFirstRow && brandName) finalMainBrand = brandName;
 
-            if (vLabel) {
-                let finalImgPath = "";
-                if (vImgFile) {
-                    showStatus(`⏳ Uploading image for option '${vLabel}'...`, "info");
-                    const ext = vImgFile.name.split(".").pop().toLowerCase();
-                    const vSafeName = makeFileName(vLabel);
-                    finalImgPath = `${IMAGE_FOLDER}/${mainSafeName}-${vSafeName}-${Date.now()}.${ext}`;
-                    const base64VImg = await fileToBase64(vImgFile);
+            const sizeRows = bg.querySelectorAll('.size-row');
+            for (let j = 0; j < sizeRows.length; j++) {
+                const sz = sizeRows[j];
+                const sizeName = sz.querySelector('.sz-input').value.trim();
+                const price = sz.querySelector('.sz-price').value.trim();
+                const file = sz.querySelector('.sz-file').files[0];
 
-                    await githubRequest(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${finalImgPath}`, {
-                        method: "PUT",
-                        body: JSON.stringify({ message: `Upload variant image: ${vLabel}`, content: base64VImg, branch: BRANCH })
-                    });
+                if (sizeName || price) {
+                    if (isFirstRow) { finalMainPrice = price; isFirstRow = false; }
+
+                    let finalLabel = sizeName;
+                    if (brandName && sizeName) finalLabel = brandName + " - " + sizeName;
+                    else if (brandName) finalLabel = brandName;
+
+                    let finalImgPath = "";
+                    if (file) {
+                        showStatus(`⏳ Uploading image for '${finalLabel}'...`, "info");
+                        const ext = file.name.split(".").pop().toLowerCase();
+                        finalImgPath = `${IMAGE_FOLDER}/${mainSafeName}-${makeFileName(finalLabel)}-${Date.now()}.${ext}`;
+                        const base64VImg = await fileToBase64(file);
+                        await githubRequest(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${finalImgPath}`, { method: "PUT", body: JSON.stringify({ message: `Upload variant image`, content: base64VImg, branch: BRANCH }) });
+                    }
+                    variantsArray.push({ label: finalLabel, price: price, image: finalImgPath });
                 }
-
-                variantsArray.push({
-                    label: vLabel,
-                    price: vPrice,
-                    image: finalImgPath
-                });
             }
         }
 
         const newProduct = {
             id: Date.now().toString(),
             name: newName,
-            brand: document.getElementById("productBrand").value.trim(),
+            brand: finalMainBrand,
             category: document.getElementById("category").value,
             subCategory: document.getElementById("subCategory").value,
-            price: document.getElementById("price").value.trim(),
+            price: finalMainPrice,
             image: mainImagePath,
             variants: variantsArray
         };
 
         allProducts.unshift(newProduct);
-
         showStatus("⏳ Saving product to GitHub...", "info");
-        const updatedJson = JSON.stringify(allProducts, null, 2);
 
-        const bodyData = {
-            message: `Add product: ${newName}`,
-            content: textToBase64(updatedJson),
-            branch: BRANCH
-        };
+        const bodyData = { message: `Add product: ${newName}`, content: textToBase64(JSON.stringify(allProducts, null, 2)), branch: BRANCH };
         if (productsFileSha) bodyData.sha = productsFileSha;
 
-        await githubRequest(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${PRODUCTS_FILE}`, {
-            method: "PUT",
-            body: JSON.stringify(bodyData)
-        });
+        await githubRequest(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${PRODUCTS_FILE}`, { method: "PUT", body: JSON.stringify(bodyData) });
 
-        showStatus("✅ Product successfully added! You can add another one.", "success");
-        
-        // Reset form
-        document.getElementById("productName").value = "";
-        document.getElementById("productBrand").value = "";
-        document.getElementById("price").value = "";
-        document.getElementById("mainImageFile").value = "";
-        document.getElementById("subCategory").value = "";
-        document.getElementById("subCategoryDiv").style.display = "none";
-        document.getElementById("variantsList").innerHTML = "";
-
-    } catch (error) {
-        showStatus("❌ Error: " + error.message, "error");
-    } finally {
-        btn.disabled = false;
-    }
+        showStatus("✅ Product successfully added!", "success");
+        setTimeout(() => location.reload(), 2000);
+    } catch (error) { showStatus("❌ Error: " + error.message, "error"); } finally { btn.disabled = false; }
 }
+
+// പേജ് ലോഡ് ആകുമ്പോൾ ഒരു ബ്ലാങ്ക് ബ്രാൻഡ് ഗ്രൂപ്പ് കാണിക്കാൻ
+window.onload = function() { addNewBrandGroup(); };
 </script>
 </body>
 </html>
