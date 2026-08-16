@@ -68,13 +68,39 @@
   },
   {
     "id": "1786822290188",
-    "name": "Print Container 3 Piece Set",
+    "name": "Print Jar 3|5 Piece Set",
     "brand": "Priya",
     "category": "Plastic Products",
     "subCategory": "Container",
     "price": "277",
     "image": "images/products/print-container-3-piece-set-1786822288111.jpg",
-    "variants": []
+    "variants": [
+      {
+        "label": "Priya - 3PC",
+        "price": "277",
+        "image": ""
+      },
+      {
+        "label": "Soumya - 3pc",
+        "price": "295",
+        "image": ""
+      },
+      {
+        "label": "Soumya - 5pc",
+        "price": "367",
+        "image": ""
+      },
+      {
+        "label": "Veeram - 3pc",
+        "price": "319",
+        "image": ""
+      },
+      {
+        "label": "Veeram - 4pc",
+        "price": "367",
+        "image": ""
+      }
+    ]
   },
   {
     "id": "1786821948987",
