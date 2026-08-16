@@ -9,16 +9,6 @@
     "image": "images/products/priya-muram-1786900880971.jpg",
     "variants": [
       {
-        "label": "1st|Big",
-        "price": "95",
-        "image": "images/products/muram-1st-priya-big-1786899353685.jpg"
-      },
-      {
-        "label": "1st|Medium",
-        "price": "77",
-        "image": "images/products/muram-1st-priya-medium-1786899356543.jpg"
-      },
-      {
         "label": "Soumya - 1st",
         "price": "79",
         "image": "images/products/muram-soumya-1st-1786903398913.jpg"
@@ -27,6 +17,16 @@
         "label": "Soumya - 2nd",
         "price": "50",
         "image": "images/products/muram-soumya-2nd-1786903400456.jpg"
+      },
+      {
+        "label": "Priya - 1st",
+        "price": "95",
+        "image": "images/products/muram-priya-1st-1786903938816.jpg"
+      },
+      {
+        "label": "Priya - 1st Med",
+        "price": "77",
+        "image": "images/products/muram-priya-1st-med-1786903940462.jpg"
       }
     ]
   },
