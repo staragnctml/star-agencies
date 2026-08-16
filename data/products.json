@@ -1,7 +1,7 @@
 [
   {
     "id": "1786899357951",
-    "name": "Priya Muram",
+    "name": "Muram",
     "brand": "Priya Plastics",
     "category": "Plastic Products",
     "subCategory": "",
@@ -17,6 +17,16 @@
         "label": "1st|Medium",
         "price": "77",
         "image": "images/products/muram-1st-priya-medium-1786899356543.jpg"
+      },
+      {
+        "label": "Soumya - 1st",
+        "price": "79",
+        "image": "images/products/muram-soumya-1st-1786903398913.jpg"
+      },
+      {
+        "label": "Soumya - 2nd",
+        "price": "50",
+        "image": "images/products/muram-soumya-2nd-1786903400456.jpg"
       }
     ]
   },
