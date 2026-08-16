@@ -123,12 +123,12 @@
     "brand": "Priya",
     "category": "Plastic Products",
     "subCategory": "Laundry",
-    "price": "",
+    "price": "10",
     "image": "images/products/mug-1786820379196.jpg",
     "variants": [
       {
         "label": "Priya - 500ml",
-        "price": "",
+        "price": "10",
         "image": ""
       },
       {
