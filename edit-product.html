@@ -21,7 +21,6 @@ button:disabled { background: #94a3b8; cursor: not-allowed; }
 .btn-danger:hover { background: #dc2626; }
 .action-buttons { display: flex; gap: 15px; margin-top: 35px; }
 
-/* പുതിയ ബ്രാൻഡ് ഗ്രൂപ്പ് ഡിസൈൻ */
 .brand-group { background: #e0f2fe; border: 2px solid #bae6fd; border-radius: 10px; padding: 15px; margin-top: 20px; position: relative; }
 .bg-header { display: flex; gap: 10px; margin-bottom: 15px; align-items: center; }
 .bg-name { flex: 1; padding: 10px; border: 1px solid #7dd3fc; border-radius: 6px; font-weight: bold; font-size: 16px; color: #0369a1; }
@@ -75,7 +74,6 @@ button:disabled { background: #94a3b8; cursor: not-allowed; }
             <option value="Cleaning Items">Cleaning Items</option>
             <option value="Stationery Items">Stationery Items</option>
             <option value="Hardware Items">Hardware Items</option>
-            <option value="Household">Household</option>
         </select>
 
         <div id="subCategoryDiv">
@@ -87,13 +85,13 @@ button:disabled { background: #94a3b8; cursor: not-allowed; }
                 <option value="Drum">Drum</option>
                 <option value="Container">Container</option>
                 <option value="Laundry">Laundry Products</option>
+                <option value="Household">Household Items</option>
             </select>
         </div>
 
         <label>Main Product Image (Leave blank to keep old image)</label>
         <input type="file" id="mainImageFile" accept="image/*">
 
-        <!-- പുതിയ Brands & Sizes സെക്ഷൻ -->
         <div style="margin-top: 30px; border-top: 2px solid #e2e8f0; padding-top: 20px;">
             <h3 style="color: #0f172a; margin-bottom: 5px;">📦 Brands & Sizes (Prices)</h3>
             <div id="brandGroupsContainer"></div>
@@ -108,13 +106,8 @@ button:disabled { background: #94a3b8; cursor: not-allowed; }
 </div>
 
 <script>
-const OWNER = "staragnctml";
-const REPO = "star-agencies";
-const BRANCH = "main";
-const PRODUCTS_FILE = "data/products.json";
-const IMAGE_FOLDER = "images/products";
-let allProducts = [];
-let productsFileSha = "";
+const OWNER = "staragnctml"; const REPO = "star-agencies"; const BRANCH = "main"; const PRODUCTS_FILE = "data/products.json"; const IMAGE_FOLDER = "images/products";
+let allProducts = []; let productsFileSha = "";
 
 function showStatus(msg, type) { const el = document.getElementById("status"); el.className = "status " + type; el.innerHTML = msg; el.style.display = "block"; }
 function toggleSubCategory() { const cat = document.getElementById("category").value; const subDiv = document.getElementById("subCategoryDiv"); if(cat === "Plastic Products") subDiv.style.display = "block"; else { subDiv.style.display = "none"; document.getElementById("subCategory").value = ""; } }
@@ -150,8 +143,7 @@ async function loadProductsList() {
 function createBrandGroupHTML(brandName = "") {
     const container = document.getElementById("brandGroupsContainer");
     const groupId = "bg-" + Date.now() + Math.random().toString(36).substr(2, 5);
-    const div = document.createElement("div");
-    div.className = "brand-group"; div.id = groupId;
+    const div = document.createElement("div"); div.className = "brand-group"; div.id = groupId;
     div.innerHTML = `
         <div class="bg-header">
             <input type="text" class="bg-name" placeholder="Brand Name (e.g. Priya)" value="${brandName}">
@@ -160,15 +152,13 @@ function createBrandGroupHTML(brandName = "") {
         <div class="sizes-container" id="sizes-${groupId}"></div>
         <button type="button" class="add-size-btn" onclick="createSizeRowHTML('${groupId}')">+ Add Size</button>
     `;
-    container.appendChild(div);
-    return groupId;
+    container.appendChild(div); return groupId;
 }
 
 function createSizeRowHTML(groupId, sizeLabel = "", price = "", imgPath = "") {
     const container = document.getElementById("sizes-" + groupId);
     const rowId = "sz-" + Date.now() + Math.random().toString(36).substr(2, 5);
-    const div = document.createElement("div");
-    div.className = "size-row"; div.id = rowId;
+    const div = document.createElement("div"); div.className = "size-row"; div.id = rowId;
     div.innerHTML = `
         <input type="text" class="sz-input" placeholder="Size (e.g. 650ml)" value="${sizeLabel}">
         <input type="text" class="sz-price" placeholder="Price (₹)" value="${price}">
@@ -191,7 +181,6 @@ function fillFormDetails() {
     
     document.getElementById("brandGroupsContainer").innerHTML = "";
     
-    // പഴയ ഡാറ്റകളെ ബ്രാൻഡ് തിരിച്ച് ഗ്രൂപ്പ് ചെയ്യുന്നു
     if (product.variants && product.variants.length > 0) {
         let groups = {};
         product.variants.forEach(v => {
@@ -207,7 +196,6 @@ function fillFormDetails() {
             groups[bName].forEach(sz => { createSizeRowHTML(gId, sz.size, sz.price, sz.image); });
         });
     } else {
-        // പഴയ സിംഗിൾ പ്രൊഡക്റ്റുകൾക്ക്
         let gId = createBrandGroupHTML(product.brand || "");
         createSizeRowHTML(gId, "Standard", product.price || "");
     }
@@ -215,11 +203,12 @@ function fillFormDetails() {
 
 async function updateProduct() {
     const btn = document.getElementById("updateButton");
+    const delBtn = document.getElementById("deleteButton");
     const selectedId = document.getElementById("productSelect").value;
     if (!selectedId) { alert("Select a product!"); return; }
 
     try {
-        btn.disabled = true; showStatus("⏳ Updating...", "info");
+        btn.disabled = true; delBtn.disabled = true; showStatus("⏳ Updating...", "info");
         const index = allProducts.findIndex(p => p.id == selectedId);
         let product = allProducts[index];
         const newName = document.getElementById("productName").value.trim();
@@ -265,15 +254,13 @@ async function updateProduct() {
                 }
             }
         }
-        product.variants = variantsArray;
-        product.brand = finalMainBrand;
-        product.price = finalMainPrice;
+        product.variants = variantsArray; product.brand = finalMainBrand; product.price = finalMainPrice;
 
         showStatus("⏳ Saving...", "info");
         const putRes = await githubRequest(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${PRODUCTS_FILE}`, { method: "PUT", body: JSON.stringify({ message: `Update product: ${newName}`, content: textToBase64(JSON.stringify(allProducts, null, 2)), sha: productsFileSha, branch: BRANCH }) });
         productsFileSha = putRes.content.sha; showStatus("✅ Successfully updated!", "success");
         setTimeout(() => location.reload(), 2000);
-    } catch (error) { showStatus("❌ Error: " + error.message, "error"); } finally { btn.disabled = false; }
+    } catch (error) { showStatus("❌ Error: " + error.message, "error"); } finally { btn.disabled = false; delBtn.disabled = false; }
 }
 
 async function deleteProduct() {
