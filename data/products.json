@@ -22,6 +22,21 @@
         "label": "Priya - B.Red",
         "price": "41",
         "image": "images/products/pot-priya-b-red-1786992258823.jpg"
+      },
+      {
+        "label": "Priya - S.Black",
+        "price": "15",
+        "image": "images/products/pot-priya-s-black-1786992455461.jpg"
+      },
+      {
+        "label": "Priya - M.Black",
+        "price": "25",
+        "image": "images/products/pot-priya-m-black-1786992456999.jpg"
+      },
+      {
+        "label": "Priya - B.Black",
+        "price": "37",
+        "image": "images/products/pot-priya-b-black-1786992458708.jpg"
       }
     ]
   },
