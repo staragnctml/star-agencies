@@ -22,10 +22,23 @@ function renderProducts() {
     const term = searchInput ? searchInput.value.trim().toLowerCase() : "";
     window.productVariantsMap = {}; 
 
+    // Household കൂടി സബ്-കാറ്റഗറി ലിസ്റ്റിൽ ഉൾപ്പെടുത്തി
+    const isSubCat = ["Bucket", "Basin", "Drum", "Container", "Laundry", "Household"].includes(selectedCategory);
+
     const filtered = allProducts.filter(product => {
-        const categoryMatch = selectedCategory === "All" || product.category === selectedCategory;
+        let categoryMatch = false;
+        
+        if (selectedCategory === "All") {
+            categoryMatch = true;
+        } else if (isSubCat) {
+            categoryMatch = (product.category === "Plastic Products" && product.subCategory === selectedCategory);
+        } else {
+            categoryMatch = (product.category === selectedCategory);
+        }
+
         const variantText = product.variants ? product.variants.map(v => v.label || "").join(" ") : "";
         const searchText = `${product.name || ""} ${product.brand || ""} ${product.category || ""} ${product.subCategory || ""} ${variantText}`.toLowerCase();
+        
         return categoryMatch && (term === "" || searchText.includes(term));
     });
 
@@ -176,9 +189,7 @@ window.changeBrand = function(selectEl, productId, productName) {
     sizeContainer.innerHTML = sizeButtonsHTML;
 
     let firstButton = sizeContainer.querySelector('button');
-    if(firstButton) {
-        firstButton.click();
-    }
+    if(firstButton) firstButton.click();
 }
 
 window.selectSize = function(btn, productId, variantLabel, variantPrice, productName, variantImage) {
@@ -202,54 +213,21 @@ window.selectSize = function(btn, productId, variantLabel, variantPrice, product
     }
 
     const nameDiv = document.getElementById(`name-${productId}`);
-    if (nameDiv) {
-        nameDiv.innerHTML = `${productName} <span style="color:#0b5ed7; font-size:11px; background: #eff6ff; padding: 2px 6px; border-radius: 4px; margin-left: 5px;">${variantLabel}</span>`;
-    }
+    if (nameDiv) nameDiv.innerHTML = `${productName} <span style="color:#0b5ed7; font-size:11px; background: #eff6ff; padding: 2px 6px; border-radius: 4px; margin-left: 5px;">${variantLabel}</span>`;
 
     const imgDiv = document.getElementById(`img-${productId}`);
-    if (imgDiv && variantImage && variantImage !== 'undefined' && variantImage !== 'null') {
-        imgDiv.src = variantImage;
-    }
+    if (imgDiv && variantImage && variantImage !== 'undefined' && variantImage !== 'null') imgDiv.src = variantImage;
 
     const waBtn = document.getElementById(`wa-${productId}`);
-    if (waBtn) {
-        const message = encodeURIComponent(`Hello Star Agencies, I am interested in ${productName} (Option: ${variantLabel}). Please send me details.`);
-        waBtn.href = `https://wa.me/919447016013?text=${message}`;
-    }
+    if (waBtn) waBtn.href = `https://wa.me/919447016013?text=${encodeURIComponent(`Hello Star Agencies, I am interested in ${productName} (Option: ${variantLabel}). Please send me details.`)}`;
 }
 
-// ==========================================
-// പുതിയ മാറ്റങ്ങൾ ഇവിടെയാണ് (Filter & Dropdown Fix)
-// ==========================================
-
-// ഡ്രോപ്പ്ഡൗണിലെ ഐറ്റം (ഉദാ: Bucket) ക്ലിക്ക് ചെയ്യുമ്പോൾ വർക്ക് ആവാൻ
-window.selectPlasticSub = function(subName) {
-    const searchInput = document.getElementById("searchInput");
-    if (searchInput) searchInput.value = subName;
-    
-    document.querySelectorAll(".filter-btn").forEach(btn => btn.classList.remove("active"));
-    const plasticBtn = document.querySelector('[data-category="Plastic Products"]');
-    if (plasticBtn) plasticBtn.classList.add("active");
-    
-    selectedCategory = "Plastic Products";
+window.handleCategoryChange = function(value) {
+    selectedCategory = value;
+    if(searchInput) searchInput.value = "";
     renderProducts();
 }
 
 if (searchInput) searchInput.addEventListener("input", renderProducts);
-
-// ഫിൽറ്റർ ബട്ടണുകൾ ക്ലിക്ക് ചെയ്യുമ്പോൾ വർക്ക് ആവാൻ
-document.querySelectorAll(".filter-btn").forEach(button => {
-    button.addEventListener("click", () => {
-        document.querySelectorAll(".filter-btn").forEach(btn => btn.classList.remove("active"));
-        button.classList.add("active");
-        selectedCategory = button.dataset.category || "All";
-        
-        // വേറെ കാറ്റഗറി ക്ലിക്ക് ചെയ്യുമ്പോൾ സെർച്ച് ബോക്സ് ക്ലിയർ ആക്കാൻ
-        const searchInput = document.getElementById("searchInput");
-        if (searchInput) searchInput.value = "";
-        
-        renderProducts();
-    });
-});
 
 loadProducts();
