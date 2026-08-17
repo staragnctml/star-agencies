@@ -22,18 +22,30 @@ function renderProducts() {
     const term = searchInput ? searchInput.value.trim().toLowerCase() : "";
     window.productVariantsMap = {}; 
 
-    // Household കൂടി സബ്-കാറ്റഗറി ലിസ്റ്റിൽ ഉൾപ്പെടുത്തി
-    const isSubCat = ["Bucket", "Basin", "Drum", "Container", "Laundry", "Household"].includes(selectedCategory);
+    const subCategoryList = ["bucket", "basin", "drum", "container", "laundry", "household"];
+    const isSubCat = subCategoryList.includes(selectedCategory.toLowerCase());
 
     const filtered = allProducts.filter(product => {
         let categoryMatch = false;
+
+        const pCat = (product.category || "").toLowerCase();
+        const pSubCat = (product.subCategory || "").toLowerCase();
+        const pName = (product.name || "").toLowerCase();
+        const selCat = selectedCategory.toLowerCase();
         
         if (selectedCategory === "All") {
             categoryMatch = true;
+        } else if (selCat === "plastic products") {
+            categoryMatch = pCat.includes("plastic");
         } else if (isSubCat) {
-            categoryMatch = (product.category === "Plastic Products" && product.subCategory === selectedCategory);
+            // 1. subCategory-യിൽ ഒത്തു വരുന്നുണ്ടോ എന്ന് നോക്കുന്നു
+            const subMatch = pSubCat.includes(selCat);
+            // 2. അല്ലെങ്കിൽ പ്രൊഡക്റ്റിന്റെ പേരിൽ (Name) ആ വാക്കുണ്ടോ എന്ന് നോക്കുന്നു (പഴയ പ്രൊഡക്റ്റുകൾക്ക് വേണ്ടിയാണിത്)
+            const nameMatch = pName.includes(selCat);
+
+            categoryMatch = (pCat.includes("plastic") || pCat === "") && (subMatch || nameMatch);
         } else {
-            categoryMatch = (product.category === selectedCategory);
+            categoryMatch = pCat.includes(selCat);
         }
 
         const variantText = product.variants ? product.variants.map(v => v.label || "").join(" ") : "";
