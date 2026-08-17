@@ -1,5 +1,41 @@
 [
   {
+    "id": "1786993500582",
+    "name": "Chirava",
+    "brand": "Slab Chirava",
+    "category": "Household",
+    "subCategory": "",
+    "price": "225",
+    "image": "",
+    "variants": [
+      {
+        "label": "Slab Chirava - M.Mahagani",
+        "price": "225",
+        "image": "images/products/chirava-slab-chirava-m-mahagani-1786993480929.jpg"
+      },
+      {
+        "label": "Slab Chirava - Metal Color",
+        "price": "237",
+        "image": "images/products/chirava-slab-chirava-metal-color-1786993486031.jpg"
+      },
+      {
+        "label": "Slab Chirava - Steel H",
+        "price": "287",
+        "image": "images/products/chirava-slab-chirava-steel-h-1786993492129.jpg"
+      },
+      {
+        "label": "Stool Chirava - Metal",
+        "price": "575",
+        "image": "images/products/chirava-stool-chirava-metal-1786993494574.jpg"
+      },
+      {
+        "label": "Stool Chirava - Cushion",
+        "price": "775",
+        "image": "images/products/chirava-stool-chirava-cushion-1786993496882.jpg"
+      }
+    ]
+  },
+  {
     "id": "1786992261330",
     "name": "Pot",
     "brand": "Priya",
