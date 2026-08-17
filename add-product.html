@@ -15,14 +15,12 @@ button { width: 100%; padding: 14px; background: #10b981; color: white; border: 
 button:hover { background: #059669; }
 button:disabled { background: #94a3b8; cursor: not-allowed; }
 
-/* പുതിയ ബ്രാൻഡ് ഗ്രൂപ്പ് ഡിസൈൻ */
 .brand-group { background: #e0f2fe; border: 2px solid #bae6fd; border-radius: 10px; padding: 15px; margin-top: 20px; position: relative; }
 .bg-header { display: flex; gap: 10px; margin-bottom: 15px; align-items: center; }
 .bg-name { flex: 1; padding: 10px; border: 1px solid #7dd3fc; border-radius: 6px; font-weight: bold; font-size: 16px; color: #0369a1; }
 .remove-bg-btn { background: #ef4444; width: auto; padding: 10px 15px; font-size: 13px; margin: 0; }
 .remove-bg-btn:hover { background: #dc2626; }
 
-/* പുതിയ സൈസ് നിര ഡിസൈൻ */
 .sizes-container { background: white; padding: 15px; border-radius: 8px; border: 1px solid #cbd5e1; }
 .size-row { display: flex; gap: 10px; margin-bottom: 10px; align-items: center; border-bottom: 1px dashed #e2e8f0; padding-bottom: 10px; flex-wrap: wrap; }
 .sz-input { flex: 2; min-width: 120px; }
@@ -61,7 +59,6 @@ button:disabled { background: #94a3b8; cursor: not-allowed; }
         <option value="Cleaning Items">Cleaning Items</option>
         <option value="Stationery Items">Stationery Items</option>
         <option value="Hardware Items">Hardware Items</option>
-        <option value="Household">Household</option>
     </select>
 
     <div id="subCategoryDiv">
@@ -73,13 +70,13 @@ button:disabled { background: #94a3b8; cursor: not-allowed; }
             <option value="Drum">Drum</option>
             <option value="Container">Container</option>
             <option value="Laundry">Laundry Products</option>
+            <option value="Household">Household Items</option>
         </select>
     </div>
 
     <label>Main Product Image</label>
     <input type="file" id="mainImageFile" accept="image/*">
 
-    <!-- പുതിയ Brands & Sizes സെക്ഷൻ -->
     <div style="margin-top: 30px; border-top: 2px solid #e2e8f0; padding-top: 20px;">
         <h3 style="color: #0f172a; margin-bottom: 5px;">📦 Brands & Sizes (Prices)</h3>
         <p style="font-size: 13px; color: #64748b; margin-top: 0;">Add a brand, then add its sizes and prices below.</p>
@@ -94,34 +91,11 @@ button:disabled { background: #94a3b8; cursor: not-allowed; }
 </div>
 
 <script>
-const OWNER = "staragnctml";
-const REPO = "star-agencies";
-const BRANCH = "main";
-const PRODUCTS_FILE = "data/products.json";
-const IMAGE_FOLDER = "images/products";
+const OWNER = "staragnctml"; const REPO = "star-agencies"; const BRANCH = "main"; const PRODUCTS_FILE = "data/products.json"; const IMAGE_FOLDER = "images/products";
 
-function showStatus(msg, type) {
-    const el = document.getElementById("status");
-    el.className = "status " + type;
-    el.innerHTML = msg;
-    el.style.display = "block";
-}
-
-function toggleSubCategory() {
-    const cat = document.getElementById("category").value;
-    const subDiv = document.getElementById("subCategoryDiv");
-    if(cat === "Plastic Products") subDiv.style.display = "block";
-    else { subDiv.style.display = "none"; document.getElementById("subCategory").value = ""; }
-}
-
-function fileToBase64(file) {
-    return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = () => resolve(reader.result.split(",")[1]);
-        reader.onerror = reject;
-        reader.readAsDataURL(file);
-    });
-}
+function showStatus(msg, type) { const el = document.getElementById("status"); el.className = "status " + type; el.innerHTML = msg; el.style.display = "block"; }
+function toggleSubCategory() { const cat = document.getElementById("category").value; const subDiv = document.getElementById("subCategoryDiv"); if(cat === "Plastic Products") subDiv.style.display = "block"; else { subDiv.style.display = "none"; document.getElementById("subCategory").value = ""; } }
+function fileToBase64(file) { return new Promise((resolve, reject) => { const reader = new FileReader(); reader.onload = () => resolve(reader.result.split(",")[1]); reader.onerror = reject; reader.readAsDataURL(file); }); }
 function textToBase64(text) { return btoa(unescape(encodeURIComponent(text))); }
 function base64ToText(base64) { return decodeURIComponent(escape(atob(base64.replace(/\s/g, "")))); }
 function makeFileName(name) { return name.trim().toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, ""); }
@@ -135,35 +109,29 @@ async function githubRequest(url, options) {
     return data;
 }
 
-// പുതിയ ബ്രാൻഡ് ഗ്രൂപ്പ് ആഡ് ചെയ്യാനുള്ള ഫംഗ്ഷൻ
 function addNewBrandGroup(brandName = "") {
     const container = document.getElementById("brandGroupsContainer");
     const groupId = "bg-" + Date.now() + Math.random().toString(36).substr(2, 5);
     const div = document.createElement("div");
-    div.className = "brand-group";
-    div.id = groupId;
+    div.className = "brand-group"; div.id = groupId;
     
     div.innerHTML = `
         <div class="bg-header">
             <input type="text" class="bg-name" placeholder="Brand Name (e.g. Priya)" value="${brandName}">
             <button type="button" class="remove-bg-btn" onclick="document.getElementById('${groupId}').remove()">X Remove Brand</button>
         </div>
-        <div class="sizes-container" id="sizes-${groupId}">
-            <p style="font-size:12px; color:#64748b; margin-top:0; margin-bottom:10px;">Add Sizes for this brand:</p>
-        </div>
+        <div class="sizes-container" id="sizes-${groupId}"></div>
         <button type="button" class="add-size-btn" onclick="addSizeRow('${groupId}')">+ Add Size</button>
     `;
     container.appendChild(div);
-    addSizeRow(groupId); // ഒരു ബ്ലാങ്ക് സൈസ് നിര ഓട്ടോമാറ്റിക് ആയി വരും
+    addSizeRow(groupId); 
 }
 
-// ബ്രാൻഡിനുള്ളിൽ സൈസ് ആഡ് ചെയ്യാനുള്ള ഫംഗ്ഷൻ
 function addSizeRow(groupId, sizeLabel = "", price = "") {
     const container = document.getElementById("sizes-" + groupId);
     const rowId = "sz-" + Date.now() + Math.random().toString(36).substr(2, 5);
     const div = document.createElement("div");
-    div.className = "size-row";
-    div.id = rowId;
+    div.className = "size-row"; div.id = rowId;
     
     div.innerHTML = `
         <input type="text" class="sz-input" placeholder="Size (e.g. 650ml)" value="${sizeLabel}">
@@ -203,12 +171,8 @@ async function saveProduct() {
             await githubRequest(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${mainImagePath}`, { method: "PUT", body: JSON.stringify({ message: `Upload image`, content: base64Img, branch: BRANCH }) });
         }
 
-        let variantsArray = [];
-        let finalMainBrand = "";
-        let finalMainPrice = "";
-        let isFirstRow = true;
+        let variantsArray = []; let finalMainBrand = ""; let finalMainPrice = ""; let isFirstRow = true;
 
-        // ഫാമിലെ ഡാറ്റ എടുത്ത് സിസ്റ്റത്തിന് വേണ്ട രീതിയിൽ (Priya - 650ml) ആക്കുന്നു
         const brandGroups = document.querySelectorAll('.brand-group');
         for (let i = 0; i < brandGroups.length; i++) {
             const bg = brandGroups[i];
@@ -224,7 +188,6 @@ async function saveProduct() {
 
                 if (sizeName || price) {
                     if (isFirstRow) { finalMainPrice = price; isFirstRow = false; }
-
                     let finalLabel = sizeName;
                     if (brandName && sizeName) finalLabel = brandName + " - " + sizeName;
                     else if (brandName) finalLabel = brandName;
@@ -266,7 +229,6 @@ async function saveProduct() {
     } catch (error) { showStatus("❌ Error: " + error.message, "error"); } finally { btn.disabled = false; }
 }
 
-// പേജ് ലോഡ് ആകുമ്പോൾ ഒരു ബ്ലാങ്ക് ബ്രാൻഡ് ഗ്രൂപ്പ് കാണിക്കാൻ
 window.onload = function() { addNewBrandGroup(); };
 </script>
 </body>
