@@ -1,5 +1,31 @@
 [
   {
+    "id": "1786992261330",
+    "name": "Pot",
+    "brand": "Priya",
+    "category": "Household",
+    "subCategory": "",
+    "price": "16",
+    "image": "images/products/pot-1786992253186.jpg",
+    "variants": [
+      {
+        "label": "Priya - S.Red",
+        "price": "16",
+        "image": "images/products/pot-priya-s-red-1786992254846.jpg"
+      },
+      {
+        "label": "Priya - M.Red",
+        "price": "27",
+        "image": "images/products/pot-priya-m-red-1786992256798.jpg"
+      },
+      {
+        "label": "Priya - B.Red",
+        "price": "41",
+        "image": "images/products/pot-priya-b-red-1786992258823.jpg"
+      }
+    ]
+  },
+  {
     "id": "1786899357951",
     "name": "Muram",
     "brand": "Priya Plastics",
