@@ -9,38 +9,23 @@
     <link rel="stylesheet" href="css/products.css">
 
     <style>
-        /* Modern Page Banner */
-        .page-banner {
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-            color: white;
-            text-align: center;
-            padding: 70px 20px;
-            border-radius: 0 0 40px 40px;
-            margin-bottom: 50px;
-            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.1);
-        }
+        .page-banner { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: white; text-align: center; padding: 70px 20px; border-radius: 0 0 40px 40px; margin-bottom: 50px; box-shadow: 0 10px 30px rgba(15, 23, 42, 0.1); }
         .page-banner .eyebrow { color: #fbbf24; font-weight: 700; letter-spacing: 3px; font-size: 13px; display: block; margin-bottom: 15px; text-transform: uppercase; }
         .page-banner h1 { font-size: clamp(32px, 5vw, 46px); margin: 0 0 15px 0; font-weight: 800; color: #ffffff; }
         .page-banner p { font-size: 16px; color: #94a3b8; max-width: 600px; margin: 0 auto; line-height: 1.6; }
 
-        /* Search Bar & Filters */
-        .catalogue-tools { max-width: 900px; margin: 0 auto 40px; text-align: center; }
-        #searchInput { width: 100%; max-width: 600px; padding: 16px 25px; font-size: 16px; border: 2px solid #e2e8f0; border-radius: 50px; outline: none; box-shadow: 0 4px 20px rgba(0,0,0,0.04); transition: all 0.3s ease; margin-bottom: 30px; color: #1e293b; }
-        #searchInput:focus { border-color: #0b5ed7; box-shadow: 0 4px 20px rgba(11, 94, 215, 0.15); }
-        .filter-buttons { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
-        .filter-btn { padding: 10px 22px; border: 1px solid #cbd5e1; background: #ffffff; color: #475569; border-radius: 50px; cursor: pointer; font-weight: 600; font-size: 14px; transition: all 0.3s ease; }
-        .filter-btn:hover { background: #f1f5f9; color: #0b5ed7; border-color: #94a3b8; transform: translateY(-2px); }
-        .filter-btn.active { background: #0b5ed7; color: #ffffff; border-color: #0b5ed7; box-shadow: 0 4px 12px rgba(11, 94, 215, 0.25); }
+        .catalogue-tools { max-width: 900px; margin: 0 auto 40px; display: flex; gap: 15px; }
+        .search-box { flex: 2; position: relative; }
+        .category-box { flex: 1; position: relative; }
 
-        /* Plastic Dropdown (ഗ്യാപ്പ് വന്ന് മാഞ്ഞുപോകാതിരിക്കാൻ) */
-        .filter-dropdown { position: relative; display: inline-block; }
-        .filter-dropdown::after { content: ''; position: absolute; top: 100%; left: 0; width: 100%; height: 15px; } 
-        .filter-dropdown-content { display: none; position: absolute; background-color: #ffffff; min-width: 190px; box-shadow: 0px 10px 25px rgba(0,0,0,0.1); z-index: 1000; border-radius: 12px; overflow: hidden; top: 100%; left: 50%; transform: translateX(-50%); margin-top: 10px; text-align: left; border: 1px solid #e2e8f0; }
-        .filter-dropdown-content button { width: 100%; padding: 12px 18px; border: none; background: none; color: #1e293b; text-align: left; cursor: pointer; font-size: 14px; font-weight: 500; border-bottom: 1px solid #f8fafc; transition: 0.2s; }
-        .filter-dropdown-content button:hover { background-color: #f1f5f9; color: #0b5ed7; padding-left: 22px; }
-        .filter-dropdown:hover .filter-dropdown-content { display: block; }
+        #searchInput, #categoryDropdown { width: 100%; padding: 16px 25px; font-size: 15px; border: 2px solid #e2e8f0; border-radius: 50px; outline: none; box-shadow: 0 4px 20px rgba(0,0,0,0.04); transition: all 0.3s ease; background: #ffffff; color: #1e293b; font-family: inherit; }
+        #searchInput:focus, #categoryDropdown:focus { border-color: #0b5ed7; box-shadow: 0 4px 20px rgba(11, 94, 215, 0.15); }
+        
+        #categoryDropdown { cursor: pointer; appearance: none; font-weight: 600; color: #0f172a; }
+        .dropdown-icon { position: absolute; right: 20px; top: 50%; transform: translateY(-50%); pointer-events: none; }
 
-        /* 4 COLUMNS GRID */
+        @media (max-width: 768px) { .catalogue-tools { flex-direction: column; gap: 15px; } }
+
         .products-grid { display: grid; grid-template-columns: repeat(4, 1fr) !important; gap: 20px; padding: 10px 0 30px; width: 100%; }
         @media (max-width: 1100px) { .products-grid { grid-template-columns: repeat(3, 1fr) !important; } }
         @media (max-width: 850px) { .products-grid { grid-template-columns: repeat(2, 1fr) !important; } }
@@ -52,54 +37,14 @@
         .product-image { width: 100%; height: 180px; object-fit: contain; padding: 20px; background: radial-gradient(circle, #ffffff 0%, #f8fafc 100%); border-bottom: 1px solid #f1f5f9; }
         .product-info { padding: 18px; flex-grow: 1; display: flex; flex-direction: column; }
 
-        /* ===================================================
-           SCROLL TO TOP BUTTON (പുതിയതായി ചേർത്തത്)
-           =================================================== */
-        #scrollTopBtn {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            z-index: 999;
-            border: none;
-            outline: none;
-            background: linear-gradient(135deg, #0b5ed7, #10b981);
-            color: white;
-            cursor: pointer;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.25);
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            visibility: hidden;
-        }
-        
-        #scrollTopBtn.show {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        #scrollTopBtn:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
-        }
-
-        @media (max-width: 768px) {
-            #scrollTopBtn {
-                bottom: 20px;
-                right: 20px;
-                width: 45px;
-                height: 45px;
-            }
-        }
+        #scrollTopBtn { position: fixed; bottom: 30px; right: 30px; z-index: 999; border: none; outline: none; background: linear-gradient(135deg, #0b5ed7, #10b981); color: white; cursor: pointer; width: 50px; height: 50px; border-radius: 50%; box-shadow: 0 4px 15px rgba(0,0,0,0.25); transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; }
+        #scrollTopBtn.show { opacity: 1; visibility: visible; }
+        #scrollTopBtn:hover { transform: translateY(-5px); box-shadow: 0 6px 20px rgba(0,0,0,0.3); }
+        @media (max-width: 768px) { #scrollTopBtn { bottom: 20px; right: 20px; width: 45px; height: 45px; } }
     </style>
 </head>
 
 <body>
-    <!-- Header -->
     <header class="site-header">
         <div class="container navbar">
             <a href="index.html" class="brand">
@@ -116,42 +61,42 @@
     </header>
 
     <main>
-        <!-- Page Banner -->
         <section class="page-banner">
             <div class="container">
                 <span class="eyebrow">OUR CATALOGUE</span>
                 <h1>Explore Our Products</h1>
-                <p>Find the best quality household, cleaning, plastic, and hardware items for your everyday needs.</p>
+                <p>Find the best quality household, cleaning, plastic, hardware, and stationery items for your everyday needs.</p>
             </div>
         </section>
 
         <section class="products-section">
             <div class="container">
-                <!-- SEARCH + FILTER -->
                 <div class="catalogue-tools">
-                    <input type="search" id="searchInput" placeholder="Search for products, categories, or brands..." aria-label="Search products">
-                    <div class="filter-buttons">
-                        <button class="filter-btn active" data-category="All">All</button>
-                        <button class="filter-btn" data-category="Stationery Items">Stationery</button>
-                        
-                        <div class="filter-dropdown">
-                            <button class="filter-btn filter-dropdown-btn" data-category="Plastic Products">Plastic ▼</button>
-                            <div class="filter-dropdown-content">
-                                <button type="button" onclick="selectPlasticSub('Bucket')">Bucket</button>
-                                <button type="button" onclick="selectPlasticSub('Basin')">Basins</button>
-                                <button type="button" onclick="selectPlasticSub('Drum')">Drums</button>
-                                <button type="button" onclick="selectPlasticSub('Container')">Containers</button>
-                                <button type="button" onclick="selectPlasticSub('Laundry')">Laundry Products</button>
-                            </div>
+                    <div class="search-box">
+                        <input type="search" id="searchInput" placeholder="Search for products or brands..." aria-label="Search products">
+                    </div>
+                    
+                    <div class="category-box">
+                        <select id="categoryDropdown" onchange="handleCategoryChange(this.value)">
+                            <option value="All">View All Categories</option>
+                            <option value="Plastic Products">🟢 Plastic Products</option>
+                            <option value="Bucket">&nbsp;&nbsp;&nbsp;↳ Buckets</option>
+                            <option value="Basin">&nbsp;&nbsp;&nbsp;↳ Basins</option>
+                            <option value="Drum">&nbsp;&nbsp;&nbsp;↳ Drums</option>
+                            <option value="Container">&nbsp;&nbsp;&nbsp;↳ Containers</option>
+                            <option value="Laundry">&nbsp;&nbsp;&nbsp;↳ Laundry Products</option>
+                            <option value="Household">&nbsp;&nbsp;&nbsp;↳ Household Items</option>
+                            <option value="Stationery Items">✏️ Stationery Items</option>
+                            <option value="Cleaning Items">🧹 Cleaning Items</option>
+                            <option value="Aluminium & Steel">🪣 Aluminium & Steel</option>
+                            <option value="Hardware Items">🔧 Hardware Items</option>
+                        </select>
+                        <div class="dropdown-icon">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#475569" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
                         </div>
-
-                        <button class="filter-btn" data-category="Cleaning Items">Cleaning</button>
-                        <button class="filter-btn" data-category="Aluminium & Steel">Aluminium & Steel</button>
-                        <button class="filter-btn" data-category="Household">Household</button>
                     </div>
                 </div>
 
-                <!-- PRODUCTS GRID -->
                 <div class="products-grid" id="productsContainer"></div>
 
                 <p id="noResults" hidden style="text-align: center; color: #64748b; font-size: 16px; margin-top: 40px;">
@@ -161,44 +106,26 @@
         </section>
     </main>
 
-    <!-- Footer -->
     <footer class="site-footer">
         <div class="container">
             <p>© 2026 Star Agencies. All rights reserved.</p>
         </div>
     </footer>
 
-    <!-- SCROLL TO TOP BUTTON (ഇവിടെയാണ് ബട്ടൺ ഉള്ളത്) -->
     <button id="scrollTopBtn" onclick="scrollToTop()" title="Go to top">
-        <!-- മുകളിലേക്കുള്ള അമ്പ് ഐക്കൺ (Arrow Icon) -->
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
             <polyline points="18 15 12 9 6 15"></polyline>
         </svg>
     </button>
 
     <script src="js/products.js"></script>
-
-    <!-- Scroll to Top Script -->
     <script>
-        // സ്ക്രോൾ ചെയ്യുമ്പോൾ ബട്ടൺ കാണിക്കാൻ
         const scrollTopBtn = document.getElementById("scrollTopBtn");
-        
         window.addEventListener("scroll", () => {
-            // സ്ക്രീനിന്റെ മുകളിൽ നിന്ന് 300px താഴേക്ക് പോയാൽ ബട്ടൺ കാണിക്കും
-            if (window.scrollY > 300) {
-                scrollTopBtn.classList.add("show");
-            } else {
-                scrollTopBtn.classList.remove("show");
-            }
+            if (window.scrollY > 300) scrollTopBtn.classList.add("show");
+            else scrollTopBtn.classList.remove("show");
         });
-
-        // ബട്ടണിൽ ക്ലിക്ക് ചെയ്യുമ്പോൾ മുകളിലേക്ക് പോകാൻ
-        function scrollToTop() {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth' // സ്മൂത്ത് ആയി പോകാൻ
-            });
-        }
+        function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
     </script>
 </body>
 </html>
