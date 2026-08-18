@@ -1,5 +1,51 @@
 [
   {
+    "id": "1787080863220",
+    "name": "Washing Brushes",
+    "brand": "Hector",
+    "category": "Cleaning Items",
+    "subCategory": "Brush",
+    "price": "29",
+    "image": "",
+    "variants": [
+      {
+        "label": "Hector",
+        "price": "29",
+        "image": "images/products/washing-brushes-hector-1787080852268.jpg"
+      },
+      {
+        "label": "Tyson",
+        "price": "37",
+        "image": "images/products/washing-brushes-tyson-1787080854099.jpg"
+      },
+      {
+        "label": "Thar",
+        "price": "27",
+        "image": "images/products/washing-brushes-thar-1787080855698.jpg"
+      },
+      {
+        "label": "Punch",
+        "price": "29",
+        "image": "images/products/washing-brushes-punch-1787080857179.jpg"
+      },
+      {
+        "label": "Leo",
+        "price": "29",
+        "image": "images/products/washing-brushes-leo-1787080858581.jpg"
+      },
+      {
+        "label": "heavy",
+        "price": "43",
+        "image": "images/products/washing-brushes-heavy-1787080860013.jpg"
+      },
+      {
+        "label": "Dragon",
+        "price": "35",
+        "image": "images/products/washing-brushes-dragon-1787080861411.jpg"
+      }
+    ]
+  },
+  {
     "id": "1786993500582",
     "name": "Chirava",
     "brand": "Slab Chirava",
