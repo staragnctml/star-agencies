@@ -9,134 +9,162 @@
 
     <style>
         /* ===================================================
-           CENTURY GOTHIC FONT OVERRIDE FOR STAR AGENCIES
+           CENTURY GOTHIC FONT APPLIED TO WHOLE PAGE
            =================================================== */
+        body {
+            font-family: 'Century Gothic', 'Tw Cen MT', sans-serif !important;
+            background-color: #ffffff;
+            color: #000000;
+        }
+
         .brand span {
             font-family: 'Century Gothic', 'Tw Cen MT', sans-serif !important;
             font-weight: bold !important;
             letter-spacing: 1px !important;
+            color: #000000 !important;
+        }
+
+        /* Clean White Header */
+        .site-header {
+            background: #ffffff !important;
+            border-bottom: 1px solid #e6e6e6;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+        .nav-links a {
+            color: #000000 !important;
+            font-size: 14px;
+            font-weight: 600;
+            margin-left: 25px;
+        }
+        .nav-links a:hover {
+            text-decoration: underline;
         }
 
         /* ===================================================
-           MODERN RIGHT-ALIGNED HERO SECTION
+           MICROSOFT WINDOWS STYLE HERO SECTION
            =================================================== */
+        main {
+            padding-top: 70px; /* ഹെഡറിനുള്ള സ്ഥലം */
+        }
+
         .hero {
-            position: relative;
-            /* നിങ്ങളുടെ ബാക്ക്ഗ്രൗണ്ട് ഇമേജ് ലിങ്ക് (മാറ്റങ്ങൾ ഉണ്ടെങ്കിൽ ഇവിടെ തിരുത്താം) */
-            background-image: url('images/hero-bg.jpg'); 
-            background-size: cover;
-            background-position: center left;
-            min-height: 85vh;
+            /* വിൻഡോസിലെ പോലെയുള്ള ലൈറ്റ് ബ്ലൂ ഗ്രേഡിയന്റ് */
+            background: linear-gradient(180deg, #e6f2fb 0%, #ffffff 100%);
+            min-height: 90vh;
             display: flex;
+            flex-direction: column;
             align-items: center;
-            /* അക്ഷരങ്ങളെ പൂർണ്ണമായും വലതുവശത്തേക്ക് മാറ്റാൻ */
-            justify-content: flex-end; 
-            padding: 0 8%;
-            overflow: hidden;
-        }
-
-        /* Modern Gradient: ഇടതുവശം ക്ലിയർ ആക്കാനും വലതുവശം ഡാർക്ക് ആക്കാനും */
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: linear-gradient(to right, rgba(15, 23, 42, 0.05) 0%, rgba(15, 23, 42, 0.4) 40%, rgba(15, 23, 42, 0.95) 100%);
-            z-index: 1;
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 2;
-            max-width: 650px;
-            /* ടെക്സ്റ്റ് റൈറ്റ് അലൈൻ ചെയ്യാൻ */
-            text-align: right; 
-        }
-
-        .hero-subtitle {
-            color: #fbbf24;
-            font-weight: 700;
-            letter-spacing: 4px;
-            font-size: 14px;
-            display: block;
-            margin-bottom: 15px;
-            text-transform: uppercase;
+            text-align: center;
+            padding: 80px 20px 40px;
         }
 
         .hero-title {
-            font-size: clamp(40px, 5vw, 65px);
+            font-size: clamp(38px, 6vw, 56px);
             margin: 0 0 20px 0;
-            font-weight: 800;
-            color: #ffffff;
-            line-height: 1.1;
-        }
-
-        .hero-title .highlight {
-            color: #ef4444; /* Quality എന്നതിന് ചുവപ്പ് നിറം */
+            font-weight: 600; /* Century Gothic Bold ലുക്കിന് വേണ്ടി */
+            color: #000000;
+            letter-spacing: -0.5px;
         }
 
         .hero-desc {
-            font-size: 18px;
-            color: #cbd5e1;
-            margin: 0 0 35px 0;
-            line-height: 1.7;
-            margin-left: auto;
+            font-size: 16px;
+            color: #3b3b3b;
+            max-width: 750px;
+            line-height: 1.6;
+            margin: 0 auto 35px auto;
         }
 
         .hero-buttons {
             display: flex;
-            justify-content: flex-end; /* ബട്ടണുകൾ വലതുവശത്താക്കാൻ */
-            gap: 20px;
+            align-items: center;
+            justify-content: center;
+            gap: 25px;
             flex-wrap: wrap;
         }
 
-        .btn-primary, .btn-outline {
-            padding: 14px 32px;
-            border-radius: 50px;
-            font-size: 16px;
-            font-weight: 700;
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-
+        /* Solid Dark Blue Button (Windows 11 Style) */
         .btn-primary {
-            background: #0b5ed7;
-            color: white;
-            border: 2px solid #0b5ed7;
-            box-shadow: 0 4px 15px rgba(11, 94, 215, 0.3);
+            background-color: #00438b; 
+            color: white !important;
+            padding: 10px 28px;
+            border-radius: 4px;
+            font-size: 15px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: background-color 0.2s;
         }
         .btn-primary:hover {
-            background: #084298;
-            border-color: #084298;
-            transform: translateY(-3px);
+            background-color: #003366;
         }
 
-        .btn-outline {
-            background: transparent;
-            color: white;
-            border: 2px solid white;
+        /* Text Link with Arrow */
+        .btn-link {
+            color: #00438b !important;
+            font-size: 15px;
+            font-weight: 600;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
-        .btn-outline:hover {
+        .btn-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Floating Card Layout (Like "Meet Windows 11" box) */
+        .hero-feature {
+            margin-top: 60px;
+            max-width: 1000px;
+            width: 100%;
+            position: relative;
+        }
+        .hero-feature-img {
+            width: 100%;
+            height: 380px;
+            object-fit: cover;
+            border-radius: 8px;
+            background-color: #f3f4f6; 
+        }
+        .hero-feature-card {
+            position: absolute;
+            bottom: -20px;
+            left: 40px;
             background: white;
-            color: #0f172a;
-            transform: translateY(-3px);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            max-width: 380px;
+            text-align: left;
+            border: 1px solid #f0f0f0;
+        }
+        .hero-feature-card h3 {
+            margin: 0 0 10px 0;
+            font-size: 20px;
+            color: #000;
+            font-weight: 600;
+        }
+        .hero-feature-card p {
+            margin: 0;
+            font-size: 14px;
+            color: #444;
+            line-height: 1.5;
         }
 
-        /* മൊബൈൽ ഫോണിൽ കാണുമ്പോൾ ഉള്ള ഡിസൈൻ മാറ്റങ്ങൾ */
         @media (max-width: 768px) {
-            .hero {
-                justify-content: center;
-                background-position: center;
+            .hero-feature-card {
+                position: relative;
+                bottom: 0;
+                left: 0;
+                max-width: 100%;
+                margin-top: 15px;
+                box-shadow: none;
+                border: 1px solid #e5e5e5;
             }
-            /* മൊബൈലിൽ ഗ്രേഡിയന്റ് താഴെ നിന്നും മുകളിലേക്ക് ആകുന്നു */
-            .hero::before {
-                background: linear-gradient(to top, rgba(15, 23, 42, 0.95) 0%, rgba(15, 23, 42, 0.6) 50%, rgba(15, 23, 42, 0.1) 100%);
-            }
-            .hero-content {
-                text-align: center;
-                margin-top: 150px;
-            }
-            .hero-buttons {
-                justify-content: center;
+            .hero-feature-img {
+                height: 200px;
             }
         }
     </style>
@@ -160,20 +188,30 @@
         </div>
     </header>
 
-    <!-- Modern Right-Aligned Hero Section -->
-    <section class="hero">
-        <div class="hero-content">
-            <span class="hero-subtitle">For your needs only with</span>
-            <h1 class="hero-title">Beauty & <span class="highlight">Quality</span></h1>
-            <p class="hero-desc">Explore our wide range of high-quality household, cleaning, plastic, and hardware products at the best prices.</p>
+    <main>
+        <!-- Microsoft Style Hero Section -->
+        <section class="hero">
+            <h1 class="hero-title">Welcome to Star Agencies</h1>
+            
+            <p class="hero-desc">We know you've got a lot to do. Every day delivers a new challenge. Well, finding the best quality household, plastic, and cleaning products is about to get easier.</p>
+            
             <div class="hero-buttons">
                 <a href="products.html" class="btn-primary">View Products</a>
-                <a href="contact.html" class="btn-outline">Contact Us</a>
+                <a href="contact.html" class="btn-link">Contact for bulk orders <span>&gt;</span></a>
             </div>
-        </div>
-    </section>
 
-    <!-- നിങ്ങളുടെ ബാക്കി സെക്ഷനുകൾ ഇവിടെ നൽകാം (ഉദാഹരണത്തിന് കാറ്റഗറികൾ, ഫൂട്ടർ മുതലായവ) -->
+            <!-- Featured Image & Card Layout -->
+            <div class="hero-feature">
+                <!-- നിങ്ങളുടെ കടയുടെയോ പ്രൊഡക്റ്റുകളുടെയോ ഇമേജ് ഇവിടെ വരും -->
+                <img src="images/hero-bg.jpg" alt="Star Agencies Products" class="hero-feature-img">
+                
+                <div class="hero-feature-card">
+                    <h3>Meet our Collections</h3>
+                    <p>Do it more intuitively. Get it done quickly. Explore our wide range of premium plastics, hardwares, and daily essentials at the best prices yet.</p>
+                </div>
+            </div>
+        </section>
+    </main>
     
     <script src="js/script.js"></script>
 </body>
