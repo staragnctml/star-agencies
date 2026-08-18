@@ -9,51 +9,39 @@
     <link rel="stylesheet" href="css/products.css">
 
     <style>
-        .page-banner { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: white; text-align: center; padding: 70px 20px; border-radius: 0 0 40px 40px; margin-bottom: 50px; box-shadow: 0 10px 30px rgba(15, 23, 42, 0.1); }
+        /* ===================================================
+           CENTURY GOTHIC FONT & CLEAN BACKGROUND
+           =================================================== */
+        body { font-family: 'Century Gothic', 'Tw Cen MT', sans-serif !important; background-color: #f8fafc; color: #000000; }
+        .brand span { font-family: 'Century Gothic', 'Tw Cen MT', sans-serif !important; font-weight: bold !important; letter-spacing: 1px !important; color: #000000 !important; }
+
+        /* Clean White Header */
+        .site-header { background: #ffffff !important; border-bottom: 1px solid #e6e6e6; position: fixed; width: 100%; top: 0; z-index: 1000; }
+        .nav-links a { color: #000000 !important; font-size: 14px; font-weight: 600; margin-left: 25px; text-decoration: none; }
+        .nav-links a:hover, .nav-links a.active { text-decoration: underline; color: #00438b !important; }
+
+        /* ===================================================
+           BEAUTIFUL GRADIENT BANNER
+           =================================================== */
+        .page-banner { 
+            background: linear-gradient(135deg, #00438b 0%, #8b5cf6 50%, #e81cff 100%); 
+            color: white; text-align: center; padding: 100px 20px 60px; border-radius: 0 0 40px 40px; margin-bottom: 50px; box-shadow: 0 10px 30px rgba(139, 92, 246, 0.2); 
+        }
         .page-banner .eyebrow { color: #fbbf24; font-weight: 700; letter-spacing: 3px; font-size: 13px; display: block; margin-bottom: 15px; text-transform: uppercase; }
         .page-banner h1 { font-size: clamp(32px, 5vw, 46px); margin: 0 0 15px 0; font-weight: 800; color: #ffffff; }
-        .page-banner p { font-size: 16px; color: #94a3b8; max-width: 600px; margin: 0 auto; line-height: 1.6; }
+        .page-banner p { font-size: 16px; color: #f1f5f9; max-width: 600px; margin: 0 auto; line-height: 1.6; }
 
         .catalogue-tools { max-width: 850px; margin: 0 auto 40px; display: flex; gap: 15px; align-items: center; }
         
-        /* ===================================================
-           MODERN COMPACT SEARCH BAR WITH ICON
-           =================================================== */
-        .search-box { flex: 1.2; position: relative; } /* വലിപ്പം കുറച്ചു (flex value reduced) */
+        /* Modern Search Box */
+        .search-box { flex: 1.2; position: relative; }
+        .search-icon { position: absolute; left: 18px; top: 50%; transform: translateY(-50%); pointer-events: none; }
+        #searchInput { width: 100%; padding: 14px 20px 14px 45px; font-size: 14px; border: 2px solid #e2e8f0; border-radius: 50px; outline: none; background: #ffffff; color: #1e293b; font-family: inherit; transition: all 0.3s ease; }
+        #searchInput:focus { border-color: #8b5cf6; box-shadow: 0 4px 15px rgba(139, 92, 246, 0.15); }
         
-        .search-icon {
-            position: absolute;
-            left: 18px;
-            top: 50%;
-            transform: translateY(-50%);
-            pointer-events: none;
-        }
-
-        #searchInput { 
-            width: 100%; 
-            padding: 14px 20px 14px 45px; /* ഐക്കണിന് സ്ഥലം നൽകാൻ ലെഫ്റ്റ് പാഡിങ് കൂട്ടി */
-            font-size: 14px; /* അക്ഷരങ്ങളുടെ വലിപ്പം കുറച്ചു */
-            border: 2px solid #e2e8f0; 
-            border-radius: 50px; 
-            outline: none; 
-            background: #f8fafc; /* ചെറിയൊരു ഗ്രേ നിറം */
-            color: #1e293b; 
-            font-family: inherit; 
-            transition: all 0.3s ease; 
-        }
-        #searchInput:focus { 
-            border-color: #8b5cf6; 
-            background: #ffffff; /* ക്ലിക്ക് ചെയ്യുമ്പോൾ വൈറ്റ് ആകും */
-            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.15); 
-        }
-        
-        /* കാറ്റഗറി ഡ്രോപ്പ്ഡൗൺ */
+        /* Windows Style Dropdown */
         .category-box { flex: 1; position: relative; }
-
-        .colorful-pill-btn {
-            width: 100%; padding: 14px 25px; font-size: 14px; font-weight: 700; color: #ffffff;
-            background: linear-gradient(135deg, #3b82f6, #8b5cf6, #ec4899); border: none; border-radius: 50px; box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3); cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;
-        }
+        .colorful-pill-btn { width: 100%; padding: 14px 25px; font-size: 14px; font-weight: 700; color: #ffffff; background: linear-gradient(135deg, #3b82f6, #8b5cf6, #ec4899); border: none; border-radius: 50px; box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3); cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease; }
         .colorful-pill-btn:hover { box-shadow: 0 6px 25px rgba(139, 92, 246, 0.5); transform: translateY(-2px); }
 
         .windows-dropdown { position: absolute; top: 115%; right: 0; background: #ffffff; min-width: 250px; border-radius: 16px; box-shadow: 0 15px 40px rgba(0,0,0,0.12); padding: 10px; list-style: none; margin: 0; z-index: 1000; opacity: 0; visibility: hidden; transform: translateY(10px); transition: all 0.3s ease; border: 1px solid #f1f5f9; }
@@ -75,15 +63,16 @@
             .windows-dropdown { width: 100%; right: auto; left: 0; }
         }
 
+        /* Grid & Cards */
         .products-grid { display: grid; grid-template-columns: repeat(4, 1fr) !important; gap: 20px; padding: 10px 0 30px; width: 100%; }
         @media (max-width: 1100px) { .products-grid { grid-template-columns: repeat(3, 1fr) !important; } }
         @media (max-width: 850px) { .products-grid { grid-template-columns: repeat(2, 1fr) !important; } }
         @media (max-width: 500px) { .products-grid { grid-template-columns: 1fr !important; } }
 
         .product-card { background: #ffffff; border-radius: 16px; border: 1px solid #f1f5f9 !important; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); overflow: hidden; transition: all 0.3s ease; position: relative; display: flex; flex-direction: column; height: 100%; }
-        .product-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, #0b5ed7, #10b981, #f59e0b, #ef4444); }
-        .product-card:hover { transform: translateY(-6px); box-shadow: 0 12px 30px rgba(11, 94, 215, 0.12); border-color: #cbd5e1 !important; }
-        .product-image { width: 100%; height: 180px; object-fit: contain; padding: 20px; background: radial-gradient(circle, #ffffff 0%, #f8fafc 100%); border-bottom: 1px solid #f1f5f9; }
+        .product-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, #3b82f6, #8b5cf6, #ec4899); }
+        .product-card:hover { transform: translateY(-6px); box-shadow: 0 12px 30px rgba(139, 92, 246, 0.12); border-color: #cbd5e1 !important; }
+        .product-image { width: 100%; height: 180px; object-fit: contain; padding: 20px; background: #ffffff; border-bottom: 1px solid #f1f5f9; }
         .product-info { padding: 18px; flex-grow: 1; display: flex; flex-direction: column; }
 
         #scrollTopBtn { position: fixed; bottom: 30px; right: 30px; z-index: 999; border: none; outline: none; background: linear-gradient(135deg, #0b5ed7, #10b981); color: white; cursor: pointer; width: 50px; height: 50px; border-radius: 50%; box-shadow: 0 4px 15px rgba(0,0,0,0.25); transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; }
@@ -98,7 +87,7 @@
         <div class="container navbar">
             <a href="index.html" class="brand">
                 <img src="images/logo.jpg" alt="Star Agencies Logo">
-                <span style="font-family: 'Century Gothic', sans-serif; font-weight: bold; letter-spacing: 1px;">STAR AGENCIES</span>
+                <span>STAR AGENCIES</span>
             </a>
             <nav class="nav-links">
                 <a href="index.html">Home</a>
@@ -120,13 +109,10 @@
 
         <section class="products-section">
             <div class="container">
-                
                 <div class="catalogue-tools">
-                    <!-- MODERN SEARCH BOX WITH ICON -->
                     <div class="search-box">
                         <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="11" cy="11" r="8"></circle>
-                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                            <circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line>
                         </svg>
                         <input type="search" id="searchInput" placeholder="Search for products or brands..." aria-label="Search products">
                     </div>
@@ -136,13 +122,10 @@
                             <span>View All Categories</span>
                             <span>▼</span>
                         </button>
-
                         <ul class="windows-dropdown">
                             <li onclick="selectCategory('All', 'View All Categories')">All Categories</li>
-                            
                             <li class="has-submenu">
-                                <span>🟢 Plastic Products</span>
-                                <span class="arrow">◀</span>
+                                <span>🟢 Plastic Products</span><span class="arrow">◀</span>
                                 <ul class="flyout-menu">
                                     <li onclick="selectCategory('Plastic Products', '🟢 All Plastics')">All Plastics</li>
                                     <li onclick="selectCategory('Bucket', 'Buckets')">Buckets</li>
@@ -153,10 +136,8 @@
                                     <li onclick="selectCategory('Household', 'Household Items')">Household Items</li>
                                 </ul>
                             </li>
-                            
                             <li class="has-submenu">
-                                <span>🧹 Cleaning Items</span>
-                                <span class="arrow">◀</span>
+                                <span>🧹 Cleaning Items</span><span class="arrow">◀</span>
                                 <ul class="flyout-menu">
                                     <li onclick="selectCategory('Cleaning Items', '🧹 All Cleaning')">All Cleaning</li>
                                     <li onclick="selectCategory('Mop', 'Mops')">Mops</li>
@@ -165,7 +146,6 @@
                                     <li onclick="selectCategory('Disinfectant', 'Disinfectants')">Disinfectants</li>
                                 </ul>
                             </li>
-
                             <li onclick="selectCategory('Stationery Items', '✏️ Stationery Items')">✏️ Stationery Items</li>
                             <li onclick="selectCategory('Aluminium & Steel', '🪣 Aluminium & Steel')">🪣 Aluminium & Steel</li>
                             <li onclick="selectCategory('Hardware Items', '🔧 Hardware Items')">🔧 Hardware Items</li>
@@ -174,40 +154,20 @@
                 </div>
 
                 <div class="products-grid" id="productsContainer"></div>
-
-                <p id="noResults" hidden style="text-align: center; color: #64748b; font-size: 16px; margin-top: 40px;">
-                    No products found matching your search.
-                </p>
+                <p id="noResults" hidden style="text-align: center; color: #64748b; font-size: 16px; margin-top: 40px;">No products found matching your search.</p>
             </div>
         </section>
     </main>
 
-    <footer class="site-footer">
-        <div class="container">
-            <p>© 2026 Star Agencies. All rights reserved.</p>
-        </div>
-    </footer>
-
     <button id="scrollTopBtn" onclick="scrollToTop()" title="Go to top">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="18 15 12 9 6 15"></polyline>
-        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg>
     </button>
 
     <script src="js/products.js"></script>
     <script>
-        function selectCategory(val, label) {
-            document.querySelector('#categoryBtn span:first-child').innerText = label;
-            if (typeof handleCategoryChange === 'function') {
-                handleCategoryChange(val);
-            }
-        }
-
+        function selectCategory(val, label) { document.querySelector('#categoryBtn span:first-child').innerText = label; if (typeof handleCategoryChange === 'function') handleCategoryChange(val); }
         const scrollTopBtn = document.getElementById("scrollTopBtn");
-        window.addEventListener("scroll", () => {
-            if (window.scrollY > 300) scrollTopBtn.classList.add("show");
-            else scrollTopBtn.classList.remove("show");
-        });
+        window.addEventListener("scroll", () => { if (window.scrollY > 300) scrollTopBtn.classList.add("show"); else scrollTopBtn.classList.remove("show"); });
         function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
     </script>
 </body>
