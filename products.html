@@ -14,106 +14,60 @@
         .page-banner h1 { font-size: clamp(32px, 5vw, 46px); margin: 0 0 15px 0; font-weight: 800; color: #ffffff; }
         .page-banner p { font-size: 16px; color: #94a3b8; max-width: 600px; margin: 0 auto; line-height: 1.6; }
 
-        .catalogue-tools { max-width: 900px; margin: 0 auto 40px; display: flex; gap: 15px; align-items: center; }
-        .search-box { flex: 2; position: relative; }
+        .catalogue-tools { max-width: 850px; margin: 0 auto 40px; display: flex; gap: 15px; align-items: center; }
         
-        #searchInput { width: 100%; padding: 16px 25px; font-size: 15px; border: 2px solid #e2e8f0; border-radius: 50px; outline: none; box-shadow: 0 4px 20px rgba(0,0,0,0.04); transition: all 0.3s ease; background: #ffffff; color: #1e293b; font-family: inherit; }
-        #searchInput:focus { border-color: #8b5cf6; box-shadow: 0 4px 20px rgba(139, 92, 246, 0.15); }
-
         /* ===================================================
-           NEW: COLORFUL WINDOWS-STYLE FLYOUT MENU
+           MODERN COMPACT SEARCH BAR WITH ICON
            =================================================== */
+        .search-box { flex: 1.2; position: relative; } /* വലിപ്പം കുറച്ചു (flex value reduced) */
+        
+        .search-icon {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+        }
+
+        #searchInput { 
+            width: 100%; 
+            padding: 14px 20px 14px 45px; /* ഐക്കണിന് സ്ഥലം നൽകാൻ ലെഫ്റ്റ് പാഡിങ് കൂട്ടി */
+            font-size: 14px; /* അക്ഷരങ്ങളുടെ വലിപ്പം കുറച്ചു */
+            border: 2px solid #e2e8f0; 
+            border-radius: 50px; 
+            outline: none; 
+            background: #f8fafc; /* ചെറിയൊരു ഗ്രേ നിറം */
+            color: #1e293b; 
+            font-family: inherit; 
+            transition: all 0.3s ease; 
+        }
+        #searchInput:focus { 
+            border-color: #8b5cf6; 
+            background: #ffffff; /* ക്ലിക്ക് ചെയ്യുമ്പോൾ വൈറ്റ് ആകും */
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.15); 
+        }
+        
+        /* കാറ്റഗറി ഡ്രോപ്പ്ഡൗൺ */
         .category-box { flex: 1; position: relative; }
 
-        /* ചതുരം അല്ലാത്ത പൂർണ്ണമായും ഉരുണ്ട കളർഫുൾ ബട്ടൺ */
         .colorful-pill-btn {
-            width: 100%;
-            padding: 16px 25px;
-            font-size: 15px;
-            font-weight: 700;
-            color: #ffffff;
-            background: linear-gradient(135deg, #3b82f6, #8b5cf6, #ec4899); /* മനോഹരമായ ഗ്രേഡിയന്റ് */
-            border: none;
-            border-radius: 50px; /* പൂർണ്ണമായും ഉരുണ്ട രൂപം */
-            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: all 0.3s ease;
+            width: 100%; padding: 14px 25px; font-size: 14px; font-weight: 700; color: #ffffff;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6, #ec4899); border: none; border-radius: 50px; box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3); cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease;
         }
-        .colorful-pill-btn:hover {
-            box-shadow: 0 6px 25px rgba(139, 92, 246, 0.5);
-            transform: translateY(-2px);
-        }
+        .colorful-pill-btn:hover { box-shadow: 0 6px 25px rgba(139, 92, 246, 0.5); transform: translateY(-2px); }
 
-        /* മെയിൻ ലിസ്റ്റ് */
-        .windows-dropdown {
-            position: absolute;
-            top: 115%;
-            right: 0;
-            background: #ffffff;
-            min-width: 250px;
-            border-radius: 16px;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.12);
-            padding: 10px;
-            list-style: none;
-            margin: 0;
-            z-index: 1000;
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(10px);
-            transition: all 0.3s ease;
-            border: 1px solid #f1f5f9;
-        }
-
-        /* മൗസ് മാറ്റുമ്പോൾ പെട്ടെന്ന് മാഞ്ഞുപോകാതിരിക്കാൻ */
+        .windows-dropdown { position: absolute; top: 115%; right: 0; background: #ffffff; min-width: 250px; border-radius: 16px; box-shadow: 0 15px 40px rgba(0,0,0,0.12); padding: 10px; list-style: none; margin: 0; z-index: 1000; opacity: 0; visibility: hidden; transform: translateY(10px); transition: all 0.3s ease; border: 1px solid #f1f5f9; }
         .category-box::after { content: ''; position: absolute; top: 100%; left: 0; width: 100%; height: 20px; }
         .category-box:hover .windows-dropdown { opacity: 1; visibility: visible; transform: translateY(0); }
-
-        .windows-dropdown li {
-            padding: 12px 18px;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 600;
-            color: #334155;
-            transition: all 0.2s;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: relative;
-        }
+        .windows-dropdown li { padding: 12px 18px; border-radius: 10px; cursor: pointer; font-size: 14px; font-weight: 600; color: #334155; transition: all 0.2s; display: flex; justify-content: space-between; align-items: center; position: relative; }
         .windows-dropdown li:hover { background: #f8fafc; color: #8b5cf6; }
 
-        /* സബ്-മെനു (വശങ്ങളിലേക്ക് തുറന്നുവരുന്നത്) */
         .has-submenu .arrow { font-size: 12px; color: #94a3b8; }
-        
-        .flyout-menu {
-            position: absolute;
-            top: -10px;
-            right: 100%; /* ലിസ്റ്റിന്റെ ഇടതുവശത്തേക്ക് തുറക്കാൻ */
-            margin-right: 10px;
-            background: #ffffff;
-            min-width: 200px;
-            border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-            padding: 10px;
-            list-style: none;
-            z-index: 1001;
-            opacity: 0;
-            visibility: hidden;
-            transform: translateX(-10px);
-            transition: all 0.3s ease;
-            border: 1px solid #f1f5f9;
-        }
-
-        /* സബ് മെനുവിലേക്കുള്ള പാലം */
+        .flyout-menu { position: absolute; top: -10px; right: 100%; margin-right: 10px; background: #ffffff; min-width: 200px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); padding: 10px; list-style: none; z-index: 1001; opacity: 0; visibility: hidden; transform: translateX(-10px); transition: all 0.3s ease; border: 1px solid #f1f5f9; }
         .has-submenu::after { content: ''; position: absolute; top: 0; right: 95%; width: 20px; height: 100%; }
         .has-submenu:hover .flyout-menu { opacity: 1; visibility: visible; transform: translateX(0); }
         .flyout-menu li:hover { background: #f0fdf4; color: #10b981; }
 
-        /* മൊബൈൽ ഡിസൈൻ */
         @media (max-width: 768px) { 
             .catalogue-tools { flex-direction: column; gap: 15px; } 
             .flyout-menu { position: static; box-shadow: none; border: none; background: #f8fafc; margin-top: 10px; display: none; opacity: 1; visibility: visible; transform: none; width: 100%; }
@@ -121,7 +75,6 @@
             .windows-dropdown { width: 100%; right: auto; left: 0; }
         }
 
-        /* 4 COLUMNS GRID */
         .products-grid { display: grid; grid-template-columns: repeat(4, 1fr) !important; gap: 20px; padding: 10px 0 30px; width: 100%; }
         @media (max-width: 1100px) { .products-grid { grid-template-columns: repeat(3, 1fr) !important; } }
         @media (max-width: 850px) { .products-grid { grid-template-columns: repeat(2, 1fr) !important; } }
@@ -169,11 +122,15 @@
             <div class="container">
                 
                 <div class="catalogue-tools">
+                    <!-- MODERN SEARCH BOX WITH ICON -->
                     <div class="search-box">
+                        <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
                         <input type="search" id="searchInput" placeholder="Search for products or brands..." aria-label="Search products">
                     </div>
                     
-                    <!-- NEW CUSTOM WINDOWS-STYLE DROPDOWN -->
                     <div class="category-box">
                         <button id="categoryBtn" class="colorful-pill-btn">
                             <span>View All Categories</span>
@@ -183,7 +140,6 @@
                         <ul class="windows-dropdown">
                             <li onclick="selectCategory('All', 'View All Categories')">All Categories</li>
                             
-                            <!-- Plastic Products with Flyout Menu -->
                             <li class="has-submenu">
                                 <span>🟢 Plastic Products</span>
                                 <span class="arrow">◀</span>
@@ -198,7 +154,6 @@
                                 </ul>
                             </li>
                             
-                            <!-- Cleaning Items with Flyout Menu -->
                             <li class="has-submenu">
                                 <span>🧹 Cleaning Items</span>
                                 <span class="arrow">◀</span>
@@ -241,18 +196,13 @@
 
     <script src="js/products.js"></script>
     <script>
-        // പുതിയ കസ്റ്റം മെനു വർക്ക് ആവാനുള്ള സ്ക്രിപ്റ്റ്
         function selectCategory(val, label) {
-            // ബട്ടണിലെ ടെക്സ്റ്റ് മാറ്റാൻ
             document.querySelector('#categoryBtn span:first-child').innerText = label;
-            
-            // products.js ലെ ഫിൽറ്റർ ഫംഗ്ഷൻ വിളിക്കാൻ
             if (typeof handleCategoryChange === 'function') {
                 handleCategoryChange(val);
             }
         }
 
-        // Scroll to Top Script
         const scrollTopBtn = document.getElementById("scrollTopBtn");
         window.addEventListener("scroll", () => {
             if (window.scrollY > 300) scrollTopBtn.classList.add("show");
