@@ -22,28 +22,35 @@ function renderProducts() {
     const term = searchInput ? searchInput.value.trim().toLowerCase() : "";
     window.productVariantsMap = {}; 
 
-    const subCategoryList = ["bucket", "basin", "drum", "container", "laundry", "household"];
-    const isSubCat = subCategoryList.includes(selectedCategory.toLowerCase());
+    // രണ്ട് കാറ്റഗറികളുടെയും സബ്-കാറ്റഗറികൾ വേർതിരിക്കുന്നു
+    const plasticSubCats = ["bucket", "basin", "drum", "container", "laundry", "household"];
+    const cleaningSubCats = ["mop", "brush", "broom", "disinfectant"];
+    const selCat = selectedCategory.toLowerCase();
+
+    const isPlasticSub = plasticSubCats.includes(selCat);
+    const isCleaningSub = cleaningSubCats.includes(selCat);
 
     const filtered = allProducts.filter(product => {
         let categoryMatch = false;
-
+        
         const pCat = (product.category || "").toLowerCase();
         const pSubCat = (product.subCategory || "").toLowerCase();
         const pName = (product.name || "").toLowerCase();
-        const selCat = selectedCategory.toLowerCase();
         
         if (selectedCategory === "All") {
             categoryMatch = true;
         } else if (selCat === "plastic products") {
             categoryMatch = pCat.includes("plastic");
-        } else if (isSubCat) {
-            // 1. subCategory-യിൽ ഒത്തു വരുന്നുണ്ടോ എന്ന് നോക്കുന്നു
+        } else if (selCat === "cleaning items") {
+            categoryMatch = pCat.includes("cleaning");
+        } else if (isPlasticSub) {
             const subMatch = pSubCat.includes(selCat);
-            // 2. അല്ലെങ്കിൽ പ്രൊഡക്റ്റിന്റെ പേരിൽ (Name) ആ വാക്കുണ്ടോ എന്ന് നോക്കുന്നു (പഴയ പ്രൊഡക്റ്റുകൾക്ക് വേണ്ടിയാണിത്)
             const nameMatch = pName.includes(selCat);
-
             categoryMatch = (pCat.includes("plastic") || pCat === "") && (subMatch || nameMatch);
+        } else if (isCleaningSub) {
+            const subMatch = pSubCat.includes(selCat);
+            const nameMatch = pName.includes(selCat);
+            categoryMatch = (pCat.includes("cleaning") || pCat === "") && (subMatch || nameMatch);
         } else {
             categoryMatch = pCat.includes(selCat);
         }
