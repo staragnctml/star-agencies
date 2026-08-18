@@ -1,5 +1,36 @@
 [
   {
+    "id": "1787081298101",
+    "name": "Hard Brushes",
+    "brand": "",
+    "category": "Cleaning Items",
+    "subCategory": "Brush",
+    "price": "89",
+    "image": "",
+    "variants": [
+      {
+        "label": "Color Big",
+        "price": "89",
+        "image": "images/products/hard-brushes-color-big-1787081295095.jpg"
+      },
+      {
+        "label": "Color Normal",
+        "price": "80",
+        "image": ""
+      },
+      {
+        "label": "Medium",
+        "price": "65",
+        "image": "images/products/hard-brushes-medium-1787081296638.jpg"
+      },
+      {
+        "label": "White",
+        "price": "93",
+        "image": ""
+      }
+    ]
+  },
+  {
     "id": "1787080863220",
     "name": "Washing Brushes",
     "brand": "Hector",
