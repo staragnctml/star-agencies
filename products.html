@@ -14,18 +14,114 @@
         .page-banner h1 { font-size: clamp(32px, 5vw, 46px); margin: 0 0 15px 0; font-weight: 800; color: #ffffff; }
         .page-banner p { font-size: 16px; color: #94a3b8; max-width: 600px; margin: 0 auto; line-height: 1.6; }
 
-        .catalogue-tools { max-width: 900px; margin: 0 auto 40px; display: flex; gap: 15px; }
+        .catalogue-tools { max-width: 900px; margin: 0 auto 40px; display: flex; gap: 15px; align-items: center; }
         .search-box { flex: 2; position: relative; }
+        
+        #searchInput { width: 100%; padding: 16px 25px; font-size: 15px; border: 2px solid #e2e8f0; border-radius: 50px; outline: none; box-shadow: 0 4px 20px rgba(0,0,0,0.04); transition: all 0.3s ease; background: #ffffff; color: #1e293b; font-family: inherit; }
+        #searchInput:focus { border-color: #8b5cf6; box-shadow: 0 4px 20px rgba(139, 92, 246, 0.15); }
+
+        /* ===================================================
+           NEW: COLORFUL WINDOWS-STYLE FLYOUT MENU
+           =================================================== */
         .category-box { flex: 1; position: relative; }
 
-        #searchInput, #categoryDropdown { width: 100%; padding: 16px 25px; font-size: 15px; border: 2px solid #e2e8f0; border-radius: 50px; outline: none; box-shadow: 0 4px 20px rgba(0,0,0,0.04); transition: all 0.3s ease; background: #ffffff; color: #1e293b; font-family: inherit; }
-        #searchInput:focus, #categoryDropdown:focus { border-color: #0b5ed7; box-shadow: 0 4px 20px rgba(11, 94, 215, 0.15); }
+        /* ചതുരം അല്ലാത്ത പൂർണ്ണമായും ഉരുണ്ട കളർഫുൾ ബട്ടൺ */
+        .colorful-pill-btn {
+            width: 100%;
+            padding: 16px 25px;
+            font-size: 15px;
+            font-weight: 700;
+            color: #ffffff;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6, #ec4899); /* മനോഹരമായ ഗ്രേഡിയന്റ് */
+            border: none;
+            border-radius: 50px; /* പൂർണ്ണമായും ഉരുണ്ട രൂപം */
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+        .colorful-pill-btn:hover {
+            box-shadow: 0 6px 25px rgba(139, 92, 246, 0.5);
+            transform: translateY(-2px);
+        }
+
+        /* മെയിൻ ലിസ്റ്റ് */
+        .windows-dropdown {
+            position: absolute;
+            top: 115%;
+            right: 0;
+            background: #ffffff;
+            min-width: 250px;
+            border-radius: 16px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+            padding: 10px;
+            list-style: none;
+            margin: 0;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+            border: 1px solid #f1f5f9;
+        }
+
+        /* മൗസ് മാറ്റുമ്പോൾ പെട്ടെന്ന് മാഞ്ഞുപോകാതിരിക്കാൻ */
+        .category-box::after { content: ''; position: absolute; top: 100%; left: 0; width: 100%; height: 20px; }
+        .category-box:hover .windows-dropdown { opacity: 1; visibility: visible; transform: translateY(0); }
+
+        .windows-dropdown li {
+            padding: 12px 18px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            color: #334155;
+            transition: all 0.2s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
+        .windows-dropdown li:hover { background: #f8fafc; color: #8b5cf6; }
+
+        /* സബ്-മെനു (വശങ്ങളിലേക്ക് തുറന്നുവരുന്നത്) */
+        .has-submenu .arrow { font-size: 12px; color: #94a3b8; }
         
-        #categoryDropdown { cursor: pointer; appearance: none; font-weight: 600; color: #0f172a; }
-        .dropdown-icon { position: absolute; right: 20px; top: 50%; transform: translateY(-50%); pointer-events: none; }
+        .flyout-menu {
+            position: absolute;
+            top: -10px;
+            right: 100%; /* ലിസ്റ്റിന്റെ ഇടതുവശത്തേക്ക് തുറക്കാൻ */
+            margin-right: 10px;
+            background: #ffffff;
+            min-width: 200px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            padding: 10px;
+            list-style: none;
+            z-index: 1001;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateX(-10px);
+            transition: all 0.3s ease;
+            border: 1px solid #f1f5f9;
+        }
 
-        @media (max-width: 768px) { .catalogue-tools { flex-direction: column; gap: 15px; } }
+        /* സബ് മെനുവിലേക്കുള്ള പാലം */
+        .has-submenu::after { content: ''; position: absolute; top: 0; right: 95%; width: 20px; height: 100%; }
+        .has-submenu:hover .flyout-menu { opacity: 1; visibility: visible; transform: translateX(0); }
+        .flyout-menu li:hover { background: #f0fdf4; color: #10b981; }
 
+        /* മൊബൈൽ ഡിസൈൻ */
+        @media (max-width: 768px) { 
+            .catalogue-tools { flex-direction: column; gap: 15px; } 
+            .flyout-menu { position: static; box-shadow: none; border: none; background: #f8fafc; margin-top: 10px; display: none; opacity: 1; visibility: visible; transform: none; width: 100%; }
+            .has-submenu:hover .flyout-menu { display: block; }
+            .windows-dropdown { width: 100%; right: auto; left: 0; }
+        }
+
+        /* 4 COLUMNS GRID */
         .products-grid { display: grid; grid-template-columns: repeat(4, 1fr) !important; gap: 20px; padding: 10px 0 30px; width: 100%; }
         @media (max-width: 1100px) { .products-grid { grid-template-columns: repeat(3, 1fr) !important; } }
         @media (max-width: 850px) { .products-grid { grid-template-columns: repeat(2, 1fr) !important; } }
@@ -71,35 +167,54 @@
 
         <section class="products-section">
             <div class="container">
+                
                 <div class="catalogue-tools">
                     <div class="search-box">
                         <input type="search" id="searchInput" placeholder="Search for products or brands..." aria-label="Search products">
                     </div>
                     
+                    <!-- NEW CUSTOM WINDOWS-STYLE DROPDOWN -->
                     <div class="category-box">
-                        <select id="categoryDropdown" onchange="handleCategoryChange(this.value)">
-                            <option value="All">View All Categories</option>
-                            <option value="Plastic Products">🟢 Plastic Products</option>
-                            <option value="Bucket">&nbsp;&nbsp;&nbsp;↳ Buckets</option>
-                            <option value="Basin">&nbsp;&nbsp;&nbsp;↳ Basins</option>
-                            <option value="Drum">&nbsp;&nbsp;&nbsp;↳ Drums</option>
-                            <option value="Container">&nbsp;&nbsp;&nbsp;↳ Containers</option>
-                            <option value="Laundry">&nbsp;&nbsp;&nbsp;↳ Laundry Products</option>
-                            <option value="Household">&nbsp;&nbsp;&nbsp;↳ Household Items</option>
-                            
-                            <option value="Cleaning Items">🧹 Cleaning Items</option>
-                            <option value="Mop">&nbsp;&nbsp;&nbsp;↳ Mops</option>
-                            <option value="Brush">&nbsp;&nbsp;&nbsp;↳ Brushes</option>
-                            <option value="Broom">&nbsp;&nbsp;&nbsp;↳ Brooms</option>
-                            <option value="Disinfectant">&nbsp;&nbsp;&nbsp;↳ Disinfectants</option>
+                        <button id="categoryBtn" class="colorful-pill-btn">
+                            <span>View All Categories</span>
+                            <span>▼</span>
+                        </button>
 
-                            <option value="Stationery Items">✏️ Stationery Items</option>
-                            <option value="Aluminium & Steel">🪣 Aluminium & Steel</option>
-                            <option value="Hardware Items">🔧 Hardware Items</option>
-                        </select>
-                        <div class="dropdown-icon">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#475569" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
-                        </div>
+                        <ul class="windows-dropdown">
+                            <li onclick="selectCategory('All', 'View All Categories')">All Categories</li>
+                            
+                            <!-- Plastic Products with Flyout Menu -->
+                            <li class="has-submenu">
+                                <span>🟢 Plastic Products</span>
+                                <span class="arrow">◀</span>
+                                <ul class="flyout-menu">
+                                    <li onclick="selectCategory('Plastic Products', '🟢 All Plastics')">All Plastics</li>
+                                    <li onclick="selectCategory('Bucket', 'Buckets')">Buckets</li>
+                                    <li onclick="selectCategory('Basin', 'Basins')">Basins</li>
+                                    <li onclick="selectCategory('Drum', 'Drums')">Drums</li>
+                                    <li onclick="selectCategory('Container', 'Containers')">Containers</li>
+                                    <li onclick="selectCategory('Laundry', 'Laundry Products')">Laundry Products</li>
+                                    <li onclick="selectCategory('Household', 'Household Items')">Household Items</li>
+                                </ul>
+                            </li>
+                            
+                            <!-- Cleaning Items with Flyout Menu -->
+                            <li class="has-submenu">
+                                <span>🧹 Cleaning Items</span>
+                                <span class="arrow">◀</span>
+                                <ul class="flyout-menu">
+                                    <li onclick="selectCategory('Cleaning Items', '🧹 All Cleaning')">All Cleaning</li>
+                                    <li onclick="selectCategory('Mop', 'Mops')">Mops</li>
+                                    <li onclick="selectCategory('Brush', 'Brushes')">Brushes</li>
+                                    <li onclick="selectCategory('Broom', 'Brooms')">Brooms</li>
+                                    <li onclick="selectCategory('Disinfectant', 'Disinfectants')">Disinfectants</li>
+                                </ul>
+                            </li>
+
+                            <li onclick="selectCategory('Stationery Items', '✏️ Stationery Items')">✏️ Stationery Items</li>
+                            <li onclick="selectCategory('Aluminium & Steel', '🪣 Aluminium & Steel')">🪣 Aluminium & Steel</li>
+                            <li onclick="selectCategory('Hardware Items', '🔧 Hardware Items')">🔧 Hardware Items</li>
+                        </ul>
                     </div>
                 </div>
 
@@ -126,6 +241,18 @@
 
     <script src="js/products.js"></script>
     <script>
+        // പുതിയ കസ്റ്റം മെനു വർക്ക് ആവാനുള്ള സ്ക്രിപ്റ്റ്
+        function selectCategory(val, label) {
+            // ബട്ടണിലെ ടെക്സ്റ്റ് മാറ്റാൻ
+            document.querySelector('#categoryBtn span:first-child').innerText = label;
+            
+            // products.js ലെ ഫിൽറ്റർ ഫംഗ്ഷൻ വിളിക്കാൻ
+            if (typeof handleCategoryChange === 'function') {
+                handleCategoryChange(val);
+            }
+        }
+
+        // Scroll to Top Script
         const scrollTopBtn = document.getElementById("scrollTopBtn");
         window.addEventListener("scroll", () => {
             if (window.scrollY > 300) scrollTopBtn.classList.add("show");
