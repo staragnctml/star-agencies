@@ -44,6 +44,7 @@ button:disabled { background: #94a3b8; cursor: not-allowed; }
 .error { display: block; background: #f8d7da; color: #842029; }
 .info { display: block; background: #cff4fc; color: #055160; }
 #editForm { display: none; margin-top: 20px; padding-top: 20px; border-top: 2px solid #e2e8f0; }
+
 #subCategoryDiv { display: none; background: #e0f2fe; padding: 15px; border-radius: 8px; border: 1px solid #bae6fd; margin-top: 15px; }
 </style>
 </head>
@@ -77,15 +78,9 @@ button:disabled { background: #94a3b8; cursor: not-allowed; }
         </select>
 
         <div id="subCategoryDiv">
-            <label style="color: #0369a1; margin-top: 0;">Plastic Sub-Category</label>
+            <label id="subCatLabel" style="color: #0369a1; margin-top: 0;">Sub-Category</label>
             <select id="subCategory">
                 <option value="">-- Select Option --</option>
-                <option value="Bucket">Bucket</option>
-                <option value="Basin">Basin</option>
-                <option value="Drum">Drum</option>
-                <option value="Container">Container</option>
-                <option value="Laundry">Laundry Products</option>
-                <option value="Household">Household Items</option>
             </select>
         </div>
 
@@ -110,7 +105,47 @@ const OWNER = "staragnctml"; const REPO = "star-agencies"; const BRANCH = "main"
 let allProducts = []; let productsFileSha = "";
 
 function showStatus(msg, type) { const el = document.getElementById("status"); el.className = "status " + type; el.innerHTML = msg; el.style.display = "block"; }
-function toggleSubCategory() { const cat = document.getElementById("category").value; const subDiv = document.getElementById("subCategoryDiv"); if(cat === "Plastic Products") subDiv.style.display = "block"; else { subDiv.style.display = "none"; document.getElementById("subCategory").value = ""; } }
+
+function toggleSubCategory() { 
+    const cat = document.getElementById("category").value; 
+    const subDiv = document.getElementById("subCategoryDiv"); 
+    const subSelect = document.getElementById("subCategory");
+    const subLabel = document.getElementById("subCatLabel");
+
+    subSelect.innerHTML = '<option value="">-- Select Option --</option>'; 
+    
+    if(cat === "Plastic Products") {
+        subDiv.style.display = "block";
+        subDiv.style.background = "#e0f2fe";
+        subDiv.style.borderColor = "#bae6fd";
+        subLabel.innerText = "Plastic Sub-Category";
+        subLabel.style.color = "#0369a1";
+        subSelect.innerHTML += `
+            <option value="Bucket">Bucket</option>
+            <option value="Basin">Basin</option>
+            <option value="Drum">Drum</option>
+            <option value="Container">Container</option>
+            <option value="Laundry">Laundry Products</option>
+            <option value="Household">Household Items</option>
+        `;
+    } else if (cat === "Cleaning Items") {
+        subDiv.style.display = "block";
+        subDiv.style.background = "#dcfce7"; 
+        subDiv.style.borderColor = "#86efac";
+        subLabel.innerText = "Cleaning Sub-Category";
+        subLabel.style.color = "#166534";
+        subSelect.innerHTML += `
+            <option value="Mop">Mop</option>
+            <option value="Brush">Brushes</option>
+            <option value="Broom">Brooms</option>
+            <option value="Disinfectant">Disinfectants</option>
+        `;
+    } else { 
+        subDiv.style.display = "none"; 
+        subSelect.value = ""; 
+    } 
+}
+
 function fileToBase64(file) { return new Promise((resolve, reject) => { const reader = new FileReader(); reader.onload = () => resolve(reader.result.split(",")[1]); reader.onerror = reject; reader.readAsDataURL(file); }); }
 function textToBase64(text) { return btoa(unescape(encodeURIComponent(text))); }
 function base64ToText(base64) { return decodeURIComponent(escape(atob(base64.replace(/\s/g, "")))); }
@@ -177,7 +212,9 @@ function fillFormDetails() {
 
     document.getElementById("productName").value = product.name || "";
     document.getElementById("category").value = product.category || "Aluminium & Steel";
-    toggleSubCategory(); document.getElementById("subCategory").value = product.subCategory || "";
+    
+    toggleSubCategory(); 
+    document.getElementById("subCategory").value = product.subCategory || "";
     
     document.getElementById("brandGroupsContainer").innerHTML = "";
     
