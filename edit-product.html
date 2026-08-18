@@ -154,18 +154,30 @@ function makeFileName(name) { return name.trim().toLowerCase().replace(/[^a-z0-9
 async function githubRequest(url, options) {
     const token = document.getElementById("token").value.trim();
     if (!token) throw new Error("Please enter your GitHub Token!");
-    const response = await fetch(url, { ...options, headers: { "Accept": "application/vnd.github+json", "Authorization": "Bearer " + token, "X-GitHub-Api-Version": "2022-11-28", ...(options.headers || {}) } });
+    const response = await fetch(url, { ...options, headers: { "Accept": "application/vnd.github+json", "Authorization": "Bearer " + token, "X-GitHub-Api-Version": "2022-11-28", "Cache-Control": "no-cache", ...(options.headers || {}) } });
     const data = await response.json();
     if (!response.ok) throw new Error(data.message || "GitHub API Error");
     return data;
+}
+
+// Fetch with cache busting to prevent old SHA issues
+async function fetchLatestSHA() {
+    try {
+        const fileData = await githubRequest(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${PRODUCTS_FILE}?ref=${BRANCH}&t=${Date.now()}`, { method: "GET" });
+        return fileData.sha;
+    } catch(e) {
+        return productsFileSha; // fallback
+    }
 }
 
 async function loadProductsList() {
     const btn = document.getElementById("loadBtn");
     try {
         btn.disabled = true; btn.innerText = "⏳ Loading..."; showStatus("⏳ Fetching...", "info");
-        const fileData = await githubRequest(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${PRODUCTS_FILE}?ref=${BRANCH}`, { method: "GET" });
-        productsFileSha = fileData.sha; allProducts = JSON.parse(base64ToText(fileData.content));
+        // Added timestamp to force fresh fetch
+        const fileData = await githubRequest(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${PRODUCTS_FILE}?ref=${BRANCH}&t=${Date.now()}`, { method: "GET" });
+        productsFileSha = fileData.sha; 
+        allProducts = JSON.parse(base64ToText(fileData.content));
         
         const select = document.getElementById("productSelect");
         select.innerHTML = '<option value="">-- Choose a Product --</option>';
@@ -293,7 +305,10 @@ async function updateProduct() {
         }
         product.variants = variantsArray; product.brand = finalMainBrand; product.price = finalMainPrice;
 
-        showStatus("⏳ Saving...", "info");
+        showStatus("⏳ Connecting to GitHub...", "info");
+        // Get fresh SHA right before save to avoid mismatch
+        productsFileSha = await fetchLatestSHA();
+
         const putRes = await githubRequest(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${PRODUCTS_FILE}`, { method: "PUT", body: JSON.stringify({ message: `Update product: ${newName}`, content: textToBase64(JSON.stringify(allProducts, null, 2)), sha: productsFileSha, branch: BRANCH }) });
         productsFileSha = putRes.content.sha; showStatus("✅ Successfully updated!", "success");
         setTimeout(() => location.reload(), 2000);
@@ -308,6 +323,10 @@ async function deleteProduct() {
     try {
         btn.disabled = true; showStatus("⏳ Deleting...", "info");
         const remaining = allProducts.filter(p => p.id != selectedId);
+
+        // Get fresh SHA right before delete
+        productsFileSha = await fetchLatestSHA();
+
         const putRes = await githubRequest(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${PRODUCTS_FILE}`, { method: "PUT", body: JSON.stringify({ message: `Delete product ID: ${selectedId}`, content: textToBase64(JSON.stringify(remaining, null, 2)), sha: productsFileSha, branch: BRANCH }) });
         productsFileSha = putRes.content.sha; showStatus("✅ Deleted!", "success");
         setTimeout(() => location.reload(), 2000);
