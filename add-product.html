@@ -38,6 +38,8 @@ button:disabled { background: #94a3b8; cursor: not-allowed; }
 .success { display: block; background: #d1e7dd; color: #0f5132; }
 .error { display: block; background: #f8d7da; color: #842029; }
 .info { display: block; background: #cff4fc; color: #055160; }
+
+/* Sub-category Div Style */
 #subCategoryDiv { display: none; background: #e0f2fe; padding: 15px; border-radius: 8px; border: 1px solid #bae6fd; margin-top: 15px; }
 </style>
 </head>
@@ -50,7 +52,7 @@ button:disabled { background: #94a3b8; cursor: not-allowed; }
     <input type="password" id="token" placeholder="Paste your GitHub token here">
 
     <label>Product Name</label>
-    <input type="text" id="productName" placeholder="e.g., Plastic Round Basin">
+    <input type="text" id="productName" placeholder="e.g., Cleaning Mop">
 
     <label>Category</label>
     <select id="category" onchange="toggleSubCategory()">
@@ -61,16 +63,11 @@ button:disabled { background: #94a3b8; cursor: not-allowed; }
         <option value="Hardware Items">Hardware Items</option>
     </select>
 
+    <!-- Sub-Category Div -->
     <div id="subCategoryDiv">
-        <label style="color: #0369a1; margin-top: 0;">Plastic Sub-Category</label>
+        <label id="subCatLabel" style="color: #0369a1; margin-top: 0;">Sub-Category</label>
         <select id="subCategory">
             <option value="">-- Select Option --</option>
-            <option value="Bucket">Bucket</option>
-            <option value="Basin">Basin</option>
-            <option value="Drum">Drum</option>
-            <option value="Container">Container</option>
-            <option value="Laundry">Laundry Products</option>
-            <option value="Household">Household Items</option>
         </select>
     </div>
 
@@ -80,9 +77,7 @@ button:disabled { background: #94a3b8; cursor: not-allowed; }
     <div style="margin-top: 30px; border-top: 2px solid #e2e8f0; padding-top: 20px;">
         <h3 style="color: #0f172a; margin-bottom: 5px;">📦 Brands & Sizes (Prices)</h3>
         <p style="font-size: 13px; color: #64748b; margin-top: 0;">Add a brand, then add its sizes and prices below.</p>
-        
         <div id="brandGroupsContainer"></div>
-
         <button type="button" class="add-brand-btn" onclick="addNewBrandGroup()">+ Add Brand</button>
     </div>
 
@@ -94,7 +89,48 @@ button:disabled { background: #94a3b8; cursor: not-allowed; }
 const OWNER = "staragnctml"; const REPO = "star-agencies"; const BRANCH = "main"; const PRODUCTS_FILE = "data/products.json"; const IMAGE_FOLDER = "images/products";
 
 function showStatus(msg, type) { const el = document.getElementById("status"); el.className = "status " + type; el.innerHTML = msg; el.style.display = "block"; }
-function toggleSubCategory() { const cat = document.getElementById("category").value; const subDiv = document.getElementById("subCategoryDiv"); if(cat === "Plastic Products") subDiv.style.display = "block"; else { subDiv.style.display = "none"; document.getElementById("subCategory").value = ""; } }
+
+// ഇവിടെയാണ് പ്രധാന മാറ്റം (Cleaning Items നുള്ള പുതിയ സബ്-കാറ്റഗറി വരാൻ)
+function toggleSubCategory() { 
+    const cat = document.getElementById("category").value; 
+    const subDiv = document.getElementById("subCategoryDiv"); 
+    const subSelect = document.getElementById("subCategory");
+    const subLabel = document.getElementById("subCatLabel");
+
+    subSelect.innerHTML = '<option value="">-- Select Option --</option>'; 
+    
+    if(cat === "Plastic Products") {
+        subDiv.style.display = "block";
+        subDiv.style.background = "#e0f2fe";
+        subDiv.style.borderColor = "#bae6fd";
+        subLabel.innerText = "Plastic Sub-Category";
+        subLabel.style.color = "#0369a1";
+        subSelect.innerHTML += `
+            <option value="Bucket">Bucket</option>
+            <option value="Basin">Basin</option>
+            <option value="Drum">Drum</option>
+            <option value="Container">Container</option>
+            <option value="Laundry">Laundry Products</option>
+            <option value="Household">Household Items</option>
+        `;
+    } else if (cat === "Cleaning Items") {
+        subDiv.style.display = "block";
+        subDiv.style.background = "#dcfce7"; /* Green Bg for cleaning */
+        subDiv.style.borderColor = "#86efac";
+        subLabel.innerText = "Cleaning Sub-Category";
+        subLabel.style.color = "#166534";
+        subSelect.innerHTML += `
+            <option value="Mop">Mop</option>
+            <option value="Brush">Brushes</option>
+            <option value="Broom">Brooms</option>
+            <option value="Disinfectant">Disinfectants</option>
+        `;
+    } else { 
+        subDiv.style.display = "none"; 
+        subSelect.value = ""; 
+    } 
+}
+
 function fileToBase64(file) { return new Promise((resolve, reject) => { const reader = new FileReader(); reader.onload = () => resolve(reader.result.split(",")[1]); reader.onerror = reject; reader.readAsDataURL(file); }); }
 function textToBase64(text) { return btoa(unescape(encodeURIComponent(text))); }
 function base64ToText(base64) { return decodeURIComponent(escape(atob(base64.replace(/\s/g, "")))); }
@@ -150,8 +186,7 @@ async function saveProduct() {
         if (!newName) throw new Error("Product Name cannot be empty!");
 
         showStatus("⏳ Fetching existing products...", "info");
-        let allProducts = [];
-        let productsFileSha = "";
+        let allProducts = []; let productsFileSha = "";
         
         try {
             const fileData = await githubRequest(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${PRODUCTS_FILE}?ref=${BRANCH}`, { method: "GET" });
