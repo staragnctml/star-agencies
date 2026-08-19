@@ -1,5 +1,26 @@
 [
   {
+    "id": "1787165475448",
+    "name": "3D Brooms",
+    "brand": "Sona",
+    "category": "Cleaning Items",
+    "subCategory": "Broom",
+    "price": "87",
+    "image": "",
+    "variants": [
+      {
+        "label": "Sona - 3D Sada",
+        "price": "87",
+        "image": "images/products/3d-brooms-sona-3d-sada-1787165470297.png"
+      },
+      {
+        "label": "Surabi Sona - 3D Punch",
+        "price": "135",
+        "image": "images/products/3d-brooms-surabi-sona-3d-punch-1787165473912.jpg"
+      }
+    ]
+  },
+  {
     "id": "1787081298101",
     "name": "Hard Brushes",
     "brand": "",
