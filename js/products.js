@@ -22,7 +22,6 @@ function renderProducts() {
     const term = searchInput ? searchInput.value.trim().toLowerCase() : "";
     window.productVariantsMap = {}; 
 
-    // രണ്ട് കാറ്റഗറികളുടെയും സബ്-കാറ്റഗറികൾ വേർതിരിക്കുന്നു
     const plasticSubCats = ["bucket", "basin", "drum", "container", "laundry", "household"];
     const cleaningSubCats = ["mop", "brush", "broom", "disinfectant"];
     const selCat = selectedCategory.toLowerCase();
@@ -247,6 +246,18 @@ window.handleCategoryChange = function(value) {
     renderProducts();
 }
 
-if (searchInput) searchInput.addEventListener("input", renderProducts);
+// പ്രധാന മാറ്റം ഇവിടെയാണ് (സെർച്ച് ചെയ്യുമ്പോൾ കാറ്റഗറി തനിയെ മാറാൻ)
+if (searchInput) {
+    searchInput.addEventListener("input", function() {
+        if (this.value.trim() !== "") {
+            selectedCategory = "All";
+            const catBtnSpan = document.querySelector('#categoryBtn span:first-child');
+            if (catBtnSpan) {
+                catBtnSpan.innerText = "View All Categories";
+            }
+        }
+        renderProducts();
+    });
+}
 
 loadProducts();
