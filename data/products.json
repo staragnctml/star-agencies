@@ -1,5 +1,36 @@
 [
   {
+    "id": "1787167910194",
+    "name": "Single Brooms",
+    "brand": "Surabi Sona",
+    "category": "Cleaning Items",
+    "subCategory": "Broom",
+    "price": "110",
+    "image": "",
+    "variants": [
+      {
+        "label": "Surabi Sona",
+        "price": "110",
+        "image": "images/products/single-brooms-surabi-sona-1787167905300.jpg"
+      },
+      {
+        "label": "Sona - Jumbo Long",
+        "price": "88",
+        "image": ""
+      },
+      {
+        "label": "Sona - Jumbo Cock",
+        "price": "77",
+        "image": "images/products/single-brooms-sona-jumbo-cock-1787167906911.jpg"
+      },
+      {
+        "label": "Sona - Hero",
+        "price": "120",
+        "image": "images/products/single-brooms-sona-hero-1787167908485.jpg"
+      }
+    ]
+  },
+  {
     "id": "1787166573091",
     "name": "5D Brooms",
     "brand": "Sona",
