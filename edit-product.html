@@ -151,22 +151,31 @@ function textToBase64(text) { return btoa(unescape(encodeURIComponent(text))); }
 function base64ToText(base64) { return decodeURIComponent(escape(atob(base64.replace(/\s/g, "")))); }
 function makeFileName(name) { return name.trim().toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, ""); }
 
+// ഇതിലാണ് മാറ്റം വരുത്തിയത് (Cache-Control ഒഴിവാക്കി)
 async function githubRequest(url, options) {
     const token = document.getElementById("token").value.trim();
     if (!token) throw new Error("Please enter your GitHub Token!");
-    const response = await fetch(url, { ...options, headers: { "Accept": "application/vnd.github+json", "Authorization": "Bearer " + token, "X-GitHub-Api-Version": "2022-11-28", "Cache-Control": "no-cache", ...(options.headers || {}) } });
+    const response = await fetch(url, { 
+        ...options, 
+        headers: { 
+            "Accept": "application/vnd.github+json", 
+            "Authorization": "Bearer " + token, 
+            "X-GitHub-Api-Version": "2022-11-28", 
+            ...(options.headers || {}) 
+        } 
+    });
     const data = await response.json();
     if (!response.ok) throw new Error(data.message || "GitHub API Error");
     return data;
 }
 
-// Fetch with cache busting to prevent old SHA issues
+// പുതിയ സുരക്ഷിതമായ രീതിയിലുള്ള SHA Fetching
 async function fetchLatestSHA() {
     try {
         const fileData = await githubRequest(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${PRODUCTS_FILE}?ref=${BRANCH}&t=${Date.now()}`, { method: "GET" });
         return fileData.sha;
     } catch(e) {
-        return productsFileSha; // fallback
+        return productsFileSha;
     }
 }
 
@@ -174,7 +183,7 @@ async function loadProductsList() {
     const btn = document.getElementById("loadBtn");
     try {
         btn.disabled = true; btn.innerText = "⏳ Loading..."; showStatus("⏳ Fetching...", "info");
-        // Added timestamp to force fresh fetch
+        
         const fileData = await githubRequest(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${PRODUCTS_FILE}?ref=${BRANCH}&t=${Date.now()}`, { method: "GET" });
         productsFileSha = fileData.sha; 
         allProducts = JSON.parse(base64ToText(fileData.content));
@@ -306,7 +315,7 @@ async function updateProduct() {
         product.variants = variantsArray; product.brand = finalMainBrand; product.price = finalMainPrice;
 
         showStatus("⏳ Connecting to GitHub...", "info");
-        // Get fresh SHA right before save to avoid mismatch
+        
         productsFileSha = await fetchLatestSHA();
 
         const putRes = await githubRequest(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${PRODUCTS_FILE}`, { method: "PUT", body: JSON.stringify({ message: `Update product: ${newName}`, content: textToBase64(JSON.stringify(allProducts, null, 2)), sha: productsFileSha, branch: BRANCH }) });
@@ -324,7 +333,6 @@ async function deleteProduct() {
         btn.disabled = true; showStatus("⏳ Deleting...", "info");
         const remaining = allProducts.filter(p => p.id != selectedId);
 
-        // Get fresh SHA right before delete
         productsFileSha = await fetchLatestSHA();
 
         const putRes = await githubRequest(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${PRODUCTS_FILE}`, { method: "PUT", body: JSON.stringify({ message: `Delete product ID: ${selectedId}`, content: textToBase64(JSON.stringify(remaining, null, 2)), sha: productsFileSha, branch: BRANCH }) });
