@@ -1,5 +1,41 @@
 [
   {
+    "id": "1787166573091",
+    "name": "5D Brooms",
+    "brand": "Sona",
+    "category": "Cleaning Items",
+    "subCategory": "Broom",
+    "price": "97",
+    "image": "",
+    "variants": [
+      {
+        "label": "Sona - 5D Sada",
+        "price": "97",
+        "image": "images/products/5d-brooms-sona-5d-sada-1787166563906.jpg"
+      },
+      {
+        "label": "SurabiSona - 5D Punch",
+        "price": "145",
+        "image": "images/products/5d-brooms-surabisona-5d-punch-1787166565957.jpg"
+      },
+      {
+        "label": "SurabiSona - 5D P.Steel",
+        "price": "155",
+        "image": "images/products/5d-brooms-surabisona-5d-p-steel-1787166568021.jpg"
+      },
+      {
+        "label": "AHN - 5L Rocket",
+        "price": "100",
+        "image": "images/products/5d-brooms-ahn-5l-rocket-1787166569548.jpg"
+      },
+      {
+        "label": "AHN - 5L Elite Steel",
+        "price": "105",
+        "image": "images/products/5d-brooms-ahn-5l-elite-steel-1787166571387.jpg"
+      }
+    ]
+  },
+  {
     "id": "1787165475448",
     "name": "3D Brooms",
     "brand": "Sona",
