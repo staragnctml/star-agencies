@@ -157,28 +157,31 @@ function renderProducts() {
         }
         waMessage += `. Please send me details.`;
 
+        // പുതിയ വിലയും ബട്ടണും വരുന്ന വരി (Price & Button on same line)
         return `
             <article class="product-card">
                 <img id="img-${product.id}" class="product-image" src="${displayImage}" alt="${product.name}">
                 <div class="product-info">
-                    <span style="font-size: 10px; color: #0b5ed7; font-weight: 700; text-transform: uppercase; background: #e0f2fe; padding: 4px 10px; border-radius: 20px; display: inline-block; margin-bottom: 8px; width: fit-content;">
+                    <span style="font-size: 10px; color: #1d4e73; font-weight: 700; text-transform: uppercase; background: #f1f5f9; padding: 4px 10px; border-radius: 20px; display: inline-block; margin-bottom: 10px; width: fit-content; border: 1px solid #e2e8f0;">
                         ${product.category || ""}
                     </span>
                     
-                    <h3 id="name-${product.id}" style="margin: 0 0 5px; font-size: 15px; color: #0f172a; font-weight: 700; line-height: 1.4;">${displayName}</h3>
+                    <h3 id="name-${product.id}" style="margin: 0 0 10px; font-size: 16px; color: #0f172a; font-weight: 700; line-height: 1.4;">${displayName}</h3>
                     
-                    <div id="price-${product.id}" style="font-size: 18px; color: #10b981; font-weight: 800; margin-bottom: 5px;">
-                        ${finalPriceText}
-                    </div>
-
                     ${variantsHTML}
 
                     <div style="flex-grow: 1;"></div> 
 
-                    <div class="product-actions" style="margin-top: 15px;">
-                        <a id="wa-${product.id}" href="https://wa.me/919447016013?text=${encodeURIComponent(waMessage)}" target="_blank" rel="noopener" style="display: flex; align-items: center; justify-content: center; text-decoration: none; padding: 10px; border-radius: 8px; background: linear-gradient(135deg, #25D366, #128C7E); transition: 0.3s; box-shadow: 0 4px 10px rgba(37, 211, 102, 0.2);">
-                            <span style="font-size: 13px; font-weight: 700; color: white;">Order on WhatsApp</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" style="width: 16px; height: 16px; margin-left: 6px; fill: white;"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157.1zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/></svg>
+                    <!-- MODERN BUY BUTTON SECTION -->
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 15px; padding-top: 15px; border-top: 1px dashed #e2e8f0;">
+                        <div id="price-${product.id}" style="font-size: 19px; color: #0f172a; font-weight: 800; letter-spacing: -0.5px;">
+                            ${finalPriceText}
+                        </div>
+                        
+                        <a id="wa-${product.id}" href="https://wa.me/919447016013?text=${encodeURIComponent(waMessage)}" target="_blank" rel="noopener" style="display: flex; align-items: center; gap: 8px; text-decoration: none; padding: 8px 16px; border-radius: 6px; background-color: #1d4e73; color: white; transition: all 0.3s ease; box-shadow: 0 2px 8px rgba(29, 78, 115, 0.2);">
+                            <span style="font-size: 13px; font-weight: 700; letter-spacing: 0.5px;">BUY NOW</span>
+                            <!-- Modern WhatsApp Icon -->
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" style="width: 14px; height: 14px; fill: white;"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157.1zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/></svg>
                         </a>
                     </div>
                 </div>
@@ -199,7 +202,7 @@ window.changeBrand = function(selectEl, productId, productName) {
     
     let sizeButtonsHTML = "";
     sizes.forEach((sz, idx) => {
-        let bg = idx === 0 ? "#0b5ed7" : "#fff";
+        let bg = idx === 0 ? "#1d4e73" : "#fff";
         let col = idx === 0 ? "#fff" : "#475569";
         let act = idx === 0 ? "active" : "";
         sizeButtonsHTML += `<button class="sz-btn ${act}" onclick="selectSize(this, '${productId}', '${sz.originalLabel.replace(/'/g, "\\'")}', '${sz.price || ""}', '${productName.replace(/'/g, "\\'")}', '${sz.image || ""}')" style="padding: 4px 10px; border: 1px solid #cbd5e1; border-radius: 4px; background: ${bg}; color: ${col}; cursor: pointer; font-size: 11px; font-weight: 600; transition:0.2s;">${sz.size}</button>`;
@@ -218,7 +221,7 @@ window.selectSize = function(btn, productId, variantLabel, variantPrice, product
         b.style.color = "#475569";
     });
     btn.classList.add("active");
-    btn.style.background = "#0b5ed7";
+    btn.style.background = "#1d4e73";
     btn.style.color = "#fff";
 
     const priceDiv = document.getElementById(`price-${productId}`);
@@ -231,7 +234,7 @@ window.selectSize = function(btn, productId, variantLabel, variantPrice, product
     }
 
     const nameDiv = document.getElementById(`name-${productId}`);
-    if (nameDiv) nameDiv.innerHTML = `${productName} <span style="color:#0b5ed7; font-size:11px; background: #eff6ff; padding: 2px 6px; border-radius: 4px; margin-left: 5px;">${variantLabel}</span>`;
+    if (nameDiv) nameDiv.innerHTML = `${productName} <span style="color:#1d4e73; font-size:11px; background: #e0f2fe; padding: 2px 6px; border-radius: 4px; margin-left: 5px;">${variantLabel}</span>`;
 
     const imgDiv = document.getElementById(`img-${productId}`);
     if (imgDiv && variantImage && variantImage !== 'undefined' && variantImage !== 'null') imgDiv.src = variantImage;
@@ -246,14 +249,13 @@ window.handleCategoryChange = function(value) {
     renderProducts();
 }
 
-// പ്രധാന മാറ്റം ഇവിടെയാണ് (സെർച്ച് ചെയ്യുമ്പോൾ കാറ്റഗറി തനിയെ മാറാൻ)
 if (searchInput) {
     searchInput.addEventListener("input", function() {
         if (this.value.trim() !== "") {
             selectedCategory = "All";
             const catBtnSpan = document.querySelector('#categoryBtn span:first-child');
             if (catBtnSpan) {
-                catBtnSpan.innerText = "View All Categories";
+                catBtnSpan.innerText = "VIEW ALL CATEGORIES";
             }
         }
         renderProducts();
