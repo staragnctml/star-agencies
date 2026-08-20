@@ -22,7 +22,7 @@
             font-family: 'Century Gothic', 'Tw Cen MT', sans-serif !important;
             font-weight: bold !important;
             letter-spacing: 1px !important;
-            color: #1d4e73 !important; /* Theme Blue */
+            color: #1d4e73 !important; 
         }
 
         /* Clean White Header */
@@ -36,6 +36,7 @@
             height: 75px;
             display: flex;
             align-items: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
         }
         .nav-links a {
             color: #4a4a4a !important;
@@ -45,13 +46,17 @@
             text-transform: uppercase;
             letter-spacing: 0.5px;
             text-decoration: none;
+            padding-bottom: 5px;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s;
         }
         .nav-links a:hover, .nav-links a.active {
             color: #1d4e73 !important;
+            border-bottom: 2px solid #d97706; /* സ്വർണ്ണ നിറത്തിലുള്ള ചെറിയ അണ്ടർലൈൻ */
         }
 
         /* ===================================================
-           SIDE OVERLAY HERO SECTION (LIKE 2ND IMAGE)
+           TRANSPARENT GLASSMORPHISM HERO SECTION
            =================================================== */
         .hero {
             /* നിങ്ങളുടെ കടയുടെയോ നല്ലൊരു കെട്ടിടത്തിന്റെയോ ചിത്രം നൽകുക */
@@ -61,13 +66,18 @@
             height: 100vh;
             min-height: 600px;
             display: flex;
-            align-items: stretch; /* മുകളിൽ നിന്നും താഴെ വരെ ബ്ലോക്ക് വരാൻ */
+            align-items: stretch;
             padding-top: 75px; /* Header Offset */
         }
 
         .hero-overlay-box {
-            background-color: rgba(29, 78, 115, 0.92); /* Corporate Slate Blue Color */
-            width: 45%;
+            /* ഇവിടെയാണ് പ്രധാന മാറ്റം - Transparent Glass Effect */
+            background-color: rgba(29, 78, 115, 0.45); /* നിറം ട്രാൻസ്പരന്റ് ആക്കി */
+            backdrop-filter: blur(10px); /* പുറകിലെ ഇമേജിന് ഒരു ഗ്ലാസ്സ് ബ്ലർ എഫക്റ്റ് */
+            -webkit-backdrop-filter: blur(10px);
+            border-right: 1px solid rgba(255, 255, 255, 0.15); /* ഗ്ലാസ്സിന്റെ ബോർഡർ ലുക്ക് */
+            
+            width: 50%;
             max-width: 650px;
             padding: 0 80px;
             display: flex;
@@ -77,6 +87,7 @@
             text-align: left;
         }
 
+        /* അക്ഷരങ്ങൾ ട്രാൻസ്പരന്റ് ബാക്ക്ഗ്രൗണ്ടിൽ ക്ലിയർ ആയി കാണാൻ ചെറിയ ഷാഡോ */
         .hero-title {
             font-size: clamp(36px, 4.5vw, 52px);
             margin: 0 0 20px 0;
@@ -84,13 +95,16 @@
             line-height: 1.2;
             letter-spacing: 1px;
             text-transform: uppercase;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
         }
 
         .hero-desc {
             font-size: 16px;
-            color: #e2e8f0;
+            color: #ffffff;
             margin: 0 0 40px 0;
             line-height: 1.7;
+            text-shadow: 0 1px 5px rgba(0, 0, 0, 0.5);
+            font-weight: 500;
         }
 
         .hero-buttons {
@@ -109,13 +123,17 @@
             text-transform: uppercase;
             text-decoration: none;
             transition: 0.3s;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            border-radius: 4px;
         }
         .btn-primary:hover {
             background-color: #f1f5f9;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
         }
 
         .btn-outline {
-            background-color: transparent; 
+            background-color: rgba(255, 255, 255, 0.1); 
             color: #ffffff !important;
             border: 2px solid #ffffff;
             padding: 12px 30px;
@@ -124,6 +142,8 @@
             text-transform: uppercase;
             text-decoration: none;
             transition: 0.3s;
+            backdrop-filter: blur(5px);
+            border-radius: 4px;
         }
         .btn-outline:hover {
             background-color: #ffffff;
@@ -131,11 +151,16 @@
         }
 
         @media (max-width: 900px) {
-            .hero-overlay-box { width: 60%; padding: 0 40px; }
+            .hero-overlay-box { width: 65%; padding: 0 40px; }
         }
         @media (max-width: 768px) {
             .hero { align-items: flex-end; }
-            .hero-overlay-box { width: 100%; max-width: 100%; height: auto; padding: 50px 30px; background-color: rgba(29, 78, 115, 0.98); }
+            .hero-overlay-box { 
+                width: 100%; max-width: 100%; height: auto; padding: 50px 30px; 
+                background-color: rgba(29, 78, 115, 0.75); /* മൊബൈലിൽ അക്ഷരം കാണാൻ ലേശം ഡാർക്ക് ആക്കി */
+                border-right: none;
+                border-top: 1px solid rgba(255, 255, 255, 0.15);
+            }
             .hero-title { font-size: 32px; }
         }
     </style>
@@ -150,10 +175,10 @@
             </a>
             <button class="menu-toggle" aria-label="Open menu">☰</button>
             <nav class="nav-links">
-                <a href="index.html" class="active">Home</a>
-                <a href="products.html">Products</a>
-                <a href="about.html">About</a>
-                <a href="contact.html">Contact</a>
+                <a href="index.html" class="active">HOME</a>
+                <a href="products.html">PRODUCTS</a>
+                <a href="about.html">ABOUT</a>
+                <a href="contact.html">CONTACT</a>
             </nav>
         </div>
     </header>
@@ -165,8 +190,8 @@
                 <p class="hero-desc">Providing the best quality household, cleaning, plastic, hardware, and stationery items for your everyday needs at competitive prices.</p>
                 
                 <div class="hero-buttons">
-                    <a href="products.html" class="btn-primary">Our Catalogue</a>
-                    <a href="contact.html" class="btn-outline">Contact Us</a>
+                    <a href="products.html" class="btn-primary">OUR CATALOGUE</a>
+                    <a href="contact.html" class="btn-outline">CONTACT US</a>
                 </div>
             </div>
         </section>
