@@ -15,42 +15,94 @@
         body { font-family: 'Century Gothic', 'Tw Cen MT', sans-serif !important; background-color: #f8fafc; color: #333; margin: 0; padding-top: 115px; }
         .brand span { font-family: 'Century Gothic', 'Tw Cen MT', sans-serif !important; font-weight: bold !important; letter-spacing: 1px !important; color: #1ea0d6 !important; }
 
-        /* 1. TOP ANNOUNCEMENT BANNER */
+        /* TOP ANNOUNCEMENT BANNER */
         .top-banner { background-color: #38c8e8; color: white; text-align: center; padding: 10px 20px; font-size: 14px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 15px; position: fixed; top: 0; left: 0; width: 100%; z-index: 1001; height: 40px; }
         .top-banner-btn { background-color: #ff5252; color: white; border: none; padding: 5px 15px; font-size: 13px; font-weight: bold; cursor: pointer; border-radius: 4px; text-decoration: none; }
 
-        /* 2. HEADER */
+        /* HEADER */
         .site-header { background: #ffffff !important; border-bottom: 1px solid #eaeaea; position: fixed; width: 100%; top: 40px; z-index: 1000; height: 75px; display: flex; align-items: center; }
         .nav-links a { color: #4a4a4a !important; font-size: 14px; font-weight: 600; margin-left: 30px; text-decoration: none; transition: 0.3s; }
         .nav-links a:hover, .nav-links a.active { color: #1ea0d6 !important; }
 
-        /* 3. PAGE BANNER */
-        .page-banner { background-color: #38c8e8; color: white; text-align: center; padding: 60px 20px 40px; margin-bottom: 50px; }
+        /* PAGE BANNER */
+        .page-banner { background-color: #38c8e8; color: white; text-align: center; padding: 60px 20px 70px; margin-bottom: 0px; }
         .page-banner .eyebrow { color: #ffffff; background-color: #ff5252; padding: 4px 12px; border-radius: 4px; font-weight: 700; letter-spacing: 2px; font-size: 12px; display: inline-block; margin-bottom: 15px; text-transform: uppercase; }
         .page-banner h1 { font-size: clamp(32px, 4vw, 42px); margin: 0 0 10px 0; font-weight: 500; color: #ffffff; }
         .page-banner p { font-size: 16px; color: #f1f5f9; max-width: 600px; margin: 0 auto; line-height: 1.6; }
 
-        /* SEARCH & FILTER BAR */
-        .catalogue-tools-container { max-width: 950px; margin: 0 auto 50px; padding: 0 20px; }
-        .catalogue-tools { display: flex; gap: 20px; align-items: center; background: #ffffff; padding: 20px; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); border: 1px solid #eaeaea; }
-        
-        .search-box { flex: 1.5; position: relative; }
-        .search-icon { position: absolute; left: 18px; top: 50%; transform: translateY(-50%); pointer-events: none; stroke: #64748b; }
-        #searchInput { width: 100%; height: 50px; padding: 0 20px 0 50px; font-size: 15px; border: 1px solid #cbd5e1; background: #f8fafc; color: #0f172a; font-family: inherit; transition: all 0.3s ease; border-radius: 4px; }
-        #searchInput:focus { border-color: #1ea0d6; background: #ffffff; outline: none; }
-        
-        .category-box { flex: 1; position: relative; }
-        .corp-dropdown-btn { width: 100%; height: 50px; padding: 0 20px; font-size: 14px; font-weight: 700; color: #ffffff; background-color: #888888; border: none; border-radius: 4px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease; text-transform: uppercase; letter-spacing: 0.5px; }
-        .corp-dropdown-btn:hover { background-color: #666666; }
+        /* ===================================================
+           MODERN UNIFIED FLOATING SEARCH BAR (No Boxes)
+           =================================================== */
+        .catalogue-tools-container { 
+            max-width: 950px; 
+            margin: -35px auto 50px; /* ബാനറിന് മുകളിലേക്ക് കയറി നിൽക്കാൻ */
+            padding: 0 20px; 
+            position: relative;
+            z-index: 10;
+        }
 
-        .windows-dropdown { position: absolute; top: calc(100% + 10px); right: 0; background: #ffffff; min-width: 260px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); padding: 10px; list-style: none; margin: 0; z-index: 1000; opacity: 0; visibility: hidden; transform: translateY(10px); transition: all 0.3s ease; border: 1px solid #eaeaea; border-radius: 8px; }
+        .catalogue-tools { 
+            display: flex; 
+            align-items: center; 
+            background: #ffffff; 
+            padding: 10px 10px 10px 25px; 
+            border-radius: 50px; /* പൂർണ്ണമായും ഉരുണ്ട ആകൃതി (Pill Shape) */
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08); 
+        }
+        
+        /* Search Area - No Borders */
+        .search-box { 
+            flex: 2; 
+            position: relative; 
+            display: flex; 
+            align-items: center; 
+            border-right: 2px solid #f1f5f9; /* വേർതിരിക്കാൻ ചെറിയൊരു ലൈൻ മാത്രം */
+            margin-right: 15px; 
+        }
+        .search-icon { position: absolute; left: 0; pointer-events: none; stroke: #94a3b8; width: 22px; height: 22px; }
+        #searchInput { 
+            width: 100%; 
+            height: 50px; 
+            padding: 0 15px 0 35px; 
+            font-size: 16px; 
+            border: none; /* ബോക്സ് ലുക്ക് പൂർണ്ണമായും ഒഴിവാക്കി */
+            background: transparent; 
+            color: #0f172a; 
+            font-family: inherit; 
+            outline: none; 
+        }
+        
+        /* Category Button */
+        .category-box { flex: 1.2; position: relative; }
+        .corp-dropdown-btn { 
+            width: 100%; 
+            height: 50px; 
+            padding: 0 25px; 
+            font-size: 14px; 
+            font-weight: 700; 
+            color: #ffffff; 
+            background-color: #1ea0d6; /* തീം കളർ നൽകി */
+            border: none; 
+            border-radius: 40px; 
+            cursor: pointer; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            transition: all 0.3s ease; 
+            text-transform: uppercase; 
+            letter-spacing: 0.5px; 
+        }
+        .corp-dropdown-btn:hover { background-color: #158bbd; box-shadow: 0 4px 15px rgba(30, 160, 214, 0.3); }
+
+        /* Dropdowns */
+        .windows-dropdown { position: absolute; top: calc(100% + 15px); right: 0; background: #ffffff; min-width: 260px; box-shadow: 0 15px 40px rgba(0,0,0,0.1); padding: 10px; list-style: none; margin: 0; z-index: 1000; opacity: 0; visibility: hidden; transform: translateY(10px); transition: all 0.3s ease; border: 1px solid #eaeaea; border-radius: 16px; }
         .category-box::after { content: ''; position: absolute; top: 100%; left: 0; width: 100%; height: 25px; }
         .category-box:hover .windows-dropdown { opacity: 1; visibility: visible; transform: translateY(0); }
-        .windows-dropdown li { padding: 12px 18px; cursor: pointer; font-size: 14px; font-weight: 600; color: #334155; transition: all 0.2s; display: flex; justify-content: space-between; align-items: center; position: relative; border-radius: 4px; }
+        .windows-dropdown li { padding: 12px 18px; cursor: pointer; font-size: 14px; font-weight: 600; color: #334155; transition: all 0.2s; display: flex; justify-content: space-between; align-items: center; position: relative; border-radius: 8px; }
         .windows-dropdown li:hover { background: #f1f5f9; color: #1ea0d6; }
 
         .has-submenu .arrow { font-size: 10px; color: #94a3b8; }
-        .flyout-menu { position: absolute; top: 0; right: 100%; margin-right: 5px; background: #ffffff; min-width: 220px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); padding: 10px; list-style: none; z-index: 1001; opacity: 0; visibility: hidden; transform: translateX(-10px); transition: all 0.3s ease; border: 1px solid #eaeaea; border-radius: 8px; }
+        .flyout-menu { position: absolute; top: 0; right: 100%; margin-right: 8px; background: #ffffff; min-width: 220px; box-shadow: 0 15px 40px rgba(0,0,0,0.1); padding: 10px; list-style: none; z-index: 1001; opacity: 0; visibility: hidden; transform: translateX(-10px); transition: all 0.3s ease; border: 1px solid #eaeaea; border-radius: 16px; }
         .has-submenu::after { content: ''; position: absolute; top: 0; right: 95%; width: 25px; height: 100%; }
         .has-submenu:hover .flyout-menu { opacity: 1; visibility: visible; transform: translateX(0); }
         .flyout-menu li:hover { background: #f8fafc; color: #1ea0d6; }
@@ -59,7 +111,9 @@
             .top-banner { flex-direction: column; height: auto; padding: 10px; gap: 5px; }
             .site-header { top: 65px; height: 70px; }
             body { padding-top: 135px; }
-            .catalogue-tools { flex-direction: column; padding: 15px; } 
+            .catalogue-tools { flex-direction: column; padding: 15px; border-radius: 16px; gap: 15px; } 
+            .search-box { width: 100%; border-right: none; border-bottom: 1px solid #f1f5f9; padding-bottom: 10px; margin-right: 0; }
+            .category-box { width: 100%; }
             .flyout-menu { position: static; box-shadow: none; border: none; background: #f8fafc; margin-top: 5px; display: none; opacity: 1; visibility: visible; transform: none; width: 100%; }
             .has-submenu:hover .flyout-menu { display: block; }
             .windows-dropdown { width: 100%; right: auto; left: 0; top: 100%; }
@@ -119,7 +173,7 @@
             <div class="catalogue-tools-container">
                 <div class="catalogue-tools">
                     <div class="search-box">
-                        <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                             <circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line>
                         </svg>
                         <input type="search" id="searchInput" placeholder="Search for products or brands..." aria-label="Search products">
